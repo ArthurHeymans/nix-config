@@ -190,4 +190,7 @@
     # This doesn’t define how much memory will be used by the zram swap devices.
     memoryPercent = 50;
   };
+
+  # enable containers
+  virtualisation.containers.enable = true;
 }

@@ -12,6 +12,7 @@
     ../../home/sway
     ../../home/browsers.nix
     ../../home/media.nix
+    ../../home/container.nix
  #   ../../home/fcitx5
 #    ../../home/i3
 #    ../../home/programs
