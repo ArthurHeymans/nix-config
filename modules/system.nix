@@ -102,6 +102,7 @@
   # $ nix search wget
   # TODO move into separate file
   environment.systemPackages = with pkgs; [
+    tree
     htop
     vim
     wget
