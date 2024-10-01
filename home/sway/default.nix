@@ -46,6 +46,11 @@
         # Decrease Volume
         "XF86AudioLowerVolume" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
       };
+      input = {
+        "*" = {
+          xkb_options = "caps:ctrl_modifier";
+        };
+      };
     };
   };
 
