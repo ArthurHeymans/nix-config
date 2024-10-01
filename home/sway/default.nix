@@ -18,6 +18,11 @@
       modifier = "Mod4";
       terminal = "alacritty";
       window.titlebar = false;
+      gaps = {
+        inner = 5;
+        outer = 10;
+        smartBorders = "on";
+      };
       keybindings = let
         mod = config.wayland.windowManager.sway.config.modifier;
         grim = "${pkgs.grim}/bin/grim";
