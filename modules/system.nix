@@ -134,6 +134,7 @@
     psmisc
 
     nixd
+    nixfmt-rfc-style
   ];
 
   # Enable sound with pipewire.
