@@ -16,6 +16,7 @@
     ../../home/media.nix
     ../../home/container.nix
     ../../home/emacs/emacs.nix
+    ../../home/shell.nix
     #   ../../home/fcitx5
     #    ../../home/i3
     #    ../../home/programs
