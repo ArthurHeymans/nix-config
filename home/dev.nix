@@ -14,5 +14,7 @@
     gnumake
     python3
     #ncurses
+    go
+    gopls
   ];
 }
