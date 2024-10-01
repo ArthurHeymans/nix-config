@@ -8,6 +8,10 @@
   imports = [
     ../../home/core.nix
 
+    ../../home/alacritty.nix
+    ../../home/sway
+    ../../browsers.nix
+
  #   ../../home/fcitx5
 #    ../../home/i3
 #    ../../home/programs
