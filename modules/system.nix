@@ -99,6 +99,7 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
+  # TODO move into separate file
   environment.systemPackages = with pkgs; [
     htop
     vim
@@ -108,6 +109,13 @@
     sysstat
     lm_sensors # for `sensors` command
     acpi
+    ethtool
+    hdparm
+    dmidecode
+    parted
+    usbutils
+    pciutils
+    psmisc
   ];
 
   # Enable sound with pipewire.
