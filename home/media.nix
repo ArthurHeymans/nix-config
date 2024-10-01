@@ -5,5 +5,6 @@
     vlc
     spotify
     mpv
+    evince
   ];
 }
