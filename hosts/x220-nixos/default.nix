@@ -13,7 +13,7 @@
   # Bootloader
   boot.loader.grub = {
     enable = true;
-    device = "/dev/sda";
+    device = "/dev/disk/by-path/pci-0000:00:1f.2-ata-3.0";
     useOSProber = true;
   };
 
