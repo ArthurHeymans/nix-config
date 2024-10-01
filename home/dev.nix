@@ -8,10 +8,11 @@
 {
   home.packages = with pkgs; [
     rustup
-    #clang
+    (lib.hiPrio clang)
     # gcc
-    #gnat13
+    gnat13
     gnumake
     python3
+    #ncurses
   ];
 }
