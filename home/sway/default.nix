@@ -1,6 +1,10 @@
 { config, lib, pkgs, ... }:
 
 {
+  imports = [
+    ./waybar.nix
+  ];
+
   home.packages = with pkgs; [
     grim
     slurp
@@ -23,6 +27,7 @@
         outer = 10;
         smartBorders = "on";
       };
+      bars = [];
       keybindings = let
         mod = config.wayland.windowManager.sway.config.modifier;
         grim = "${pkgs.grim}/bin/grim";
