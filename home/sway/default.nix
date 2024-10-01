@@ -32,7 +32,7 @@
         smartBorders = "on";
       };
       menu = "wofi --show drun -p \"app:\" -L 10";
-      bars = [ { command = "\${pkgs.waybar}/bin/waybar"; } ];
+      bars = [ { command = "waybar"; } ];
       keybindings =
         let
           mod = config.wayland.windowManager.sway.config.modifier;
