@@ -27,6 +27,7 @@
         outer = 10;
         smartBorders = "on";
       };
+      menu = "wofi --show drun -p \"app:\" -L 10";
       bars = [];
       keybindings = let
         mod = config.wayland.windowManager.sway.config.modifier;
@@ -57,4 +58,6 @@
       defaultCursor = "Adwaita";
     };
   };
+
+  programs.wofi.enable = true;
 }
