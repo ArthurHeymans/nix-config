@@ -1,4 +1,9 @@
-{ pkgs, lib, username, ... }:
+{
+  pkgs,
+  lib,
+  username,
+  ...
+}:
 
 {
   # ============================= User related =============================
@@ -6,18 +11,26 @@
   users.users.${username} = {
     isNormalUser = true;
     description = username;
-    extraGroups = ["networkmanager" "wheel" "audio" "sound"];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "audio"
+      "sound"
+    ];
   };
 
   # given the users in this list the right to specify additional substituters via:
   #    1. `nixConfig.substituers` in `flake.nix`
   #    2. command line args `--options substituers http://xxx`
-  nix.settings.trusted-users = [username];
+  nix.settings.trusted-users = [ username ];
 
   # customise /etc/nix/nix.conf declaratively via `nix.settings`
   nix.settings = {
     # enable flakes globally
-    experimental-features = ["nix-command" "flakes"];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
 
     substituters = [
       # cache mirror located in China
@@ -29,9 +42,7 @@
       "https://cache.nixos.org"
     ];
 
-    trusted-public-keys = [
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-    ];
+    trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
     builders-use-substitutes = true;
   };
 
@@ -65,7 +76,12 @@
       noto-fonts-emoji
 
       # nerdfonts
-      (nerdfonts.override {fonts = ["FiraCode" "JetBrainsMono"];})
+      (nerdfonts.override {
+        fonts = [
+          "FiraCode"
+          "JetBrainsMono"
+        ];
+      })
     ];
 
     # use fonts specified by user rather than default ones
@@ -75,10 +91,19 @@
     # the reason there's Noto Color Emoji everywhere is to override DejaVu's
     # B&W emojis that would sometimes show instead of some Color emojis
     fontconfig.defaultFonts = {
-      serif = ["Noto Serif" "Noto Color Emoji"];
-      sansSerif = ["Noto Sans" "Noto Color Emoji"];
-      monospace = ["JetBrainsMono Nerd Font" "Noto Color Emoji"];
-      emoji = ["Noto Color Emoji"];
+      serif = [
+        "Noto Serif"
+        "Noto Color Emoji"
+      ];
+      sansSerif = [
+        "Noto Sans"
+        "Noto Color Emoji"
+      ];
+      monospace = [
+        "JetBrainsMono Nerd Font"
+        "Noto Color Emoji"
+      ];
+      emoji = [ "Noto Color Emoji" ];
     };
   };
 
@@ -146,10 +171,9 @@
   security.polkit.enable = true;
   hardware.opengl.enable = true;
 
-
   security.rtkit.enable = true;
   services = {
-    dbus.packages = [pkgs.gcr];
+    dbus.packages = [ pkgs.gcr ];
 
     geoclue2.enable = true;
 
@@ -166,27 +190,26 @@
       #media-session.enable = true;
     };
 
-    udev.packages = with pkgs; [gnome.gnome-settings-daemon];
+    udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
   };
 
   # bash no newline
-  programs.bash.promptInit =
-    ''
-      # Provide a nice prompt if the terminal supports it.
-      if [ "$TERM" != "dumb" ] || [ -n "$INSIDE_EMACS" ]; then
-        PROMPT_COLOR="1;31m"
-        ((UID)) && PROMPT_COLOR="1;32m"
-        if [ -n "$INSIDE_EMACS" ]; then
-          # Emacs term mode doesn't support xterm title escape sequence (\e]0;)
-          PS1="\[\033[$PROMPT_COLOR\][\u@\h:\w]\\$\[\033[0m\] "
-        else
-          PS1="\[\033[$PROMPT_COLOR\][\[\e]0;\u@\h: \w\a\]\u@\h:\w]\\$\[\033[0m\] "
-        fi
-        if test "$TERM" = "xterm"; then
-          PS1="\[\033]2;\h:\u:\w\007\]$PS1"
-        fi
+  programs.bash.promptInit = ''
+    # Provide a nice prompt if the terminal supports it.
+    if [ "$TERM" != "dumb" ] || [ -n "$INSIDE_EMACS" ]; then
+      PROMPT_COLOR="1;31m"
+      ((UID)) && PROMPT_COLOR="1;32m"
+      if [ -n "$INSIDE_EMACS" ]; then
+        # Emacs term mode doesn't support xterm title escape sequence (\e]0;)
+        PS1="\[\033[$PROMPT_COLOR\][\u@\h:\w]\\$\[\033[0m\] "
+      else
+        PS1="\[\033[$PROMPT_COLOR\][\[\e]0;\u@\h: \w\a\]\u@\h:\w]\\$\[\033[0m\] "
       fi
-    '';
+      if test "$TERM" = "xterm"; then
+        PS1="\[\033]2;\h:\u:\w\007\]$PS1"
+      fi
+    fi
+  '';
 
   # Enable in-memory compressed devices and swap space provided by the zram kernel module.
   # By enable this, we can store more data in memory instead of fallback to disk-based swap devices directly,

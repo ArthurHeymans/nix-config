@@ -1,14 +1,13 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [
-      ../../modules/system.nix
-      # ../../modules/sway.nix
+  imports = [
+    ../../modules/system.nix
+    # ../../modules/sway.nix
 
-      # hardware configuration
-      ./hardware-configuration.nix
-    ];
+    # hardware configuration
+    ./hardware-configuration.nix
+  ];
 
   # Bootloader
   boot.loader.grub = {
@@ -16,7 +15,6 @@
     device = "/dev/disk/by-path/pci-0000:00:1f.2-ata-3.0";
     useOSProber = true;
   };
-
 
   networking.hostName = "x220-nixos";
   networking.networkmanager.enable = true;

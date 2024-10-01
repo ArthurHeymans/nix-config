@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   ##################################################################################################################
   #
   # All Ryan's Home Manager Configuration
@@ -13,11 +14,11 @@
     ../../home/browsers.nix
     ../../home/media.nix
     ../../home/container.nix
- #   ../../home/fcitx5
-#    ../../home/i3
-#    ../../home/programs
-#    ../../home/rofi
-#    ../../home/shell
+    #   ../../home/fcitx5
+    #    ../../home/i3
+    #    ../../home/programs
+    #    ../../home/rofi
+    #    ../../home/shell
   ];
 
   programs.git = {

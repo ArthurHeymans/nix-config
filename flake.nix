@@ -72,7 +72,6 @@
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
 
-
     # TODO
     # secrets management
     agenix = {
@@ -142,35 +141,40 @@
     # nur-ataraxiasjel.url = "github:AtaraxiaSjel/nur";
   };
 
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    home-manager,
-    ...
-  }: {
-    nixosConfigurations = {
-      x220-nixos = let
-        username = "arthur";
-        specialArgs = {inherit username;};
-      in
-        nixpkgs.lib.nixosSystem {
-          inherit specialArgs;
-          system = "x86_64-linux";
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      home-manager,
+      ...
+    }:
+    {
+      nixosConfigurations = {
+        x220-nixos =
+          let
+            username = "arthur";
+            specialArgs = {
+              inherit username;
+            };
+          in
+          nixpkgs.lib.nixosSystem {
+            inherit specialArgs;
+            system = "x86_64-linux";
 
-          modules = [
-            ./hosts/x220-nixos
-            ./users/${username}/nixos.nix
+            modules = [
+              ./hosts/x220-nixos
+              ./users/${username}/nixos.nix
 
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
+              home-manager.nixosModules.home-manager
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
 
-              home-manager.extraSpecialArgs = inputs // specialArgs;
-              home-manager.users.${username} = import ./users/${username}/home.nix;
-            }
-          ];
-        };
+                home-manager.extraSpecialArgs = inputs // specialArgs;
+                home-manager.users.${username} = import ./users/${username}/home.nix;
+              }
+            ];
+          };
+      };
     };
-  };
 }

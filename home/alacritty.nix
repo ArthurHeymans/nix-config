@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   programs.alacritty = {
@@ -8,7 +13,7 @@
         "TERM" = "xterm-256color";
       };
 
-#      background_opacity = 0.95;
+      #      background_opacity = 0.95;
 
       window = {
         padding.x = 1;
@@ -22,7 +27,7 @@
 
       font = {
         size = 11.0;
-#        use_thin_strokes = true;
+        #        use_thin_strokes = true;
 
         normal.family = "FiraCode Nerd Font Mono";
         bold.family = "FiraCode Nerd Font Mono";
