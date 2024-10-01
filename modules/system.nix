@@ -159,7 +159,8 @@
     pciutils
     psmisc
 
-    nixd
+    #   nixd
+    nil
     nixfmt-rfc-style
   ];
 
