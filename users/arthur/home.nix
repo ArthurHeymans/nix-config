@@ -11,7 +11,7 @@
     ../../home/alacritty.nix
     ../../home/sway
     ../../home/browsers.nix
-
+    ../../home/media.nix
  #   ../../home/fcitx5
 #    ../../home/i3
 #    ../../home/programs

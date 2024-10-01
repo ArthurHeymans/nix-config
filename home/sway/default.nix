@@ -7,6 +7,7 @@
     wl-clipboard
     mako
 
+    playerctl
     pavucontrol
     xdg-user-dirs # auto create dirs
   ];
