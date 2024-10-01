@@ -17,6 +17,7 @@
     ../../home/container.nix
     ../../home/emacs/emacs.nix
     ../../home/shell.nix
+    ../../home/dev.nix
     #   ../../home/fcitx5
     #    ../../home/i3
     #    ../../home/programs
