@@ -117,6 +117,8 @@
     usbutils
     pciutils
     psmisc
+
+    nixd
   ];
 
   # Enable sound with pipewire.
