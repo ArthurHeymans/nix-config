@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, nix-doom-emacs-unstraightened, ... }:
 {
   ##################################################################################################################
   #
@@ -7,6 +7,7 @@
   ##################################################################################################################
 
   imports = [
+    nix-doom-emacs-unstraightened.hmModule
     ../../home/core.nix
 
     ../../home/alacritty.nix
@@ -14,6 +15,7 @@
     ../../home/browsers.nix
     ../../home/media.nix
     ../../home/container.nix
+    ../../home/emacs/emacs.nix
     #   ../../home/fcitx5
     #    ../../home/i3
     #    ../../home/programs

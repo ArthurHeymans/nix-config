@@ -108,13 +108,19 @@
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
 
+    nix-doom-emacs-unstraightened = {
+      url = "github:marienz/nix-doom-emacs-unstraightened";
+      # Optional, to download less. Neither the module nor the overlay uses this input.
+      inputs.nixpkgs.follows = "";
+    };
+
     ########################  Some non-flake repositories  #########################################
 
     # doom-emacs is a configuration framework for GNU Emacs.
-    doomemacs = {
-      url = "github:doomemacs/doomemacs";
-      flake = false;
-    };
+    # doomemacs = {
+    #   url = "github:doomemacs/doomemacs";
+    #   flake = false;
+    # };
 
     # TODO I will use waybar?
     # polybar-themes = {
@@ -142,12 +148,13 @@
   };
 
   outputs =
-    inputs@{
+    {
       self,
       nixpkgs,
       home-manager,
+      nix-doom-emacs-unstraightened,
       ...
-    }:
+    }@inputs:
     {
       nixosConfigurations = {
         x220-nixos =
@@ -170,7 +177,7 @@
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
 
-                home-manager.extraSpecialArgs = inputs // specialArgs;
+                home-manager.extraSpecialArgs = inputs // specialArgs // inputs;
                 home-manager.users.${username} = import ./users/${username}/home.nix;
               }
             ];
