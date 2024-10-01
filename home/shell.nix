@@ -13,13 +13,26 @@
 
   programs.fish = {
     enable = true;
-    interactiveShellInit = ''alias ls='eza --icons=auto'
-        '';
+    interactiveShellInit = ''
+      alias ls='eza --icons=auto'
+    '';
     plugins = [
-      { name = "grc"; src = pkgs.fishPlugins.grc.src; } # colorized command output
-      { name = "fzf-fish"; src = pkgs.fishPlugins.fzf-fish.src; } # fuzzy finding
-      { name = "forgit"; src = pkgs.fishPlugins.forgit.src; } # fuzzy git
-      { name = "hydro"; src = pkgs.fishPlugins.hydro.src; } # info about git
+      {
+        name = "grc";
+        src = pkgs.fishPlugins.grc.src;
+      } # colorized command output
+      {
+        name = "fzf-fish";
+        src = pkgs.fishPlugins.fzf-fish.src;
+      } # fuzzy finding
+      {
+        name = "forgit";
+        src = pkgs.fishPlugins.forgit.src;
+      } # fuzzy git
+      {
+        name = "hydro";
+        src = pkgs.fishPlugins.hydro.src;
+      } # info about git
     ];
   };
 
