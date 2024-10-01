@@ -6,5 +6,6 @@
     spotify
     mpv
     evince
+    mullvad-vpn
   ];
 }

@@ -193,4 +193,7 @@
 
   # enable containers
   virtualisation.containers.enable = true;
+
+  # VPN
+  services.mullvad-vpn.enable = true;
 }
