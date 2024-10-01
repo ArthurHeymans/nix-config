@@ -10,7 +10,7 @@
 
     ../../home/alacritty.nix
     ../../home/sway
-    ../../browsers.nix
+    ../../home/browsers.nix
 
  #   ../../home/fcitx5
 #    ../../home/i3

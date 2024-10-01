@@ -6,7 +6,7 @@
   users.users.${username} = {
     isNormalUser = true;
     description = username;
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = ["networkmanager" "wheel" "audio" "sound"];
   };
 
   # given the users in this list the right to specify additional substituters via:
@@ -111,7 +111,7 @@
   ];
 
   # Enable sound with pipewire.
-  sound.enable = true;
+  sound.enable = false;
   hardware.pulseaudio.enable = false;
   services.power-profiles-daemon = {
     enable = true;
@@ -120,6 +120,7 @@
   hardware.opengl.enable = true;
 
 
+  security.rtkit.enable = true;
   services = {
     dbus.packages = [pkgs.gcr];
 

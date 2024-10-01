@@ -7,6 +7,7 @@
     wl-clipboard
     mako
 
+    pavucontrol
     xdg-user-dirs # auto create dirs
   ];
 
@@ -23,12 +24,26 @@
         screenshotLocation = "${config.xdg.userDirs.pictures}/Screenshots/scrn-$(date +'%Y-%m-%d-%H-%M-%S.png')";
         #            screenshotSound = "${pkgs.alsa-utils}/bin/aplay ${./camera.wav}";
       in lib.mkOptionDefault {
-        # Full screen
+        # Full screen TODO add screenshot sound
 #        "Print" = "exec ${grim} ${screenshotLocation} && ${screenshotSound}";
         "${mod}+Print" = "exec ${grim} ${screenshotLocation}";
         # A region of the screen
         "${mod}+Shift+Print" = "exec ${slurp} | ${grim} -g - ${screenshotLocation}";
+        # Volume increase
+        "XF86AudioRaiseVolume" = " exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
+        # Decrease Volume
+        "XF86AudioLowerVolume" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
       };
+    };
+  };
+
+  home.pointerCursor = {
+    name = "Adwaita";
+    package = pkgs.gnome.adwaita-icon-theme;
+    size = 24;
+    x11 = {
+      enable = true;
+      defaultCursor = "Adwaita";
     };
   };
 }
