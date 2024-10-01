@@ -85,7 +85,21 @@
   programs.dconf.enable = true;
 
   # TODO move all networking into a separate file
-  networking.firewall.enable = true;
+  networking.firewall = {
+    enable = true;
+    allowedTCPPortRanges = [
+      {
+        from = 1714;
+        to = 1764;
+      } # KDE Connect
+    ];
+    allowedUDPPortRanges = [
+      {
+        from = 1714;
+        to = 1764;
+      } # KDE Connect
+    ];
+  };
 
   # Enable the OpenSSH daemon.
   services.openssh = {
@@ -197,6 +211,19 @@
 
   # VPN
   services.mullvad-vpn.enable = true;
+
+  # Avahi
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    nssmdns6 = true;
+    openFirewall = true;
+    publish.enable = true;
+  };
+
+  # systemd-resolved
+  services.resolved.enable = true;
+
   # greetd with tuigreet
   services.greetd = {
     enable = true;
