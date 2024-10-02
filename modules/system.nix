@@ -162,6 +162,9 @@
     #   nixd
     nil
     nixfmt-rfc-style
+
+    pinentry-gnome3
+    gnupg
   ];
 
   # Enable sound with pipewire.
@@ -270,5 +273,15 @@
         exec ${pkgs.fish}/bin/fish $LOGIN_OPTION
       fi
     '';
+  };
+
+  # Enable the gnome-keyring secrets vault.
+  # Will be exposed through DBus to programs willing to store secrets.
+  services.gnome.gnome-keyring.enable = true;
+  services.pcscd.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryPackage = pkgs.pinentry-gnome3;
+    enableSSHSupport = true;
   };
 }
