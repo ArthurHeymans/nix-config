@@ -14,6 +14,10 @@
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
+      if test "$TERM" = "dumb"
+        exec sh
+      end
+
       alias ls='eza --icons=auto'
     '';
     plugins = [
