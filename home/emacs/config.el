@@ -151,6 +151,8 @@
   )
 
 ;;  Don't autoformat on C
-(setq +format-on-save-enabled-modes
-      '(not c-mode  ; Clang-format not good enoug
-        ))
+(after! format-all
+  ;;  Don't autoformat on C
+  (setq +format-on-save-enabled-modes
+        '(not c-mode  ; Clang-format not good enoug
+          ))
