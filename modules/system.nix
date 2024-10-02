@@ -75,13 +75,11 @@
       noto-fonts-cjk
       noto-fonts-emoji
 
-      # nerdfonts
-      (nerdfonts.override {
-        fonts = [
-          "FiraCode"
-          "JetBrainsMono"
-        ];
-      })
+      fira
+      fira-mono
+      fira-code
+      fira-code-symbols
+      fira-code-nerdfont
     ];
 
     # use fonts specified by user rather than default ones
@@ -100,7 +98,7 @@
         "Noto Color Emoji"
       ];
       monospace = [
-        "JetBrainsMono Nerd Font"
+        "FiraCode Nerd Font Mono"
         "Noto Color Emoji"
       ];
       emoji = [ "Noto Color Emoji" ];
