@@ -15,6 +15,7 @@
     graphviz # DOT for org-roam
     mu
     isync
+    clang-tools
   ];
 
   programs.doom-emacs = {
