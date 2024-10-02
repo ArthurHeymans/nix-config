@@ -159,6 +159,7 @@
     pciutils
     psmisc
 
+    zellij
     #   nixd
     nil
     nixfmt-rfc-style
