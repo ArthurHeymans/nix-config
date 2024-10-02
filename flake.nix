@@ -30,7 +30,7 @@
     # Official NixOS package source, using nixos's stable branch by default
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     # TODO see if needed later
-    # nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
     # nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
 
@@ -151,6 +151,7 @@
     {
       self,
       nixpkgs,
+      nixpkgs-unstable,
       home-manager,
       nix-doom-emacs-unstraightened,
       ...
@@ -160,14 +161,21 @@
         x220-nixos =
           let
             username = "arthur";
+            system = "x86_64-linux";
             specialArgs = {
               inherit username;
+              pkgs = import nixpkgs {
+                inherit system;
+                config.allowUnfree = true;
+              };
+              pkgs-unstable = import nixpkgs-unstable {
+                inherit system;
+                config.allowUnfree = true;
+              };
             };
           in
           nixpkgs.lib.nixosSystem {
             inherit specialArgs;
-            system = "x86_64-linux";
-
             modules = [
               ./hosts/x220-nixos
               ./users/${username}/nixos.nix
@@ -177,7 +185,7 @@
                 home-manager.useGlobalPkgs = true;
                 home-manager.useUserPackages = true;
 
-                home-manager.extraSpecialArgs = inputs // specialArgs // inputs;
+                home-manager.extraSpecialArgs = specialArgs // inputs;
                 home-manager.users.${username} = import ./users/${username}/home.nix;
               }
             ];
