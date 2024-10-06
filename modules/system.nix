@@ -140,6 +140,7 @@
   # TODO move into separate file
   environment.systemPackages = with pkgs; [
     eza
+    btop
     tree
     htop
     vim
