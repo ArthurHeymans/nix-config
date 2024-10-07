@@ -116,6 +116,11 @@
 
     ########################  Some non-flake repositories  #########################################
 
+    doom-config = {
+      url = "github:ArthurHeymans/.doom.d";
+      flake = false;
+    };
+
     # doom-emacs is a configuration framework for GNU Emacs.
     # doomemacs = {
     #   url = "github:doomemacs/doomemacs";
@@ -172,6 +177,7 @@
                 inherit system;
                 config.allowUnfree = true;
               };
+              inherit inputs;
             };
           in
           nixpkgs.lib.nixosSystem {

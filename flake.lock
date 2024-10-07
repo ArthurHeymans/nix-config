@@ -92,6 +92,22 @@
         "type": "github"
       }
     },
+    "doom-config": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1727950583,
+        "narHash": "sha256-kKst3Cj6qUE/HRSyByXieX01GJsxPdAYGUV0GFjidLM=",
+        "owner": "ArthurHeymans",
+        "repo": ".doom.d",
+        "rev": "2ccfd4500f5a3de8d6e1cc29eb6bd34f49bbb775",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ArthurHeymans",
+        "repo": ".doom.d",
+        "type": "github"
+      }
+    },
     "doomemacs": {
       "flake": false,
       "locked": {
@@ -380,6 +396,7 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "doom-config": "doom-config",
         "haumea": "haumea",
         "home-manager": "home-manager_2",
         "nix-doom-emacs-unstraightened": "nix-doom-emacs-unstraightened",

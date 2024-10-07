@@ -2,7 +2,7 @@
   config,
   lib,
   pkgs,
-  username,
+  inputs,
   ...
 }:
 
@@ -21,7 +21,6 @@
 
   programs.doom-emacs = {
     enable = true;
-    # doomDir = ./doom;
-    doomDir = /home/${username}/src/doom;
+    doomDir = inputs.doom-config;
   };
 }
