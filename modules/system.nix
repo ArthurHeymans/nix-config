@@ -157,6 +157,7 @@
     usbutils
     pciutils
     psmisc
+    wavemon
 
     zellij
     #   nixd
