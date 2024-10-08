@@ -17,6 +17,7 @@
     mu
     isync
     clang-tools
+    emacs-all-the-icons-fonts
   ];
 
   programs.doom-emacs = {

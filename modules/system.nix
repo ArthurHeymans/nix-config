@@ -69,17 +69,32 @@
     packages = with pkgs; [
       # icon fonts
       material-design-icons
+      font-awesome
 
       # normal fonts
       noto-fonts
       noto-fonts-cjk
       noto-fonts-emoji
 
+      dejavu_fonts
+      hack-font
+
       fira
       fira-mono
       fira-code
       fira-code-symbols
       fira-code-nerdfont
+
+      (nerdfonts.override {
+        fonts = [
+          # symbols icon only
+          "NerdFontsSymbolsOnly"
+          # Characters
+          "FiraCode"
+          "JetBrainsMono"
+          "Iosevka"
+        ];
+      })
     ];
 
     # use fonts specified by user rather than default ones
@@ -98,7 +113,7 @@
         "Noto Color Emoji"
       ];
       monospace = [
-        "FiraCode Nerd Font Mono"
+        "JetBrainsMono Nerd Font"
         "Noto Color Emoji"
       ];
       emoji = [ "Noto Color Emoji" ];
