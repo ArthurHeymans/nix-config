@@ -2,6 +2,7 @@
   pkgs,
   lib,
   username,
+  pkgs-unstable,
   ...
 }:
 
@@ -299,5 +300,11 @@
     enable = true;
     pinentryPackage = pkgs.pinentry-gnome3;
     enableSSHSupport = true;
+  };
+
+  # Ollama
+  services.ollama = {
+    enable = true;
+    package = pkgs-unstable.ollama;
   };
 }
