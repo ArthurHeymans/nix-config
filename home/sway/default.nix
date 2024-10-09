@@ -51,6 +51,8 @@
           "XF86AudioRaiseVolume" = " exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
           # Decrease Volume
           "XF86AudioLowerVolume" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
+          # Clear notification
+          "Control+Shift+Space" = "exec makoctl dismiss --all";
         };
       input = {
         "*" = {
