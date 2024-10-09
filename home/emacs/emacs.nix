@@ -18,6 +18,7 @@
     isync
     clang-tools
     emacs-all-the-icons-fonts
+    sshfs
   ];
 
   programs.doom-emacs = {
