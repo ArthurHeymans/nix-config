@@ -155,6 +155,8 @@
   # $ nix search wget
   # TODO move into separate file
   environment.systemPackages = with pkgs; [
+    flashprog
+    coreboot-utils
     eza
     btop
     tree
