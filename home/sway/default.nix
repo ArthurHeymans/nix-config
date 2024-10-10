@@ -59,6 +59,11 @@
           xkb_options = "caps:ctrl_modifier";
         };
       };
+      output = {
+          "*" = {
+            bg = "${./bg.jpg} fill";
+          };
+      };
     };
   };
 
