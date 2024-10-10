@@ -28,7 +28,7 @@
       window.titlebar = false;
       gaps = {
         inner = 5;
-        outer = 10;
+        outer = 2;
         smartBorders = "on";
       };
       menu = "wofi --show drun -p \"app:\" -L 10";
