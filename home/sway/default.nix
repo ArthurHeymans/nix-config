@@ -73,4 +73,17 @@
   };
 
   programs.wofi.enable = true;
+
+  services.gammastep = {
+    enable = true;
+    provider = "manual";
+    latitude = 50.0;
+    longitude = 4.0;
+    temperature.day = 5700;
+    temperature.night = 3500;
+    tray = true;
+    settings = {
+      general.adjustment-method = "wayland";
+    };
+  };
 }
