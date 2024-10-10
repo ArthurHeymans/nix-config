@@ -15,7 +15,7 @@
     device = "/dev/disk/by-path/pci-0000:00:1f.2-ata-3.0";
     useOSProber = true;
     efiSupport = true;
-    gfxmodeBios = "auto";
+    gfxmodeBios = "1366x768";
     efiInstallAsRemovable = true;
   };
 
