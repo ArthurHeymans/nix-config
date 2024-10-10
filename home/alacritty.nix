@@ -13,8 +13,6 @@
         "TERM" = "xterm-256color";
       };
 
-      #      background_opacity = 0.95;
-
       window = {
         padding.x = 1;
         padding.y = 1;
@@ -23,6 +21,7 @@
           columns = 80;
           lines = 24;
         };
+        opacity = 0.95;
       };
 
       font = {
