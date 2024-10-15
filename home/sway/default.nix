@@ -6,6 +6,14 @@
 }:
 
 {
+  gtk = {
+    enable = true;
+     theme = {
+      name = "Adwaita";
+      package = pkgs.gnome.adwaita-icon-theme;
+    };
+  };
+
   imports = [ ./waybar.nix ];
 
   home.packages = with pkgs; [
@@ -17,6 +25,8 @@
     playerctl
     pavucontrol
     xdg-user-dirs # auto create dirs
+
+    networkmanagerapplet
   ];
 
   wayland.windowManager.sway = {
