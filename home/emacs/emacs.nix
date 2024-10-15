@@ -23,6 +23,7 @@
 
   programs.doom-emacs = {
     enable = true;
+    emacs = pkgs.emacs29-pgtk;
     doomDir = inputs.doom-config;
   };
 }
