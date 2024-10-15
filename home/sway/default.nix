@@ -91,6 +91,9 @@
       general.adjustment-method = "wayland";
     };
   };
+
+  services.blueman-applet.enable = true;
+
   services.mako = {
     enable = true;
     height = 1000;
