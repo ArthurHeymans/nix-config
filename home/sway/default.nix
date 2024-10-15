@@ -91,4 +91,8 @@
       general.adjustment-method = "wayland";
     };
   };
+  services.mako = {
+    enable = true;
+    height = 1000;
+  };
 }
