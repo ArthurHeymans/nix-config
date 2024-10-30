@@ -51,7 +51,7 @@
   nix.gc = {
     automatic = lib.mkDefault true;
     dates = lib.mkDefault "monthly";
-    options = lib.mkDefault "--delete-older-than 30d";
+    options = lib.mkDefault "--delete-older-than 7d";
   };
 
   # Allow unfree packages
