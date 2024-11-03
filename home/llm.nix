@@ -4,7 +4,7 @@
   home.packages = with pkgs-unstable; [
     ollama
     mods
-    #aider-chat
+    aider-chat
     #open-webui
   ];
 }
