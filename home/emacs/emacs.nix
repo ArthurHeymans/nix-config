@@ -19,6 +19,7 @@
     clang-tools
     emacs-all-the-icons-fonts
     sshfs
+    guile
   ];
 
   programs.doom-emacs = {
