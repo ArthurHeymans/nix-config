@@ -41,7 +41,8 @@
         outer = 2;
         smartBorders = "on";
       };
-      menu = "wofi --show drun -p \"app:\" -L 10";
+      #menu = "wofi --show drun -p \"app:\" -L 10";
+      menu = "fuzzel";
       bars = [ { command = "waybar"; } ];
       keybindings =
         let
@@ -87,7 +88,8 @@
     };
   };
 
-  programs.wofi.enable = true;
+  #programs.wofi.enable = true;
+  programs.fuzzel.enable = true;
 
   services.gammastep = {
     enable = true;
