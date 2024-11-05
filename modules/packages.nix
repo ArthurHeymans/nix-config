@@ -27,9 +27,13 @@
     wavemon
 
     zellij
+
     #   nixd
     nil
     nixfmt-rfc-style
+    alejandra
+    statix
+    deadnix
 
     pinentry-gnome3
     gnupg

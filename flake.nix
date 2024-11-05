@@ -168,6 +168,7 @@
       ...
     }@inputs:
     {
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
       nixosConfigurations = {
         x220-nixos =
           let
