@@ -19,6 +19,7 @@
     ../../home/shell.nix
     ../../home/dev.nix
     ../../home/llm.nix
+    ../../home/security.nix
     #   ../../home/fcitx5
     #    ../../home/i3
     #    ../../home/programs
