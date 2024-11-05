@@ -30,5 +30,9 @@
     enable = true;
     userName = "Arthur Heymans";
     userEmail = "arthur@aheymans.xyz";
+    signing = {
+      signByDefault = true;
+      key = "4401A5C26DF3FFFDF472F84AA1D13A950A6651BB";
+    };
   };
 }
