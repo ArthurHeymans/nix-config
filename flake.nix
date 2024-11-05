@@ -157,52 +157,46 @@
     # nur-ataraxiasjel.url = "github:AtaraxiaSjel/nur";
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      nixpkgs-unstable,
-      home-manager,
-      nix-doom-emacs-unstraightened,
-      anyrun,
-      ...
-    }@inputs:
-    {
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
-      nixosConfigurations = {
-        x220-nixos =
-          let
-            username = "arthur";
-            system = "x86_64-linux";
-            specialArgs = {
-              inherit username;
-              pkgs = import nixpkgs {
-                inherit system;
-                config.allowUnfree = true;
-              };
-              pkgs-unstable = import nixpkgs-unstable {
-                inherit system;
-                config.allowUnfree = true;
-              };
-              inherit inputs;
-            };
-          in
-          nixpkgs.lib.nixosSystem {
-            inherit specialArgs;
-            modules = [
-              ./hosts/x220-nixos
-              ./users/${username}/nixos.nix
-
-              home-manager.nixosModules.home-manager
-              {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-
-                home-manager.extraSpecialArgs = specialArgs // inputs;
-                home-manager.users.${username} = import ./users/${username}/home.nix;
-              }
-            ];
+  outputs = {
+    nixpkgs,
+    nixpkgs-unstable,
+    home-manager,
+    ...
+  } @ inputs: {
+    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
+    nixosConfigurations = {
+      x220-nixos = let
+        username = "arthur";
+        system = "x86_64-linux";
+        specialArgs = {
+          inherit username;
+          pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
           };
-      };
+          pkgs-unstable = import nixpkgs-unstable {
+            inherit system;
+            config.allowUnfree = true;
+          };
+          inherit inputs;
+        };
+      in
+        nixpkgs.lib.nixosSystem {
+          inherit specialArgs;
+          modules = [
+            ./hosts/x220-nixos
+            ./users/${username}/nixos.nix
+
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+
+              home-manager.extraSpecialArgs = specialArgs // inputs;
+              home-manager.users.${username} = import ./users/${username}/home.nix;
+            }
+          ];
+        };
     };
+  };
 }

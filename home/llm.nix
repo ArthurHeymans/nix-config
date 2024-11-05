@@ -1,6 +1,4 @@
-{ config, pkgs, pkgs-unstable, ... }:
-
-{
+{pkgs-unstable, ...}: {
   home.packages = with pkgs-unstable; [
     ollama
     mods

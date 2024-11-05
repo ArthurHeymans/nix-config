@@ -1,5 +1,8 @@
-{ pkgs, nix-doom-emacs-unstraightened, anyrun, ... }:
 {
+  nix-doom-emacs-unstraightened,
+  anyrun,
+  ...
+}: {
   ##################################################################################################################
   #
   # All Ryan's Home Manager Configuration

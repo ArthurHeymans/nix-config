@@ -1,7 +1,5 @@
-{ config, lib, pkgs, ... }:
-
-{
-    fonts = {
+{pkgs, ...}: {
+  fonts = {
     packages = with pkgs; [
       # icon fonts
       material-design-icons
@@ -52,8 +50,7 @@
         "JetBrainsMono Nerd Font"
         "Noto Color Emoji"
       ];
-      emoji = [ "Noto Color Emoji" ];
+      emoji = ["Noto Color Emoji"];
     };
   };
-
 }

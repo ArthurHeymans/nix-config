@@ -3,18 +3,16 @@
   lib,
   pkgs,
   ...
-}:
-
-{
+}: {
   gtk = {
     enable = true;
-     theme = {
+    theme = {
       name = "Adwaita";
       package = pkgs.gnome.adwaita-icon-theme;
     };
   };
 
-  imports = [ ./waybar.nix ];
+  imports = [./waybar.nix];
 
   home.packages = with pkgs; [
     grim
@@ -43,14 +41,13 @@
       };
       #menu = "wofi --show drun -p \"app:\" -L 10";
       menu = "fuzzel";
-      bars = [ { command = "waybar"; } ];
-      keybindings =
-        let
-          mod = config.wayland.windowManager.sway.config.modifier;
-          grim = "${pkgs.grim}/bin/grim";
-          slurp = "${pkgs.slurp}/bin/slurp";
-          screenshotLocation = "${config.xdg.userDirs.pictures}/Screenshots/scrn-$(date +'%Y-%m-%d-%H-%M-%S.png')";
-        in
+      bars = [{command = "waybar";}];
+      keybindings = let
+        mod = config.wayland.windowManager.sway.config.modifier;
+        grim = "${pkgs.grim}/bin/grim";
+        slurp = "${pkgs.slurp}/bin/slurp";
+        screenshotLocation = "${config.xdg.userDirs.pictures}/Screenshots/scrn-$(date +'%Y-%m-%d-%H-%M-%S.png')";
+      in
         #            screenshotSound = "${pkgs.alsa-utils}/bin/aplay ${./camera.wav}";
         lib.mkOptionDefault {
           # Full screen TODO add screenshot sound
@@ -71,9 +68,9 @@
         };
       };
       output = {
-          "*" = {
-            bg = "${./bg.jpg} fill";
-          };
+        "*" = {
+          bg = "${./bg.jpg} fill";
+        };
       };
     };
   };

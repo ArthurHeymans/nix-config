@@ -1,6 +1,4 @@
-{ config, lib, pkgs, ... }:
-
-{
+{...}: {
   # Enable in-memory compressed devices and swap space provided by the zram kernel module.
   # By enable this, we can store more data in memory instead of fallback to disk-based swap devices directly,
   # and thus improve I/O performance when we have a lot of memory.
@@ -19,5 +17,4 @@
     # This doesn’t define how much memory will be used by the zram swap devices.
     memoryPercent = 50;
   };
-
 }

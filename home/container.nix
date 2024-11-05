@@ -1,11 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
-{
+{pkgs, ...}: {
   home.packages = with pkgs; [
     podman
     distrobox

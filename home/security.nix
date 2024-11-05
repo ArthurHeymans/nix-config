@@ -1,6 +1,4 @@
-{ config, lib, pkgs, ... }:
-
-{
+{pkgs, ...}: {
   programs.gpg = {
     enable = true;
   };
@@ -10,8 +8,8 @@
     enableExtraSocket = true;
     enableFishIntegration = true;
     extraConfig = ''
-        allow-emacs-pinentry
-      '';
+      allow-emacs-pinentry
+    '';
     pinentryPackage = pkgs.pinentry-gnome3;
   };
 }

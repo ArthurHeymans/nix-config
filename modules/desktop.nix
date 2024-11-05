@@ -1,6 +1,4 @@
-{ config, lib, pkgs, ... }:
-
-{
+{pkgs, ...}: {
   programs.dconf.enable = true;
 
   # greetd with tuigreet
@@ -14,5 +12,5 @@
     };
   };
 
-  services.dbus.packages = [ pkgs.gcr ];
+  services.dbus.packages = [pkgs.gcr];
 }

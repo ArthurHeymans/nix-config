@@ -1,11 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-
-{
+{...}: {
   programs.waybar = {
     enable = true;
     settings = {
@@ -63,7 +56,7 @@
             hands-free = "";
             headset = "";
             phone = "";
-            portable =  "";
+            portable = "";
             car = "";
             default = ["" "" ""];
           };
