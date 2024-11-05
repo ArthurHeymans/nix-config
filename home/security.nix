@@ -14,4 +14,8 @@
     defaultCacheTtl = 604800;
     maxCacheTtl = 604800;
   };
+  home.packages = with pkgs; [
+    sops
+  ];
+
 }
