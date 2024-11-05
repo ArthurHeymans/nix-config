@@ -114,6 +114,11 @@
       inputs.nixpkgs.follows = "";
     };
 
+    anyrun = {
+      url = "github:anyrun-org/anyrun";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     ########################  Some non-flake repositories  #########################################
 
     doom-config = {
@@ -159,6 +164,7 @@
       nixpkgs-unstable,
       home-manager,
       nix-doom-emacs-unstraightened,
+      anyrun,
       ...
     }@inputs:
     {

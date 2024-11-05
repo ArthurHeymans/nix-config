@@ -1,4 +1,4 @@
-{ pkgs, nix-doom-emacs-unstraightened, ... }:
+{ pkgs, nix-doom-emacs-unstraightened, anyrun, ... }:
 {
   ##################################################################################################################
   #
@@ -8,8 +8,10 @@
 
   imports = [
     nix-doom-emacs-unstraightened.hmModule
+    anyrun.homeManagerModules.default
     ../../home/core.nix
 
+    ../../home/anyrun.nix
     ../../home/alacritty.nix
     ../../home/sway
     ../../home/browsers.nix
