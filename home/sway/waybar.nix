@@ -7,7 +7,7 @@
         modules-left = [
           "sway/workspaces"
           "sway/mode"
-          "wlr/taskbar"
+          #          "wlr/taskbar"
         ];
         modules-center = [
           "sway/window"
