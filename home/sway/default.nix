@@ -40,7 +40,8 @@
         smartBorders = "on";
       };
       #menu = "wofi --show drun -p \"app:\" -L 10";
-      menu = "fuzzel";
+      #menu = "fuzzel";
+      menu = "rofi -show drun -show-icons";
       bars = [{command = "waybar";}];
       keybindings = let
         mod = config.wayland.windowManager.sway.config.modifier;
@@ -86,7 +87,11 @@
   };
 
   #programs.wofi.enable = true;
-  programs.fuzzel.enable = true;
+  #programs.fuzzel.enable = true;
+  programs.rofi = {
+    enable = true;
+    package = pkgs.rofi-wayland;
+  };
 
   services.gammastep = {
     enable = true;
