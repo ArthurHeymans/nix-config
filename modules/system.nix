@@ -4,17 +4,18 @@
     ./bluetooth.nix
     ./desktop.nix
     ./fonts.nix
+    ./geoclue.nix
     ./llm.nix
     ./locale.nix
     ./networking.nix
+    ./opengl.nix
     ./packages.nix
     ./printing.nix
     ./security.nix
+    ./sound.nix
     ./users.nix
-    ./zswap.nix
-    ./geoclue.nix
     ./virtualisation.nix
-    ./opengl.nix
+    ./zswap.nix
   ];
 
   # customise /etc/nix/nix.conf declaratively via `nix.settings`
