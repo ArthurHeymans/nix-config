@@ -4,23 +4,6 @@
   # Add outputs in here for now
   # outputs = inputs: import ./outputs inputs;
 
-  # the nixConfig here only affects the flake itself, not the system configuration!
-  # for more information, see:
-  #     https://nixos-and-flakes.thiscute.world/nix-store/add-binary-cache-servers
-  nixConfig = {
-    # substituers will be appended to the default substituters when fetching packages
-    extra-substituters = [
-      "https://anyrun.cachix.org"
-      # "https://nix-gaming.cachix.org"
-      # "https://nixpkgs-wayland.cachix.org"
-    ];
-    extra-trusted-public-keys = [
-      "anyrun.cachix.org-1:pqBobmOjI7nKlsUMV25u9QHa9btJK65/C8vnO3p346s="
-      # "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
-      # "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
-    ];
-  };
-
   # This is the standard format for flake.nix. `inputs` are the dependencies of the flake,
   # Each item in `inputs` will be passed as a parameter to the `outputs` function after being pulled and built.
   inputs = {
