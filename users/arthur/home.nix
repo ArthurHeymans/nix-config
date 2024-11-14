@@ -22,6 +22,7 @@
     ../../home/emacs/emacs.nix
     ../../home/llm.nix
     ../../home/media.nix
+    ../../home/obs-studio.nix
     ../../home/security.nix
     ../../home/shell.nix
     ../../home/sway
