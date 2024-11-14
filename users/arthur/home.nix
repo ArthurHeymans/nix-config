@@ -20,6 +20,7 @@
     ../../home/container.nix
     ../../home/dev.nix
     ../../home/emacs/emacs.nix
+    ../../home/hyprland
     ../../home/llm.nix
     ../../home/media.nix
     ../../home/obs-studio.nix

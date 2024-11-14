@@ -12,5 +12,11 @@
     };
   };
 
+  environment.etc."greetd/environments".text = ''
+    sway
+    hyprland
+    bash
+  '';
+
   services.dbus.packages = [pkgs.gcr];
 }
