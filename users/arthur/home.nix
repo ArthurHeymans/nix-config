@@ -14,17 +14,17 @@
     anyrun.homeManagerModules.default
     ../../home/core.nix
 
-    ../../home/anyrun.nix
     ../../home/alacritty.nix
-    ../../home/sway
+    ../../home/anyrun.nix
     ../../home/browsers.nix
-    ../../home/media.nix
     ../../home/container.nix
-    ../../home/emacs/emacs.nix
-    ../../home/shell.nix
     ../../home/dev.nix
+    ../../home/emacs/emacs.nix
     ../../home/llm.nix
+    ../../home/media.nix
     ../../home/security.nix
+    ../../home/shell.nix
+    ../../home/sway
     #   ../../home/fcitx5
     #    ../../home/i3
     #    ../../home/programs
