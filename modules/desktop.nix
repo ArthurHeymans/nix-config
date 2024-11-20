@@ -6,7 +6,7 @@
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd sway";
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
         user = "greeter";
       };
     };
@@ -14,9 +14,11 @@
 
   environment.etc."greetd/environments".text = ''
     sway
-    hyprland
+    Hyprland
     bash
   '';
 
   services.dbus.packages = [pkgs.gcr];
+
+  programs.hyprland.enable = true;
 }
