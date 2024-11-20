@@ -147,7 +147,7 @@
                 ws = i + 1;
               in [
                 "$mod, code:1${toString i}, workspace, ${toString ws}"
-                "$mod SHIFT, code:1${toString i}, movetoworkspace, ${toString ws}"
+                "$mod SHIFT, code:1${toString i}, movetoworkspacesilent, ${toString ws}"
               ]
             )
             9)
