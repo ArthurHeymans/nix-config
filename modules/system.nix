@@ -8,7 +8,7 @@
     ./llm.nix
     ./locale.nix
     ./networking.nix
-    ./opengl.nix
+    ./graphics.nix
     ./packages.nix
     ./printing.nix
     ./security.nix
