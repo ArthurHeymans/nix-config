@@ -4,7 +4,7 @@
     spotify
     mpv
     evince
-    gnome.nautilus
+    nautilus
     mullvad-vpn
   ];
 }
