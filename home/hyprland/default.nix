@@ -2,6 +2,8 @@
   imports = [
     ./hyprpaper.nix
     ./wlogout.nix
+    ./hyprlock.nix
+    ./hypridle.nix
   ];
 
   xdg.portal = {
@@ -20,7 +22,7 @@
     };
   };
 
-  programs.kitty.enable = true;
+  # programs.kitty.enable = true;
 
   wayland.windowManager.hyprland = {
     enable = true;
