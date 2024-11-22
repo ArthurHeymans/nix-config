@@ -1,5 +1,8 @@
 {pkgs, ...}: {
-  imports = [./hyprpaper.nix];
+  imports = [
+    ./hyprpaper.nix
+    ./wlogout.nix
+  ];
 
   xdg.portal = {
     enable = true;

@@ -25,6 +25,7 @@
           "battery"
           "clock"
           "tray"
+          "custom/power"
         ];
         temperature = {
           critical-threshold = 85;
@@ -87,6 +88,11 @@
         clock = {
           interval = 5;
           format = "{:%d-%m-%Y %H:%M}";
+        };
+        "custom/power" = {
+          tooltip = false;
+          on-click = "wlogout -p layer-shell &";
+          format = "⏻";
         };
       };
     };
@@ -179,6 +185,7 @@
 
       #clock,
       #battery,
+      #custom-power,
       #cpu,
       #memory,
       #disk,
@@ -226,6 +233,11 @@
       #battery.charging, #battery.plugged {
           color: #ffffff;
           background-color: #26A65B;
+      }
+
+      #custom-power {
+          background-color: #FF0000;
+          font-size: 15px;
       }
 
       @keyframes blink {
