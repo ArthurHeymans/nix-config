@@ -1,4 +1,6 @@
 {pkgs, ...}: {
+  imports = [./hyprpaper.nix];
+
   xdg.portal = {
     enable = true;
     extraPortals = [
