@@ -108,7 +108,7 @@
       * {
           /* `otf-font-awesome` is required to be installed for icons */
           /* font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif; */
-          font-family: FiraCode Nerd, monospace;
+          font-family: 'FiraCode Nerd Font Propo';
           font-size: 11px;
       }
 
