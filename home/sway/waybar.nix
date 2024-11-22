@@ -16,6 +16,7 @@
           "hyprland/window"
         ];
         modules-right = [
+          "idle_inhibitor"
           "pulseaudio"
           "bluetooth"
           "network"
@@ -84,6 +85,13 @@
           format-disconnected = "Disconnected ⚠";
           format-alt = "{ifname}: {ipaddr}/{cidr}";
           on-click-right = "alacritty -e nmtui";
+        };
+        idle_inhibitor = {
+          format = " {icon} ";
+          format-icons = {
+            activated = "";
+            deactivated = "";
+          };
         };
         clock = {
           interval = 5;
