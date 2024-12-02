@@ -11,7 +11,7 @@
     # which represents the GitHub repository URL + branch/commit-id/tag.
 
     # Official NixOS package source, using nixos's stable branch by default
-    nixpkgs.url = "github:nixos/nixpkgs/24.11-beta";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     # TODO see if needed later
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable-small";
