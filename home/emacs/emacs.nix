@@ -9,6 +9,10 @@
     aspellDicts.nl
     aspellDicts.fr
     aspellDicts.en
+    hunspell
+    hunspellDicts.nl_nl
+    hunspellDicts.en-us
+    hunspellDicts.fr-any
     graphviz # DOT for org-roam
     mu
     isync
