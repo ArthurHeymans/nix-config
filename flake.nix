@@ -57,13 +57,13 @@
 
     # TODO
     # secrets management
-    agenix = {
-      # lock with git commit at 0.15.0
-      # url = "github:ryantm/agenix/564595d0ad4be7277e07fa63b5a991b3c645655d";
-      # replaced with a type-safe reimplementation to get a better error message and less bugs.
-      url = "github:ryan4yin/ragenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # agenix = {
+    #   # lock with git commit at 0.15.0
+    #   # url = "github:ryantm/agenix/564595d0ad4be7277e07fa63b5a991b3c645655d";
+    #   # replaced with a type-safe reimplementation to get a better error message and less bugs.
+    #   url = "github:ryan4yin/ragenix";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     # nix-gaming.url = "github:fufexan/nix-gaming";
 
@@ -80,10 +80,10 @@
     };
 
     # TODO filesystem based modules in Nix
-    haumea = {
-      url = "github:nix-community/haumea/v0.2.2";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # haumea = {
+    #   url = "github:nix-community/haumea/v0.2.2";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     # TODO runtime sandboxing
     # nixpak = {
@@ -97,10 +97,10 @@
       inputs.nixpkgs.follows = "";
     };
 
-    anyrun = {
-      url = "github:anyrun-org/anyrun";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # anyrun = {
+    #   url = "github:anyrun-org/anyrun";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     ########################  Some non-flake repositories  #########################################
 

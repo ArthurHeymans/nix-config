@@ -1,21 +1,17 @@
-{
-  nix-doom-emacs-unstraightened,
-  anyrun,
-  ...
-}: {
+{nix-doom-emacs-unstraightened, ...}: {
   ##################################################################################################################
   #
-  # All Ryan's Home Manager Configuration
+  # All Arthur's Home Manager Configuration
   #
   ##################################################################################################################
 
   imports = [
     nix-doom-emacs-unstraightened.hmModule
-    anyrun.homeManagerModules.default
+    #    anyrun.homeManagerModules.default
     ../../home/core.nix
 
     ../../home/alacritty.nix
-    ../../home/anyrun.nix
+    #    ../../home/anyrun.nix
     ../../home/browsers.nix
     ../../home/container.nix
     ../../home/dev.nix
