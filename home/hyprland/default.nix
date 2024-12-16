@@ -164,7 +164,7 @@
           "$mod SHIFT, down, movewindow, d"
 
           # Notifications
-          "$mod SHIFT, Space, exec, makoctl dismiss --all"
+          "CTRL SHIFT, Space, exec, makoctl dismiss --all"
         ]
         ++ (
           # workspaces
