@@ -16,6 +16,7 @@
     ../../home/container.nix
     ../../home/dev.nix
     ../../home/emacs/emacs.nix
+    ../../home/email.nix
     ../../home/hyprland
     ../../home/llm.nix
     ../../home/media.nix
