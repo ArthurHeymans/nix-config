@@ -25,6 +25,8 @@
     xdg-user-dirs # auto create dirs
 
     networkmanagerapplet
+
+    waypipe
   ];
 
   wayland.windowManager.sway = {
