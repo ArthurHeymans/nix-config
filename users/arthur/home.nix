@@ -1,4 +1,8 @@
-{nix-doom-emacs-unstraightened, ...}: {
+{
+  nix-doom-emacs-unstraightened,
+  sops-nix,
+  ...
+}: {
   ##################################################################################################################
   #
   # All Arthur's Home Manager Configuration
@@ -7,6 +11,7 @@
 
   imports = [
     nix-doom-emacs-unstraightened.hmModule
+    sops-nix.homeManagerModules.sops
     #    anyrun.homeManagerModules.default
     ../../home/core.nix
 
@@ -23,6 +28,7 @@
     ../../home/obs-studio.nix
     ../../home/security.nix
     ../../home/shell.nix
+    ../../home/sops.nix
     ../../home/sway
     #   ../../home/fcitx5
     #    ../../home/i3

@@ -1,0 +1,7 @@
+keys:
+  - &x220-nixos age1vwc6ywc0a2wpg9d80datnsevlepsepl9u628c26ej6cpj2ky8d8sp2ezhe
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$|secrets/authinfo$
+    key_groups:
+      - age:
+          - *x220-nixos
