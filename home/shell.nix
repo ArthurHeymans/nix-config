@@ -6,7 +6,6 @@
   home.packages = with pkgs; [
     fzf
     grc
-    any-nix-shell
   ];
 
   programs.fish = {
@@ -16,7 +15,6 @@
         exec sh
       end
 
-      any-nix-shell fish --info-right | source
       alias ls='eza --icons=auto'
       setenv OPENAI_API_KEY $(cat ${config.sops.secrets."environmentVariables/OPENAI_API_KEY".path})
       setenv OPENROUTER_API_KEY $(cat ${config.sops.secrets."environmentVariables/OPENROUTER_API_KEY".path})
