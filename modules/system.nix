@@ -13,6 +13,7 @@
     ./packages.nix
     ./printing.nix
     ./security.nix
+    ./tailscale.nix
     ./sound.nix
     ./users.nix
     ./virtualisation.nix
