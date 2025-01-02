@@ -26,6 +26,7 @@
 
     zellij
 
+    nix-output-monitor
     #   nixd
     nil
     nixfmt-rfc-style
