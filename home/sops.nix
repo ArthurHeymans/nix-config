@@ -8,6 +8,7 @@
       sshKeyPaths = ["/home/${username}/.ssh/id_ed25519"];
     };
     defaultSopsFile = ../secrets/secrets.yaml;
+    defaultSymlinkPath = "/run/user/1000/secrets";
     secrets = {
       authinfo = {
         format = "binary";
