@@ -17,6 +17,7 @@
       };
       "environmentVariables/OPENAI_API_KEY" = {};
       "environmentVariables/OPENROUTER_API_KEY" = {};
+      "environmentVariables/DEEPSEEK_API_KEY" = {};
     };
   };
 }
