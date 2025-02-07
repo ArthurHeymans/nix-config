@@ -27,4 +27,6 @@
       fi
     '';
   };
+
+  services.envfs.enable = true;
 }
