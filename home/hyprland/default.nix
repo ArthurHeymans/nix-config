@@ -22,8 +22,6 @@
     };
   };
 
-  # programs.kitty.enable = true;
-
   wayland.windowManager.hyprland = {
     enable = true;
 
@@ -138,7 +136,7 @@
         workspace_swipe = false;
       };
       "$mod" = "SUPER";
-      "$terminal" = "alacritty";
+      "$terminal" = "kitty";
       "$menu" = "rofi -show drun -show-icons";
       bind =
         [
