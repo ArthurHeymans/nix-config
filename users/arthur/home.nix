@@ -27,6 +27,7 @@
     ../../home/llm.nix
     ../../home/media.nix
     ../../home/obs-studio.nix
+    ../../home/presenterm.nix
     ../../home/security.nix
     ../../home/shell.nix
     ../../home/sops.nix
