@@ -1,5 +1,5 @@
 {pkgs-unstable, ...}: {
-  home.package = with pkgs-unstable; [
+  home.packages = with pkgs-unstable; [
     presenterm
   ];
 }
