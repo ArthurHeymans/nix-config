@@ -1,7 +1,8 @@
 {pkgs-unstable, ...}: {
   home.packages = with pkgs-unstable; [
     ollama
-    mods
+    #mods
+    aichat
     aider-chat
     #open-webui
   ];
