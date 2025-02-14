@@ -7,7 +7,7 @@
         fade_on_empty = false;
 
         placeholder_text = "You shall not pass!";
-        position = "0, -300%";
+        position = "0, -30%";
       };
       background = {
         path = " ~/Pictures/lock.jpg";
