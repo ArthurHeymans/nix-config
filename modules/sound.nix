@@ -1,7 +1,7 @@
 {...}: {
   # Enable sound with pipewire.
   #sound.enable = false;
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
 
   services = {
     pipewire = {

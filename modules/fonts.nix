@@ -19,16 +19,10 @@
       fira-code-symbols
       fira-code-nerdfont
 
-      (nerdfonts.override {
-        fonts = [
-          # symbols icon only
-          "NerdFontsSymbolsOnly"
-          # Characters
-          "FiraCode"
-          "JetBrainsMono"
-          "Iosevka"
-        ];
-      })
+      nerd-fonts.symbols-only
+      nerd-fonts.fira-code
+      nerd-fonts.jetbrains-mono
+      nerd-fonts.iosevka
     ];
 
     # use fonts specified by user rather than default ones

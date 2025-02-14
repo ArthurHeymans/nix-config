@@ -3,11 +3,11 @@
     "doom-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1738782758,
-        "narHash": "sha256-8GoFuB68oU1a4/GXfq3XRuB8XnQYYkTJVVpG6EqG9ig=",
+        "lastModified": 1739524105,
+        "narHash": "sha256-o/ciIJHBkQ5japVu1SsY52U62L+aqJozOutM6SqXxB8=",
         "owner": "ArthurHeymans",
         "repo": ".doom.d",
-        "rev": "89d5395453a912020c07b5bbef5c0686348f0953",
+        "rev": "33eecfab72967b6eab31ea681504161c8a5826d6",
         "type": "github"
       },
       "original": {
@@ -99,16 +99,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1736373539,
-        "narHash": "sha256-dinzAqCjenWDxuy+MqUQq0I4zUSfaCvN9rzuCmgMZJY=",
+        "lastModified": 1739470101,
+        "narHash": "sha256-NxNe32VB4XI/xIXrsKmIfrcgtEx5r/5s52pL3CpEcA4=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "bd65bc3cde04c16755955630b344bc9e35272c56",
+        "rev": "5031c6d2978109336637977c165f82aa49fa16a7",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
-        "ref": "release-24.11",
         "repo": "home-manager",
         "type": "github"
       }
@@ -152,16 +151,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1738843498,
-        "narHash": "sha256-7x+Q4xgFj9UxZZO9aUDCR8h4vyYut4zPUvfj3i+jBHE=",
+        "lastModified": 1739446958,
+        "narHash": "sha256-+/bYK3DbPxMIvSL4zArkMX0LQvS7rzBKXnDXLfKyRVc=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "f5a32fa27df91dfc4b762671a0e0a859a8a0058f",
+        "rev": "2ff53fe64443980e139eaa286017f53f88336dd0",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "nixos-24.11",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }

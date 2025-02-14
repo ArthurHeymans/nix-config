@@ -1,7 +1,7 @@
-{pkgs-unstable, ...}: {
+{pkgs, ...}: {
   # Ollama
   services.ollama = {
     enable = true;
-    package = pkgs-unstable.ollama;
+    package = pkgs.ollama;
   };
 }
