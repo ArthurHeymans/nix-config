@@ -23,6 +23,7 @@
     pciutils
     psmisc
     wavemon
+    brightnessctl
 
     zellij
 
