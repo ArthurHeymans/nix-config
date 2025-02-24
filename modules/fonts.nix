@@ -17,7 +17,6 @@
       fira-mono
       fira-code
       fira-code-symbols
-      fira-code-nerdfont
 
       nerd-fonts.symbols-only
       nerd-fonts.fira-code
