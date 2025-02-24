@@ -30,7 +30,7 @@
         "waybar"
       ];
       monitor = [
-        ",preferred,auto,auto"
+        ",preferred,auto,1"
       ];
       env = [
         "XCURSOR_SIZE,24"
