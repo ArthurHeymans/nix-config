@@ -9,6 +9,8 @@
     # Arthur's authorizedKeys
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKm4ucwEs89kKGpYrdhPwfnCYeVVDR3ROxqIwjK/98/7 arthur@t41sarthur"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK9XttA9f8RjXTrrhli5lb4y4+uWC7K+uu2yaeLCbWCT arthur@x220-nixos"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGdvTWjJ4Q/XlCV9ziyFkWxvDsMs+veo9uQQBSPZGZB+ arthur@t14s-g6"
     ];
   };
 }

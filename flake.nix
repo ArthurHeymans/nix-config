@@ -90,6 +90,21 @@
           }
         ];
       };
+      t14s-g6 = nixpkgs.lib.nixosSystem {
+        inherit specialArgs;
+        modules = [
+          ./hosts/t14s-g6
+          ./users/${username}/nixos.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+
+            home-manager.extraSpecialArgs = specialArgs // inputs;
+            home-manager.users.${username} = import ./users/${username}/home.nix;
+          }
+        ];
+      };
     };
   };
 }
