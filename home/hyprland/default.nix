@@ -220,6 +220,11 @@
           name = "synps/2-synaptics-touchpad";
           enabled = "false";
         }
+        {
+          name = "ergo-k860-keyboard";
+          kb_options = "ctrl:swap_lwin_lctl,caps:ctrl_modifier";
+          numlock_by_default = "true";
+        }
       ];
     };
   };
