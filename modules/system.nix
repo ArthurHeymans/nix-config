@@ -3,6 +3,7 @@
     ./bash.nix
     ./bluetooth.nix
     ./desktop.nix
+    ./firmware.nix
     ./fonts.nix
     ./geoclue.nix
     ./gvfs.nix
