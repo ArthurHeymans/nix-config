@@ -3,7 +3,7 @@
     ollama
     #mods
     aichat
-    aider-chat
+    aider-chat.withPlaywright
     #open-webui
   ];
 }
