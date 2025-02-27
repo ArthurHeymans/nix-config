@@ -20,6 +20,7 @@
     emacs-all-the-icons-fonts
     sshfs
     guile
+    fd
   ];
 
   programs.doom-emacs = {
