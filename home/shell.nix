@@ -6,6 +6,7 @@
   home.packages = with pkgs; [
     fzf
     grc
+    just
   ];
 
   programs.fish = {
