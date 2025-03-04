@@ -16,6 +16,7 @@
     ./security.nix
     ./tailscale.nix
     ./sound.nix
+    ./udev.nix
     ./users.nix
     ./virtualisation.nix
     ./zswap.nix
