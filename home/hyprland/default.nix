@@ -28,6 +28,7 @@
     settings = {
       exec-once = [
         "waybar"
+        "bash -c 'if grep -q closed /proc/acpi/button/lid/*/state; then hyprctl keyword monitor \"LVDS-1, disable\"; hyprctl keyword monitor \"eDP-1, disable\"; fi'"
       ];
       monitor = [
         ",preferred,auto,1"
@@ -203,8 +204,8 @@
         ", XF86AudioPlay, exec, playerctl play-pause"
         ", XF86AudioPrev, exec, playerctl previous"
 
-        ",switch:on:Lid Switch, exec, hyprctl keyword monitor \"LVDS-1, disable\""
-        ",switch:off:Lid Switch, exec, hyprctl keyword monitor \"LVDS-1, enable\""
+        ",switch:on:Lid Switch, exec, hyprctl keyword monitor \"LVDS-1, disable\"; hyprctl keyword monitor \"eDP-1, disable\""
+        ",switch:off:Lid Switch, exec, hyprctl keyword monitor \"LVDS-1, enable\"; hyprctl keyword monitor \"eDP-1, enable\""
       ];
 
       windowrulev2 = [
