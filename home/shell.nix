@@ -7,6 +7,8 @@
     fzf
     grc
     just
+    bat
+    ripgrep
   ];
 
   programs.fish = {
