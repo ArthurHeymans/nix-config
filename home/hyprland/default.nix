@@ -28,6 +28,8 @@
     settings = {
       exec-once = [
         "waybar"
+      ];
+      exec = [
         "bash -c 'if grep -q closed /proc/acpi/button/lid/*/state; then hyprctl keyword monitor \"LVDS-1, disable\"; hyprctl keyword monitor \"eDP-1, disable\"; fi'"
       ];
       monitor = [
