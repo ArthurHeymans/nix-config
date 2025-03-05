@@ -25,7 +25,7 @@
 
   programs.doom-emacs = {
     enable = true;
-    emacs = pkgs.emacs29-pgtk;
+    emacs = pkgs.emacs-pgtk;
     doomDir = inputs.doom-config;
     tangleArgs = ".";
   };
