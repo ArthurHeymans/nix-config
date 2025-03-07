@@ -179,7 +179,11 @@
               ]
             )
             9)
-        );
+        )
+        ++ [
+          "$mod, code:19, workspace, 10"
+          "$mod SHIFT, code:19, movetoworkspacesilent, 10"
+        ];
       # 'm' Mouse
       bindm = [
         # Move/resize windows with mainMod + LMB/RMB and dragging
