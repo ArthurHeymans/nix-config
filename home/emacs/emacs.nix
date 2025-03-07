@@ -21,6 +21,8 @@
     sshfs
     guile
     fd
+    lldb
+    nodejs_23
   ];
 
   programs.doom-emacs = {
