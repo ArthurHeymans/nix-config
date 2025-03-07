@@ -1,8 +1,8 @@
 # System update and maintenance commands
 
-# Rebuild NixOS system with the t14s-g6 configuration
+# Rebuild NixOS system with the current hostname configuration
 rebuild:
-  sudo nixos-rebuild switch --flake ~/nix-config#t14s-g6
+  sudo nixos-rebuild switch --flake ~/nix-config#$(hostname)
 
 # Update the doom-config flake
 update-doom:
