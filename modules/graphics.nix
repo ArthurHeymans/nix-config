@@ -22,7 +22,7 @@
     powerManagement.finegrained = false;
 
     # Use the NVidia open source kernel module (only for Turing and later architectures)
-    open = false;
+    open = true;
 
     # Enable the Nvidia settings menu
     nvidiaSettings = true;
