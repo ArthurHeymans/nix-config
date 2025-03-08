@@ -6,6 +6,7 @@
     evince
     nautilus
     mullvad-vpn
+    signal-desktop
   ];
 
   xdg.userDirs.enable = true;
