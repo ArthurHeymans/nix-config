@@ -13,5 +13,7 @@
     #ncurses
     go
     gopls
+    cliphist
+    wl-clipboard
   ];
 }
