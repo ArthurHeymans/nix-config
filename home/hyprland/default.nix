@@ -36,6 +36,8 @@
       ];
       monitor = [
         ",preferred,auto,1"
+        "desc:Dell Inc. DELL U2312HM KF87Y31VC5AL, preferred, 1920x0, 1, transform, 1"
+        "desc:Dell Inc. DELL P3424WE 7DJF6T3, preferred, 3000x0, 1"
       ];
       env = [
         "XCURSOR_SIZE,24"
