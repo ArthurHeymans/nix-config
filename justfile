@@ -11,3 +11,7 @@ update-doom:
 # Update all flakes
 update:
   nix flake update
+
+# Garbage collect everything older than 1d
+gc:
+  sudo nix-collect-garbage --delete-older-than 1d
