@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
     #ollama --> slow to build
-    vllm
+    mistral-rs
     #mods
     aichat
     aider-chat.withPlaywright
