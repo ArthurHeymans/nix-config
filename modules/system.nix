@@ -14,7 +14,8 @@
     ./packages.nix
     ./printing.nix
     ./security.nix
-    ./tailscale.nix
+    #./tailscale.nix
+    ./netbird.nix
     ./sound.nix
     ./udev.nix
     ./users.nix
