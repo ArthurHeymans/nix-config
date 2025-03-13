@@ -169,6 +169,10 @@
           "$mod SHIFT, up, movewindow, u"
           "$mod SHIFT, down, movewindow, d"
 
+          # Move the focused workspace
+          "$mod SHIFT CTRL, left,  movecurrentworkspacetomonitor, l"
+          "$mod SHIFT CTRL, right,  movecurrentworkspacetomonitor, r"
+
           # Notifications
           "CTRL SHIFT, Space, exec, makoctl dismiss --all"
         ]
