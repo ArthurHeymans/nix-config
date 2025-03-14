@@ -30,6 +30,7 @@
         "waybar"
         "wl-paste --type text --watch cliphist store"
         "wl-paste --type image --watch cliphist store"
+        "netbird-ui"
       ];
       exec = [
         "bash -c 'if grep -q closed /proc/acpi/button/lid/*/state; then hyprctl keyword monitor \"LVDS-1, disable\"; hyprctl keyword monitor \"eDP-1, disable\"; fi'"
