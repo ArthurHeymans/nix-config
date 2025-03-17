@@ -9,6 +9,8 @@
     just
     bat
     ripgrep
+    nmap
+    screen
   ];
 
   programs.fish = {
