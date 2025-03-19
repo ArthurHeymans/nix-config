@@ -7,7 +7,7 @@
     ./fonts.nix
     ./geoclue.nix
     ./gvfs.nix
-    ./llm.nix
+    #./llm.nix
     ./locale.nix
     ./networking.nix
     ./graphics.nix
