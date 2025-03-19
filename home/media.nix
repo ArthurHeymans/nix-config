@@ -7,6 +7,7 @@
     nautilus
     mullvad-vpn
     signal-desktop
+    calibre
   ];
 
   xdg.userDirs.enable = true;
