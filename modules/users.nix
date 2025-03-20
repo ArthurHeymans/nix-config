@@ -9,6 +9,7 @@
       "wheel"
       "audio"
       "sound"
+      "dialout"
     ];
   };
 
