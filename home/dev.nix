@@ -15,5 +15,7 @@
     gopls
     cliphist
     wl-clipboard
+    probe-rs
+    espflash
   ];
 }
