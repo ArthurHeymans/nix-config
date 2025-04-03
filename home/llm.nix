@@ -4,7 +4,7 @@
     mistral-rs
     #mods
     aichat
-    aider-chat.withPlaywright
+    aider-chat
     #open-webui
   ];
 }
