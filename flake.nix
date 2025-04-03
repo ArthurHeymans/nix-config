@@ -105,6 +105,21 @@
           }
         ];
       };
+      gmktec-k11 = nixpkgs.lib.nixosSystem {
+        inherit specialArgs;
+        modules = [
+          ./hosts/gmktec-k11
+          ./users/${username}/nixos.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+
+            home-manager.extraSpecialArgs = specialArgs // inputs;
+            home-manager.users.${username} = import ./users/${username}/home.nix;
+          }
+        ];
+      };
     };
   };
 }
