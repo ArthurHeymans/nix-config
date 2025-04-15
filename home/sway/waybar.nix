@@ -21,18 +21,18 @@
           "bluetooth"
           "network"
           "mpd"
-          "temperature"
+#          "temperature"
           "backlight"
           "battery"
           "clock"
           "tray"
           "custom/power"
         ];
-        temperature = {
-          critical-threshold = 85;
-          format = "{temperatureC}°C {icon}";
-          format-icons = ["" "" ""];
-        };
+        # temperature = {
+        #   critical-threshold = 85;
+        #   format = "{temperatureC}°C {icon}";
+        #   format-icons = ["" "" ""];
+        # };
         backlight = {
           format = "{percent}% {icon}";
           format-icons = ["" ""];
@@ -72,7 +72,7 @@
         bluetooth = {
           format = " {status}";
           format-disable = ""; # an empty format will hide the module
-          format-connecte = " {num_connections} connected";
+          format-connected = " #{num_connections}";
           tooltip-format = "{controller_alias}\t{controller_address}";
           tooltip-format-connected = "{controller_alias}\t{controller_address}\n\n{device_enumerate}";
           tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
