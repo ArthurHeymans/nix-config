@@ -6,7 +6,7 @@
     evince
     nautilus
     mullvad-vpn
-    signal-desktop
+    signal-desktop-bin
     calibre
   ];
 
