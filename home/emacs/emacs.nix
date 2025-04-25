@@ -23,6 +23,7 @@
     fd
     lldb
     nodejs_23
+    ffmpeg # for encoding sound
   ];
 
   programs.doom-emacs = {
