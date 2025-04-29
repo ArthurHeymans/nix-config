@@ -17,5 +17,6 @@
     wl-clipboard
     probe-rs-tools
     espflash
+    wlink
   ];
 }
