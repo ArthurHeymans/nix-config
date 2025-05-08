@@ -11,6 +11,7 @@
     ripgrep
     nmap
     screen
+    yazi
   ];
 
   programs.fish = {
