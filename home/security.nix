@@ -10,7 +10,7 @@
     extraConfig = ''
       allow-emacs-pinentry
     '';
-    pinentryPackage = pkgs.pinentry-gnome3;
+    pinentry.package = pkgs.pinentry-gnome3;
     defaultCacheTtl = 604800;
     maxCacheTtl = 604800;
   };

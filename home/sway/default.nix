@@ -112,6 +112,6 @@
 
   services.mako = {
     enable = true;
-    height = 1000;
+    settings.height = 1000;
   };
 }
