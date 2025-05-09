@@ -6,8 +6,8 @@ let
     version = "latest";
 
     src = pkgs.fetchurl {
-      url = "https://raw.githubusercontent.com/probe-rs/webpage/refs/heads/master/src/static/files/69-probe-rs.rules";
-      sha256 = "15nmijdskcsqkkirz6bxiadxvczh3g56q59q92767rvyc0z7ydjn";
+      url = "https://github.com/probe-rs/webpage/blob/518a021690d70f7f740b82fa21a248773d923958/public/files/69-probe-rs.rules";
+      hash = "sha256-AdVaIJCasaP8yWx7Nw8u1mwWmFA/cLfUd6yxXpJk5jk=";
     };
 
     dontUnpack = true;
