@@ -22,7 +22,7 @@
     guile
     fd
     lldb
-    nodejs_23
+    nodejs_24
     ffmpeg # for encoding sound
   ];
 
