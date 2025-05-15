@@ -21,7 +21,6 @@
     sshfs
     guile
     fd
-    lldb
     nodejs_24
     ffmpeg # for encoding sound
   ];

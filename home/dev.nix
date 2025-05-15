@@ -18,5 +18,7 @@
     probe-rs-tools
     espflash
     wlink
+    gdb
+    lldb
   ];
 }
