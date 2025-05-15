@@ -6,6 +6,12 @@
     ./hypridle.nix
   ];
 
+  home.packages = with pkgs; [
+    grim
+    slurp
+    wl-clipboard
+  ];
+
   xdg.portal = {
     enable = true;
     extraPortals = [
@@ -25,12 +31,17 @@
   wayland.windowManager.hyprland = {
     enable = true;
 
-    settings = {
+    settings = let
+      grim = "${pkgs.grim}/bin/grim";
+      slurp = "${pkgs.slurp}/bin/slurp";
+      screenshotLocation = "~/Pictures/Screenshots/scrn-$(date +'%Y-%m-%d-%H-%M-%S.png')";
+    in {
       exec-once = [
         "waybar"
         "wl-paste --type text --watch cliphist store"
         "wl-paste --type image --watch cliphist store"
         "netbird-ui"
+        "mkdir -p ~/Pictures/Screenshots"
       ];
       exec = [
         "bash -c 'if grep -q closed /proc/acpi/button/lid/*/state; then hyprctl keyword monitor \"LVDS-1, disable\"; hyprctl keyword monitor \"eDP-1, disable\"; fi'"
@@ -146,6 +157,7 @@
       "$mod" = "SUPER";
       "$terminal" = "kitty";
       "$menu" = "rofi -show drun -show-icons";
+
       bind =
         [
           "$mod, Return, exec, $terminal"
@@ -176,11 +188,16 @@
 
           # Notifications
           "CTRL SHIFT, Space, exec, makoctl dismiss --all"
+
+          # Screenshots
+          "$mod, Print, exec, ${grim} ${screenshotLocation}"
+          "$mod SHIFT, Print, exec, ${slurp} | ${grim} -g - ${screenshotLocation}"
         ]
         ++ (
           # workspaces
           # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
-          builtins.concatLists (builtins.genList (
+          builtins.concatLists (
+            builtins.genList (
               i: let
                 ws = i + 1;
               in [
@@ -188,7 +205,8 @@
                 "$mod SHIFT, code:1${toString i}, movetoworkspacesilent, ${toString ws}"
               ]
             )
-            9)
+            9
+          )
         )
         ++ [
           "$mod, code:19, workspace, 10"
