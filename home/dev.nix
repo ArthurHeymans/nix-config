@@ -5,6 +5,8 @@
 }: {
   home.packages = with pkgs; [
     rustup
+    cargo-binutils
+    cargo-nextest
     (lib.hiPrio clang)
     # gcc
     gnat13
