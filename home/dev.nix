@@ -7,6 +7,7 @@
     rustup
     cargo-binutils
     cargo-nextest
+    flip-link
     (lib.hiPrio clang)
     # gcc
     gnat13
