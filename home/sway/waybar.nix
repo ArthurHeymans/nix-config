@@ -50,6 +50,7 @@
           # "format-good": "" # // An empty format will hide the module
           # "format-full": "",
           format-icons = ["" "" "" "" ""];
+          interval = 1;
         };
         pulseaudio = {
           format = "{volume}% {icon} {format_source}";
