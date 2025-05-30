@@ -10,7 +10,7 @@
     extraConfig = ''
       allow-emacs-pinentry
     '';
-    pinentry.package = pkgs.pinentry-gnome3;
+    pinentry.package = pkgs.pinentry-rofi;
     defaultCacheTtl = 604800;
     maxCacheTtl = 604800;
   };
