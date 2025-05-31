@@ -35,7 +35,6 @@
     statix
     deadnix
 
-    pinentry-gnome3
     gnupg
   ];
 
