@@ -23,6 +23,7 @@
     fd
     nodejs_24
     ffmpeg # for encoding sound
+    uv # for MCP server fetch
   ];
 
   programs.doom-emacs = {
