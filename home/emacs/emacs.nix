@@ -19,6 +19,7 @@
     clang-tools
     emacs-all-the-icons-fonts
     sshfs
+    taplo # toml lsp
     guile
     fd
     nodejs_24
