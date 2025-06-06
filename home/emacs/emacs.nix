@@ -26,6 +26,7 @@
     nodejs_24
     ffmpeg # for encoding sound
     uv # for MCP server fetch
+    emacs-lsp-booster
   ];
 
   programs.doom-emacs = {
