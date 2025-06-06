@@ -13,6 +13,7 @@
     hunspellDicts.nl_nl
     hunspellDicts.en-us
     hunspellDicts.fr-any
+    delta
     graphviz # DOT for org-roam
     mu
     isync
