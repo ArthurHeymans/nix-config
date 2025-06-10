@@ -4,7 +4,7 @@
     mistral-rs
     #mods
     aichat
-    aider-chat
+    aider-chat-full
     #open-webui
   ];
 }
