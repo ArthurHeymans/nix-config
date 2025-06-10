@@ -34,5 +34,15 @@
     emacs = pkgs.emacs-pgtk;
     doomDir = inputs.doom-config;
     tangleArgs = ".";
+    provideEmacs = false;
+  };
+
+  xdg.desktopEntries.doom-emacs = {
+    name = "Doom Emacs";
+    comment = "Edit text with Doom Emacs";
+    exec = "doom-emacs %F";
+    icon = ./gnarly.png;
+    categories = [ "Development" "TextEditor" ];
+    mimeType = [ "text/english" "text/plain" "text/x-makefile" "text/x-c++hdr" "text/x-c++src" "text/x-chdr" "text/x-csrc" "text/x-java" "text/x-moc" "text/x-pascal" "text/x-tcl" "text/x-tex" "application/x-shellscript" "text/x-c" "text/x-c++" ];
   };
 }
