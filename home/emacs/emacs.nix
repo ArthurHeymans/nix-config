@@ -15,6 +15,7 @@
     hunspellDicts.fr-any
     delta
     graphviz # DOT for org-roam
+    hugo
     mu
     isync
     clang-tools
