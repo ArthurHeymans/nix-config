@@ -10,6 +10,7 @@
     grim
     slurp
     wl-clipboard
+    hyprpolkitagent
   ];
 
   xdg.portal = {

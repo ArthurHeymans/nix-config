@@ -23,6 +23,8 @@
     pciutils
     psmisc
     wavemon
+    linux-wifi-hotspot
+    haveged
     brightnessctl
 
     zellij
