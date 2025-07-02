@@ -24,7 +24,7 @@
     taplo # toml lsp
     guile
     fd
-    nodejs_24
+    nodejs
     ffmpeg # for encoding sound
     uv # for MCP server fetch
     # emacs-lsp-booster
