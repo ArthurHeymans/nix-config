@@ -7,6 +7,7 @@
     rustup
     cargo-binutils
     cargo-nextest
+    cargo-bloat
     flip-link
     (lib.hiPrio clang)
     # gcc
