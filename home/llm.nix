@@ -8,8 +8,8 @@
       src = pkgs.fetchFromGitHub {
         owner = "quinlanjager";
         repo = "aider";
-        rev = "fa78cd7e1d421ccd1c797b2e7dd4abf24802c87d";
-        hash = "sha256-hFhg8Jc3cZSMTC3+ioRqAzYzskeprwJb2mKW99lT9qQ=";
+        rev = "36f8a4d2d5bd576e006b38d27c973e26160a652b";
+        hash = "sha256-30Ym/lmP7XNXqnK8u72U8yy7hIKT6TFj04l6+X8jLgs=";
       };
       version = "0.85.0";
       doCheck = false;
