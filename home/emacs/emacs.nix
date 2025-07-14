@@ -4,6 +4,7 @@
   ...
 }: {
   home.packages = with pkgs; [
+    alsa-utils # emacs sound broken
     ispell
     aspell
     aspellDicts.nl
