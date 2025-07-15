@@ -19,6 +19,7 @@
     #    ../../home/anyrun.nix
     ../../home/browsers.nix
     ../../home/container.nix
+    ../../home/crypto.nix
     ../../home/dev.nix
     ../../home/emacs/emacs.nix
     ../../home/email.nix
