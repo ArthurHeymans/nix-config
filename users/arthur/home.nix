@@ -27,6 +27,7 @@
     ../../home/kitty.nix
     ../../home/llm.nix
     ../../home/media.nix
+    ../../home/pcb.nix
     ../../home/obs-studio.nix
     ../../home/presenterm.nix
     ../../home/security.nix
