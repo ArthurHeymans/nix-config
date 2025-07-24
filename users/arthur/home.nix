@@ -24,6 +24,7 @@
     ../../home/emacs/emacs.nix
     ../../home/email.nix
     ../../home/hyprland
+    ../../home/keyboard.nix
     ../../home/kitty.nix
     ../../home/llm.nix
     ../../home/media.nix

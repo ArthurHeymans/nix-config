@@ -28,7 +28,13 @@ let
   };
 in
 {
-  services.udev.packages = [ probe-rs-udev-rules ];
+  services.udev.packages = [ probe-rs-udev-rules ] ++ (with pkgs; [
+    qmk
+    qmk-udev-rules # the only relevant
+    qmk_hid
+    via
+    vial
+  ]);
 
   # WCH Link rules are included in the probe-rs rules file
   # so we don't need the extraRules anymore
