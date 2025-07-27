@@ -7,6 +7,7 @@
         modules-left = [
           "sway/workspaces"
           "hyprland/workspaces"
+          "niri/workspaces"
           "sway/mode"
           "hyprland/mode"
           #          "wlr/taskbar"
@@ -14,6 +15,7 @@
         modules-center = [
           "sway/window"
           "hyprland/window"
+          "niri/window"
         ];
         modules-right = [
           "idle_inhibitor"
