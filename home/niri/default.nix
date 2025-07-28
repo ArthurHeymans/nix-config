@@ -141,6 +141,7 @@
         "Mod+Shift+E".action = quit;
         "Mod+V".action = toggle-window-floating;
         "Mod+D".action = spawn "rofi" "-show" "drun" "-show-icons";
+        "Mod+W".action = spawn "rofi" "-show" "window" "-show-icons";
         "Mod+Y".action = spawn "sh" "-c" "cliphist list | rofi -dmenu | cliphist decode | wl-copy";
         "Mod+P".action = toggle-column-tabbed-display;
         "Mod+F".action = maximize-column;
