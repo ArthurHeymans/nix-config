@@ -8,8 +8,9 @@
     enableExtraSocket = true;
     enableFishIntegration = true;
     extraConfig = ''
-      allow-emacs-pinentry
+      allow-loopback-pinentry
     '';
+    # allow-emacs-pinentry
     pinentry.package = pkgs.pinentry-rofi;
     defaultCacheTtl = 604800;
     maxCacheTtl = 604800;
