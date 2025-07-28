@@ -11,7 +11,7 @@
       allow-loopback-pinentry
     '';
     # allow-emacs-pinentry
-    pinentry.package = pkgs.pinentry-rofi;
+    pinentry.package = pkgs.pinentry-gnome3;
     defaultCacheTtl = 604800;
     maxCacheTtl = 604800;
   };
