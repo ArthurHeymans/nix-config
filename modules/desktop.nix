@@ -13,6 +13,7 @@
   };
 
   environment.etc."greetd/environments".text = ''
+    niri
     sway
     Hyprland
     bash
@@ -21,4 +22,5 @@
   services.dbus.packages = [pkgs.gcr];
 
   programs.hyprland.enable = true;
+  programs.niri.enable = true;
 }

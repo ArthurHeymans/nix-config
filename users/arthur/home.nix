@@ -1,4 +1,5 @@
 {
+  niri,
   nix-doom-emacs-unstraightened,
   sops-nix,
   ...
@@ -12,6 +13,7 @@
   imports = [
     nix-doom-emacs-unstraightened.hmModule
     sops-nix.homeManagerModules.sops
+    niri.homeModules.niri
     #    anyrun.homeManagerModules.default
     ../../home/core.nix
 
@@ -28,6 +30,7 @@
     ../../home/kitty.nix
     ../../home/llm.nix
     ../../home/media.nix
+    ../../home/niri
     ../../home/pcb.nix
     ../../home/obs-studio.nix
     ../../home/presenterm.nix
