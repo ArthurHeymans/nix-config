@@ -1,6 +1,10 @@
-{ config, lib, pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
+  home.packages = with pkgs; [
+    swww
+  ];
+
   programs.niri = {
     enable = true;
     settings = {
@@ -101,6 +105,7 @@
       # Spawn at startup
       spawn-at-startup = [
         { command = ["waybar"]; }
+        { command = ["swww-daemon"]; }
         { command = ["wl-paste" "--type" "text" "--watch" "cliphist" "store"]; }
         { command = ["wl-paste" "--type" "image" "--watch" "cliphist" "store"]; }
         { command = ["netbird-ui"]; }

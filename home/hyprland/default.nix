@@ -11,6 +11,7 @@
     slurp
     wl-clipboard
     hyprpolkitagent
+    swww
   ];
 
   xdg.portal = {
@@ -39,6 +40,7 @@
     in {
       exec-once = [
         "waybar"
+        "swww-daemon"
         "wl-paste --type text --watch cliphist store"
         "wl-paste --type image --watch cliphist store"
         "netbird-ui"
