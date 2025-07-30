@@ -3,6 +3,7 @@
 {
   home.packages = with pkgs; [
     swww
+    tree-sitter-grammars.tree-sitter-kdl
   ];
 
   programs.niri = {
