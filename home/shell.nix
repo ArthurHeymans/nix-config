@@ -72,4 +72,12 @@
     enable = true;
     nix-direnv.enable = true;
   };
+
+  # zoxide
+  programs.zoxide.enable = true;
+  programs.zoxide.enableBashIntegration= true;
+  programs.zoxide.enableFishIntegration= true;
+  programs.zoxide.options = [
+    "--cmd cd"
+  ];
 }
