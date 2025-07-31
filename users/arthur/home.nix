@@ -59,5 +59,8 @@
       ".direnv"
       ".direnv/*"
     ];
+    extraConfig = {
+      github.user = "ArthurHeymans";
+    };
   };
 }
