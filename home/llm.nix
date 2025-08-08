@@ -22,7 +22,15 @@
     #     mcp
     #   ]);
     # }))
-    aider-chat
+    (aider-chat.overridePythonAttrs (oldAttrs: {
+      src = pkgs.fetchFromGitHub {
+        owner = "Aider-AI";
+        repo = "aider";
+        rev = "3b919646a5a61926f7c7d011f43e686fec1bd370";
+        hash = "sha256-WJklWFS1hvtjkm4T8NdmDWSNIZ3piRnOxCytCA2UqsE=";
+      };
+      version = "0.85.5";
+    }))
     #open-webui
   ];
 }
