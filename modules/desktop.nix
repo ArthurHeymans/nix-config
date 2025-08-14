@@ -21,6 +21,8 @@
 
   services.dbus.packages = [pkgs.gcr];
 
+  programs.hyprland.withUWSM = true;
+
   programs.hyprland.enable = true;
   programs.niri.enable = true;
 }

@@ -32,6 +32,7 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
+    systemd.enable = false;
 
     settings = let
       grim = "${pkgs.grim}/bin/grim";
