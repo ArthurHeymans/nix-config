@@ -160,6 +160,10 @@
         "Mod+K".action = focus-window-up;
         "Mod+J".action = focus-window-down;
 
+        # Focus monitor
+        "Mod+Ctrl+Left".action = focus-monitor-left;
+        "Mod+Ctrl+Right".action = focus-monitor-right;
+
         # Move windows (arrow keys)
         "Mod+Shift+Left".action = move-column-left;
         "Mod+Shift+Right".action = move-column-right;
