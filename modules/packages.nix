@@ -24,6 +24,7 @@
     psmisc
     wavemon
     linux-wifi-hotspot
+    wifi-qr
     haveged
     brightnessctl
 
