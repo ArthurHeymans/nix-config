@@ -11,6 +11,7 @@
       }
     }
   },
+  "defaultModel": "openrouter/anthropic/claude-sonnet-4",
   "mcpServers": {
     "memory": {
       "command": "npx",
