@@ -3,6 +3,7 @@
   inputs,
   ...
 }: {
+  home.file.".config/eca/config.json".source = ./eca-config.json;
   home.packages = with pkgs; [
     alsa-utils # emacs sound broken
     ispell
@@ -28,6 +29,7 @@
     nodejs
     ffmpeg # for encoding sound
     uv # for MCP server fetch
+    unzip
     # emacs-lsp-booster
   ];
 
