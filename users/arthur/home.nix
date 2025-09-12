@@ -58,6 +58,7 @@
       ".envrc"
       ".direnv"
       ".direnv/*"
+      ".dir-locals.el"
     ];
     extraConfig = {
       github.user = "ArthurHeymans";
