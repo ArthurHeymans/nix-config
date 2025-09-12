@@ -25,6 +25,7 @@
       setenv OPENAI_API_KEY $(cat ${config.sops.secrets."environmentVariables/OPENAI_API_KEY".path})
       setenv OPENROUTER_API_KEY $(cat ${config.sops.secrets."environmentVariables/OPENROUTER_API_KEY".path})
       setenv DEEPSEEK_API_KEY $(cat ${config.sops.secrets."environmentVariables/DEEPSEEK_API_KEY".path})
+      setenv ANTHROPIC_API_KEY $(cat ${config.sops.secrets."environmentVariables/ANTHROPIC_API_KEY".path})
     '';
     plugins = [
       {
