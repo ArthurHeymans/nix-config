@@ -8,6 +8,7 @@
     mullvad-vpn
     signal-desktop-bin
     calibre
+    libreoffice
   ];
 
   xdg.userDirs.enable = true;
