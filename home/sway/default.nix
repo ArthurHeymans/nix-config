@@ -92,7 +92,6 @@
   #programs.fuzzel.enable = true;
   programs.rofi = {
     enable = true;
-    package = pkgs.rofi-wayland;
   };
 
   services.gammastep = {
