@@ -107,7 +107,7 @@
       animations = {
         enabled = true;
 
-        first_launch_animation = true;
+        # first_launch_animation = true;
 
         # Default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
 
@@ -156,7 +156,7 @@
 
       # https://wiki.hyprland.org/Configuring/Variables/#gestures
       gestures = {
-        workspace_swipe = false;
+        #workspace_swipe = false;
       };
       "$mod" = "SUPER";
       "$terminal" = "kitty";
