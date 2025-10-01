@@ -54,6 +54,14 @@
   programs.emacs= {
     enable = true;
     package = pkgs.emacs-pgtk;
-    extraPackages = epkgs: [ epkgs.mu4e ];
+    extraPackages = epkgs: [
+      (epkgs.treesit-grammars.with-grammars (grammars: with grammars; [
+          tree-sitter-bash
+          tree-sitter-nix
+          tree-sitter-rust
+          tree-sitter-kdl
+        ]))
+      epkgs.mu4e
+    ];
   };
 }
