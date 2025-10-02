@@ -12,7 +12,7 @@
 
     # Official NixOS package source, using nixos's stable branch by default
     # nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11"; #stable
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; #unstable
+    #nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; #unstable
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -55,6 +55,11 @@
       url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Determinate: downstream Nix + Nixd module for NixOS
+    # Use FlakeHub URL as recommended by Determinate docs
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
+    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0";
   };
 
   outputs = {
@@ -62,6 +67,7 @@
     nixpkgs-unstable,
     home-manager,
     niri,
+    determinate,
     ...
   } @ inputs: {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
