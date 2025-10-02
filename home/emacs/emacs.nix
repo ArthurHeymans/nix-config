@@ -2,7 +2,8 @@
   pkgs,
   inputs,
   ...
-}: {
+}:
+{
   home.file.".config/eca/config.json".source = ./eca-config.json;
   home.packages = with pkgs; [
     alsa-utils # emacs sound broken
@@ -39,6 +40,11 @@
     doomDir = inputs.doom-config;
     tangleArgs = ".";
     provideEmacs = false;
+    extraPackages = epkgs: [
+      epkgs.treesit-grammars.with-all-grammars
+      epkgs.mu4e
+      epkgs.vterm
+    ];
   };
 
   xdg.desktopEntries.doom-emacs = {
@@ -46,22 +52,37 @@
     comment = "Edit text with Doom Emacs";
     exec = "doom-emacs %F";
     icon = ./gnarly.png;
-    categories = [ "Development" "TextEditor" ];
-    mimeType = [ "text/english" "text/plain" "text/x-makefile" "text/x-c++hdr" "text/x-c++src" "text/x-chdr" "text/x-csrc" "text/x-java" "text/x-moc" "text/x-pascal" "text/x-tcl" "text/x-tex" "application/x-shellscript" "text/x-c" "text/x-c++" ];
+    categories = [
+      "Development"
+      "TextEditor"
+    ];
+    mimeType = [
+      "text/english"
+      "text/plain"
+      "text/x-makefile"
+      "text/x-c++hdr"
+      "text/x-c++src"
+      "text/x-chdr"
+      "text/x-csrc"
+      "text/x-java"
+      "text/x-moc"
+      "text/x-pascal"
+      "text/x-tcl"
+      "text/x-tex"
+      "application/x-shellscript"
+      "text/x-c"
+      "text/x-c++"
+    ];
   };
 
   # separate emacs for toying around with doom without nix in the mix
-  programs.emacs= {
+  programs.emacs = {
     enable = true;
     package = pkgs.emacs-pgtk;
     extraPackages = epkgs: [
-      (epkgs.treesit-grammars.with-grammars (grammars: with grammars; [
-          tree-sitter-bash
-          tree-sitter-nix
-          tree-sitter-rust
-          tree-sitter-kdl
-        ]))
+      epkgs.treesit-grammars.with-all-grammars
       epkgs.mu4e
+      epkgs.vterm
     ];
   };
 }
