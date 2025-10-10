@@ -24,5 +24,6 @@
     # }))
     aider-chat
     #open-webui
+    gemini-cli
   ];
 }
