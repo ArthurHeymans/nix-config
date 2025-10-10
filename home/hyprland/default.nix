@@ -4,6 +4,7 @@
     ./wlogout.nix
     ./hyprlock.nix
     ./hypridle.nix
+    ./hyprsunset.nix
   ];
 
   home.packages = with pkgs; [
