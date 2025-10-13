@@ -1,4 +1,4 @@
-{...}: {
+{pkgs, ...}: {
   networking.firewall = {
     enable = true;
     allowedTCPPortRanges = [
@@ -40,4 +40,11 @@
 
   # systemd-resolved
   services.resolved.enable = true;
+
+  # transmission torrents
+  services.transmission = {
+    package = pkgs.transmission_4;
+    enable = true;
+    openFirewall = true;
+  };
 }
