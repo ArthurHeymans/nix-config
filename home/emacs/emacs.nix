@@ -43,6 +43,29 @@
     extraPackages = epkgs: [
       epkgs.treesit-grammars.with-all-grammars
       epkgs.mu4e
+      (epkgs.melpaBuild {
+        pname = "agent-shell";
+        version = "9999snapshot1";
+        packageRequires = [
+          epkgs.shell-maker
+          (epkgs.melpaBuild {
+            pname = "acp";
+            version = "9999snapshot1";
+            src = builtins.fetchTree {
+              type = "github";
+              owner = "xenodium";
+              repo = "acp.el";
+              rev = "041b32f515fd21b0f241c4f2568de15c52378de2";
+            };
+          })
+        ];
+        src = builtins.fetchTree {
+          type = "github";
+          owner = "xenodium";
+          repo = "agent-shell";
+          rev = "134fd61bc8f6692ca4d2ea917e9616b2f8758461";
+        };
+      })
     ];
   };
 
