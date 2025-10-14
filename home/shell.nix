@@ -19,6 +19,13 @@
     enableBashIntegration = true;
   };
 
+  home.sessionVariables = {
+    OPENAI_API_KEY = config.sops.secrets."environmentVariables/OPENAI_API_KEY".path;
+    OPENROUTER_API_KEY = config.sops.secrets."environmentVariables/OPENROUTER_API_KEY".path;
+    DEEPSEEK_API_KEY = config.sops.secrets."environmentVariables/DEEPSEEK_API_KEY".path;
+    ANTHROPIC_API_KEY = config.sops.secrets."environmentVariables/ANTHROPIC_API_KEY".path;
+  };
+
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
@@ -51,7 +58,6 @@
   programs.bash = {
     enable = true;
     enableCompletion = true;
-
   };
 
   programs.starship = {
