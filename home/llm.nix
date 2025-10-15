@@ -1,9 +1,9 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    ollama # --> slow to build
-    mistral-rs
+    #ollama # --> slow to build
+    #mistral-rs
     #mods
-    aichat
+    #aichat
     # (aider-chat-full.overridePythonAttrs (oldAttrs: {
     #   src = pkgs.fetchFromGitHub {
     #     owner = "quinlanjager";
@@ -22,8 +22,10 @@
     #     mcp
     #   ]);
     # }))
-    aider-chat
+    #aider-chat
     #open-webui
     gemini-cli
+    codex
+    opencode
   ];
 }
