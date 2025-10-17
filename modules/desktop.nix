@@ -21,6 +21,8 @@
 
   services.dbus.packages = [pkgs.gcr];
 
+  programs.sway.enable = true;
+
   programs.uwsm = {
     enable = true;
     waylandCompositors = {
