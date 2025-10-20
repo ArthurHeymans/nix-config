@@ -74,6 +74,14 @@
     ];
   };
 
+  xdg.desktopEntries.org-protocol = {
+    name = "org-protocol";
+    comment = "Handle org-protocol";
+    exec = "emacsclient -- %u";
+    #terminal = "false";
+    mimeType=["x-scheme-handler/org-protocol"];
+  };
+
   # separate emacs for toying around with doom without nix in the mix
   programs.emacs = {
     enable = true;
