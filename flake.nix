@@ -51,10 +51,10 @@
       flake = false;
     };
 
-    niri = {
-      url = "github:sodiboo/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # niri = {
+    #   url = "github:sodiboo/niri-flake";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     # Determinate: downstream Nix + Nixd module for NixOS
     # Use FlakeHub URL as recommended by Determinate docs
@@ -72,7 +72,7 @@
     nixpkgs,
     nixpkgs-unstable,
     home-manager,
-    niri,
+#    niri,
     determinate,
     ...
   } @ inputs: {

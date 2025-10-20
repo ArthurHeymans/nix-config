@@ -1,5 +1,5 @@
 {
-  niri,
+#  niri,
   nix-doom-emacs-unstraightened,
   sops-nix,
   ...
@@ -13,7 +13,7 @@
   imports = [
     nix-doom-emacs-unstraightened.hmModule
     sops-nix.homeManagerModules.sops
-    niri.homeModules.niri
+ #   niri.homeModules.niri
     #    anyrun.homeManagerModules.default
     ../../home/core.nix
 
@@ -30,7 +30,7 @@
     ../../home/kitty.nix
     ../../home/llm.nix
     ../../home/media.nix
-    ../../home/niri
+#    ../../home/niri
     ../../home/pcb.nix
     ../../home/obs-studio.nix
     ../../home/presenterm.nix
@@ -47,8 +47,13 @@
 
   programs.git = {
     enable = true;
-    userName = "Arthur Heymans";
-    userEmail = "arthur@aheymans.xyz";
+    settings = {
+      user = {
+        name = "Arthur Heymans";
+        email = "arthur@aheymans.xyz";
+      };
+      github.user = "ArthurHeymans";
+    };
     signing = {
       signByDefault = true;
       key = "4401A5C26DF3FFFDF472F84AA1D13A950A6651BB";
@@ -60,8 +65,5 @@
       ".direnv/*"
       ".dir-locals.el"
     ];
-    extraConfig = {
-      github.user = "ArthurHeymans";
-    };
   };
 }
