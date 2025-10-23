@@ -8,10 +8,7 @@
   home.packages = with pkgs; [
     alsa-utils # emacs sound broken
     ispell
-    aspell
-    aspellDicts.nl
-    aspellDicts.fr
-    aspellDicts.en
+    (aspellWithDicts (dicts: with dicts; [en en-computers en-science nl fr]))
     hunspell
     hunspellDicts.nl_nl
     hunspellDicts.en-us
