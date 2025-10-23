@@ -20,6 +20,7 @@
     isync
     clang-tools
     emacs-all-the-icons-fonts
+    emacs-lsp-booster
     sshfs
     taplo # toml lsp
     guile
