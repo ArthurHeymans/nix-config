@@ -75,69 +75,34 @@
 #    niri,
     determinate,
     ...
-  } @ inputs: {
+  } @ inputs: let
+    username = "arthur";
+    system = "x86_64-linux";
+    specialArgs = {
+      inherit username inputs;
+    };
+
+    mkSystem = hostname:
+      nixpkgs.lib.nixosSystem {
+        inherit specialArgs;
+        modules = [
+          ./hosts/${hostname}
+          ./users/${username}/nixos.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = specialArgs // inputs;
+            home-manager.users.${username} = import ./users/${username}/home.nix;
+          }
+        ];
+      };
+  in {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
-    nixosConfigurations = let
-      username = "arthur";
-      system = "x86_64-linux";
-      specialArgs = {
-        inherit username;
-        # pkgs = import nixpkgs {
-        #   inherit system;
-        #   config.allowUnfree = true;
-        # };
-        # pkgs-unstable = import nixpkgs-unstable {
-        #   inherit system;
-        #   config.allowUnfree = true;
-        # };
-        inherit inputs;
-      };
-    in {
-      x220-nixos = nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        modules = [
-          ./hosts/x220-nixos
-          ./users/${username}/nixos.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-
-            home-manager.extraSpecialArgs = specialArgs // inputs;
-            home-manager.users.${username} = import ./users/${username}/home.nix;
-          }
-        ];
-      };
-      t14s-g6 = nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        modules = [
-          ./hosts/t14s-g6
-          ./users/${username}/nixos.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-
-            home-manager.extraSpecialArgs = specialArgs // inputs;
-            home-manager.users.${username} = import ./users/${username}/home.nix;
-          }
-        ];
-      };
-      gmktec-k11 = nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        modules = [
-          ./hosts/gmktec-k11
-          ./users/${username}/nixos.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-
-            home-manager.extraSpecialArgs = specialArgs // inputs;
-            home-manager.users.${username} = import ./users/${username}/home.nix;
-          }
-        ];
-      };
+    nixosConfigurations = {
+      x220-nixos = mkSystem "x220-nixos";
+      t14s-g6 = mkSystem "t14s-g6";
+      gmktec-k11 = mkSystem "gmktec-k11";
     };
   };
 }
