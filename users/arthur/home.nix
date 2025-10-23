@@ -14,11 +14,9 @@
     nix-doom-emacs-unstraightened.hmModule
     sops-nix.homeManagerModules.sops
  #   niri.homeModules.niri
-    #    anyrun.homeManagerModules.default
     ../../home/core.nix
 
     ../../home/alacritty.nix
-    #    ../../home/anyrun.nix
     ../../home/browsers.nix
     ../../home/container.nix
     ../../home/crypto.nix
