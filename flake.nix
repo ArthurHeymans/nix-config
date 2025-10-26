@@ -84,7 +84,7 @@
 
     mkSystem = hostname:
       nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
+        specialArgs = specialArgs // { inherit hostname; };
         modules = [
           ./hosts/${hostname}
           ./users/${username}/nixos.nix
@@ -92,7 +92,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = specialArgs // inputs;
+            home-manager.extraSpecialArgs = (specialArgs // { inherit hostname; }) // inputs;
             home-manager.users.${username} = import ./users/${username}/home.nix;
           }
         ];
