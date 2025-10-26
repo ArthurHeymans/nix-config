@@ -29,6 +29,7 @@
     ffmpeg # for encoding sound
     uv # for MCP server fetch
     unzip
+    socat
     # emacs-lsp-booster
   ];
 
