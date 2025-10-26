@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "nix": {
+      "command": "nix",
+      "args": ["run", "github:utensils/mcp-nixos", "--"]
+    }
+  },
+  "toolCall": {
+    "approval": {
+      // "byDefault": "ask", not needed as it's eca default
+      "allow": {
+        "eca": {},
+        "nix": {},
+        "fetch": {}
+      }
+    }
+  }
+}
