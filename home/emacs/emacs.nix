@@ -21,6 +21,7 @@
     clang-tools
     emacs-all-the-icons-fonts
     emacs-lsp-booster
+    mcp-proxy
     sshfs
     taplo # toml lsp
     guile
