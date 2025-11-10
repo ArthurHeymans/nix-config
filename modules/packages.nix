@@ -8,6 +8,7 @@
     btop
     tree
     htop
+    nload
     vim
     wget
     curl
