@@ -1,0 +1,67 @@
+#+title: Nix-config commands (Org Babel)
+#+subtitle: Run maintenance commands here (TRAMP-ready)
+
+This document defines the repository's maintenance commands as runnable
+Org Babel blocks.
+
+** Usage
+Execute blocks with =C-c C-c= (org-babel-execute-src-block) in Emacs.
+TRAMP-ready blocks support remote execution over SSH with sudo elevation.
+
+* switch
+Rebuild and activate NixOS configurations locally or remotely.
+** local
+#+name: rebuild-local
+#+begin_src sh
+nixos-rebuild switch --flake ~arthur/nix-config#$(hostname)
+#+end_src
+
+** remote
+#+name: select-host
+#+begin_src elisp
+(completing-read "Select a host" '("x220-nixos" "gmktec-k11"))
+#+end_src
+
+#+RESULTS: select-host
+: x220-nixos
+
+
+#+name: rebuild-remote
+#+begin_src elisp :dir /sshx:gmktec-k11.lan:/home/arthur/nix-config/ :var targethost=select-host
+  (async-shell-command
+   (format "NIX_SSHOPTS=\"-C\" nixos-rebuild switch --flake .#%s --target-host %s --ask-sudo-password" targethost targethost))
+#+end_src
+
+
+#+RESULTS:
+: #<process *Async Shell Command*>
+
+* update flake
+Update flake inputs to their latest versions.
+
+** Update only the doom-config flake
+#+name: update-doom-cmd
+#+begin_src sh :noweb yes
+nix flake update doom-config
+#+end_src
+
+** Update all flakes
+#+name: update-cmd
+#+begin_src sh
+nix flake update
+#+end_src
+
+* Garbage collect
+Remove Nix store items older than 1 day, locally or on selected host.
+#+name: gc-remote
+#+begin_src elisp :var targethost=select-host
+(let* ((current-host (system-name))
+       (tramp-path (if (string= targethost current-host)
+                       "/sudo::~/"
+                     (format "/sshx:%s|sudo:%s:~/" targethost targethost))))
+  (let ((default-directory tramp-path))
+    (async-shell-command "nix-collect-garbage --delete-older-than 1d")))
+#+end_src
+
+#+RESULTS: gc-remote
+: #<process *Async Shell Command*<2>>
