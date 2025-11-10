@@ -23,19 +23,11 @@ nixos-rebuild switch --flake .#$(hostname)
 (completing-read "Select a host" '("x220-nixos" "gmktec-k11"))
 #+end_src
 
-#+RESULTS: select-host
-: x220-nixos
-
-
 #+name: rebuild-remote
 #+begin_src elisp :dir /sshx:gmktec-k11.lan:/home/arthur/nix-config/ :var targethost=select-host
   (async-shell-command
    (format "NIX_SSHOPTS=\"-C\" nixos-rebuild switch --flake .#%s --target-host %s --ask-sudo-password" targethost targethost))
 #+end_src
-
-
-#+RESULTS:
-: #<process *Async Shell Command*>
 
 * update flake
 Update flake inputs to their latest versions.
@@ -63,6 +55,3 @@ Remove Nix store items older than 1 day, locally or on selected host.
   (let ((default-directory tramp-path))
     (async-shell-command "nix-collect-garbage --delete-older-than 1d")))
 #+end_src
-
-#+RESULTS: gc-remote
-: #<process *Async Shell Command*<2>>
