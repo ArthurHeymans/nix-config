@@ -1,6 +1,6 @@
 #+title: Nix-config commands (Org Babel)
 #+subtitle: Run maintenance commands here (TRAMP-ready)
-#+PROPERTY: header-args :results output silent
+#+PROPERTY: header-args :results output drawer
 
 This document defines the repository's maintenance commands as runnable
 Org Babel blocks.
@@ -13,7 +13,7 @@ TRAMP-ready blocks support remote execution over SSH with sudo elevation.
 Rebuild and activate NixOS configurations locally or remotely.
 ** local
 #+name: rebuild-local
-#+begin_src sh :dir (concat "/sudo::" (expand-file-name ".")) :async
+#+begin_src sh :dir (concat "/sudo::" (expand-file-name ".")) :detached t
 nixos-rebuild switch --flake .#$(hostname)
 #+end_src
 
@@ -34,13 +34,13 @@ Update flake inputs to their latest versions.
 
 ** Update only the doom-config flake
 #+name: update-doom-cmd
-#+begin_src sh :noweb yes
+#+begin_src sh :detached t
 nix flake update doom-config
 #+end_src
 
 ** Update all flakes
 #+name: update-cmd
-#+begin_src sh
+#+begin_src sh :detached t
 nix flake update
 #+end_src
 

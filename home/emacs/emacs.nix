@@ -31,6 +31,7 @@
     uv # for MCP server fetch
     unzip
     socat
+    dtach
     # emacs-lsp-booster
   ];
 
