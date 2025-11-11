@@ -13,13 +13,26 @@ TRAMP-ready blocks support remote execution over SSH with sudo elevation.
 Rebuild and activate NixOS configurations locally or remotely.
 ** local
 #+name: rebuild-local
-#+begin_src sh :dir (concat "/sudo::" (expand-file-name ".")) :detached t
-nixos-rebuild switch --flake .#$(hostname)
+#+begin_src sh :dir (concat "/sudo::" (expand-file-name ".")) :async :results raw output drawer
+nixos-rebuild switch --flake .#$(hostname) 2>&1
 #+end_src
+
+#+RESULTS: rebuild-local
+:results:
+warning: Git tree '/home/arthur/nix-config' has uncommitted changes
+building the system configuration...
+warning: Git tree '/home/arthur/nix-config' has uncommitted changes
+activating the configuration...
+setting up /etc...
+reloading user units for arthur...
+restarting sysinit-reactivation.target
+the following new units were started: NetworkManager-dispatcher.service
+Done. The new configuration is /nix/store/4kaqway672f98vzcqnglns6rn8kprg44-nixos-system-gmktec-k11-25.11.20251108.b6a8526
+:end:
 
 ** remote
 #+name: select-host
-#+begin_src elisp
+#+begin_src elisp :results value
 (completing-read "Select a host" '("x220-nixos" "gmktec-k11"))
 #+end_src
 
@@ -55,3 +68,4 @@ Remove Nix store items older than 1 day, locally or on selected host.
   (let ((default-directory tramp-path))
     (async-shell-command "nix-collect-garbage --delete-older-than 1d")))
 #+end_src
+* Install when a random live ISO is booted
