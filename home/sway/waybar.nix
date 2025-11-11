@@ -90,7 +90,7 @@
           on-click-right = "alacritty -e nmtui";
         };
         idle_inhibitor = {
-          start-activated = true;
+          start-activated = false;
           format = " {icon} ";
           format-icons = {
             activated = "";
