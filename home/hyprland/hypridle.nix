@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   services.hypridle = {
     enable = true;
     settings = {
@@ -11,11 +12,19 @@
         ignore_systemd_inhibit = false; # whether to ignore systemd-inhibit --what=idle inhibitors
       };
 
-      listener = {
-        timeout = 300; # in seconds
-        on-timeout = "loginctl lock-session"; # command to run when timeout has passed
-        on-resume = ""; # command to run when activity is detected after timeout has fired.
-      };
+      listener = [
+        {
+          timeout = 300; # in seconds
+          on-timeout = "loginctl lock-session"; # command to run when timeout has passed
+          on-resume = ""; # command to run when activity is detected after timeout has fired.
+        }
+
+        {
+          timeout = 600;
+          on-timeout = "hyprctl dispatch dpms off"; # screen off when timeout has passed
+          on-resume = "hyprctl dispatch dpms on && brightnessctl -r"; # screen on when activity is detected after timeout has fired.
+        }
+      ];
     };
   };
 }
