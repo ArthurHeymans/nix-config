@@ -20,4 +20,6 @@
     enable = true;
     pkiBundle = "/var/lib/sbctl";
   };
+
+  boot.initrd.systemd.enable = true;
 }
