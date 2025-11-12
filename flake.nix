@@ -42,6 +42,11 @@
       inputs.nixpkgs.follows = "";
     };
 
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     ########################  Some non-flake repositories  #########################################
 
     ########################  My own repositories  #########################################
@@ -103,6 +108,8 @@
       x220-nixos = mkSystem "x220-nixos";
       t14s-g6 = mkSystem "t14s-g6";
       gmktec-k11 = mkSystem "gmktec-k11";
+      t480-arthur = mkSystem "t480-arthur";
+      newnew = mkSystem "newnew";
     };
   };
 }

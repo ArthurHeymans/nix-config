@@ -12,7 +12,9 @@
       "dialout"
       "plugdev"
     ];
+    initialPassword = "password";
   };
+
   # Ensure 'plugdev' group exists
   users.groups.plugdev = { };
 
