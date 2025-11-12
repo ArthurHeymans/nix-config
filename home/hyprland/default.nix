@@ -269,6 +269,10 @@
           kb_options = "ctrl:swap_lwin_lctl,caps:ctrl_modifier";
           numlock_by_default = "true";
         }
+        {
+          name = "tpps/2-ibm-trackpoint";
+          sensitivity = 1;
+        }
       ];
     };
   };
