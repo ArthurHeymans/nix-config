@@ -1,7 +1,7 @@
 {lib, config, ...}: {
   options.boot.loader.custom = {
     bootloader = lib.mkOption {
-      type = lib.types.enum ["systemd-boot" "grub"];
+      type = lib.types.enum ["systemd-boot" "grub" "none"];
       default = "systemd-boot";
       description = "Which bootloader to use";
     };
