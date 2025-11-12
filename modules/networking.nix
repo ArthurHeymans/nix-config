@@ -1,4 +1,7 @@
 {pkgs, ...}: {
+  # Enable NetworkManager by default
+  networking.networkmanager.enable = true;
+
   networking.firewall = {
     enable = true;
     allowedTCPPortRanges = [

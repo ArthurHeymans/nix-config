@@ -1,10 +1,11 @@
-{ lib, inputs, ... }: {
+{ lib, inputs, hostname, ... }: {
   imports = [
     # Determinate Nix/Nixd NixOS module (manages nix.conf via nix.custom.conf)
     inputs.determinate.nixosModules.default
 
     ./bash.nix
     ./bluetooth.nix
+    ./boot.nix
     ./desktop.nix
     ./firmware.nix
     ./fonts.nix
@@ -25,6 +26,9 @@
     ./virtualisation.nix
     ./zswap.nix
   ];
+
+  # Set hostname from flake configuration
+  networking.hostName = hostname;
 
   # customise /etc/nix/nix.conf declaratively via `nix.settings`
   nix.settings = {
@@ -66,4 +70,7 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  # Default stateVersion for most systems
+  system.stateVersion = lib.mkDefault "24.05";
 }
