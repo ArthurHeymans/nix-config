@@ -1,6 +1,6 @@
 #+title: Nix-config commands (Org Babel)
 #+subtitle: Run maintenance commands here (TRAMP-ready)
-#+PROPERTY: header-args :results output drawer
+##+PROPERTY: header-args :results output drawer
 
 This document defines the repository's maintenance commands as runnable
 Org Babel blocks.
@@ -19,21 +19,13 @@ nixos-rebuild switch --flake .#$(hostname) 2>&1
 
 #+RESULTS: rebuild-local
 :results:
-warning: Git tree '/home/arthur/nix-config' has uncommitted changes
-building the system configuration...
-warning: Git tree '/home/arthur/nix-config' has uncommitted changes
-activating the configuration...
-setting up /etc...
-reloading user units for arthur...
-restarting sysinit-reactivation.target
-the following new units were started: NetworkManager-dispatcher.service
-Done. The new configuration is /nix/store/4kaqway672f98vzcqnglns6rn8kprg44-nixos-system-gmktec-k11-25.11.20251108.b6a8526
+systems
 :end:
 
 ** remote
 #+name: select-host
 #+begin_src elisp :results value
-(completing-read "Select a host" '("x220-nixos" "gmktec-k11" "t480-arthur"))
+(completing-read "Select a host" '("x220-nixos" "gmktec-k11" "t480-arthur" "x201-arthur"))
 #+end_src
 
 #+name: rebuild-remote
@@ -43,8 +35,7 @@ Done. The new configuration is /nix/store/4kaqway672f98vzcqnglns6rn8kprg44-nixos
 #+end_src
 
 #+RESULTS: rebuild-remote
-:results:
-:end:
+: #<process *Async Shell Command*>
 
 * update flake
 Update flake inputs to their latest versions.
@@ -52,14 +43,20 @@ Update flake inputs to their latest versions.
 ** Update only the doom-config flake
 #+name: update-doom-cmd
 #+begin_src sh :detached t
-nix flake update doom-config
+nix flake update doom-config --commit-lock-file
 #+end_src
+
+#+RESULTS: update-doom-cmd
+: [detached]
 
 ** Update all flakes
 #+name: update-cmd
 #+begin_src sh :detached t
-nix flake update
+nix flake update --commit-lock-file
 #+end_src
+
+#+RESULTS: update-cmd
+: [detached]
 
 * Garbage collect
 Remove Nix store items older than 1 day, locally or on selected host.
@@ -73,40 +70,68 @@ Remove Nix store items older than 1 day, locally or on selected host.
     (async-shell-command "nix-collect-garbage --delete-older-than 1d")))
 #+end_src
 * Install when a random live ISO is booted
+** Install
 #+name: nixos-everywhere
 #+begin_src sh :detached t :var configname="t480-arthur" remote="nixos.lan"
-nix run github:nix-community/nixos-anywhere -- --generate-hardware-config nixos-generate-config hosts/t480-arthur/hardware-configuration.nix --flake .#t480-arthur --target-host root@nixos.lan  2>&1
+nix run github:nix-community/nixos-anywhere -- --generate-hardware-config nixos-generate-config hosts/$configname/hardware-configuration.nix --flake .#$configname --target-host root@$remote  2>&1
 #+end_src
 
 #+RESULTS: nixos-everywhere
-:results:
-[detached]
-:end:
+: [detached]
 
-#+begin_src sh :detached t :var test="hello"
-echo "hey there"
-#echo $test
+#+RESULTS:
+: [detached]
+** Update sops
+#+begin_src sh :dir /sshfs:x201-arthur:/home/arthur/ :results raw drawer
+rm ~/.ssh/id_ed25519*
+ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -q -N ""
+cat ~/.ssh/id_ed25519.pub
 #+end_src
 
 #+RESULTS:
 :results:
-[detached]
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG7kI68/elpmRp017AlpcbWPrWQwjgzcS00VsDdOJhvs arthur@x201-arthur
 :end:
-** Update sops
-#+begin_src sh :dir /sshx:t480-arthur
-ssh-keygen
-#+end_src
+
 - Add key to .sops.yaml
 
-Update sops secrets with new key
-#+begin_src sh
-sops updatekeys secrets/*
+#+begin_src sh :dir /sshfs:x201-arthur:/home/arthur :results raw drawer
+nix-shell -p ssh-to-age --run "ssh-to-age -i ~/.ssh/id_ed25519.pub"
 #+end_src
 
-#+begin_src sh
+#+RESULTS:
+:results:
+[35;1mwarning:[0m Nix search path entry '[35;1m/nix/var/nix/profiles/per-user/root/channels[0m' does not exist, ignoring
+age1guhcnvfmwqnng9dvfyzlzrlxrd99jrdycp8j0fhrkxvp6nzecy4qc6gldl
+:end:
+
+#+begin_src sh :dir /sshfs:x201-arthur:/home/arthur
+mkdir -p ~/.config/sops/age/
 nix-shell -p ssh-to-age --run "ssh-to-age -private-key -i ~/.ssh/id_ed25519 > ~/.config/sops/age/keys.txt"
 #+end_src
 
 #+RESULTS:
-:results:
-:end:
+| [35;1mwarning:[0m Nix search path entry '[35;1m/nix/var/nix/profiles/per-user/root/channels[0m' does not exist | ignoring |
+
+Update sops secrets with new key
+#+begin_src sh
+sops updatekeys -y secrets/*
+#+end_src
+
+#+RESULTS:
+| The                                                            | following                                                      | changes | will | be | made | to | the | file's | groups: |
+| Group                                                          | 1                                                              |         |      |    |      |    |     |        |         |
+| age1vwc6ywc0a2wpg9d80datnsevlepsepl9u628c26ej6cpj2ky8d8sp2ezhe |                                                                |         |      |    |      |    |     |        |         |
+| age192jvd4me826f75hz254ezh77yqp569y4rmur30w4m5mcve02vapq57ttg7 |                                                                |         |      |    |      |    |     |        |         |
+| age1649n9a584e79ahpuq752mutvcgphvajrs9hnhrmmv0vsw3cmmy4safmmkv |                                                                |         |      |    |      |    |     |        |         |
+| age1aqaey4gyy9meglslfytm3z2uxadq2nvdkthzvytrl8m8uax6lfxqs4lnr4 |                                                                |         |      |    |      |    |     |        |         |
+| +++                                                              | age1guhcnvfmwqnng9dvfyzlzrlxrd99jrdycp8j0fhrkxvp6nzecy4qc6gldl |         |      |    |      |    |     |        |         |
+| ---                                                            | age1uljz5r599kp6ln47426wcxzzejtt0vdxjuwdyp57y2wj3xm0xp0skrsxwg |         |      |    |      |    |     |        |         |
+| The                                                            | following                                                      | changes | will | be | made | to | the | file's | groups: |
+| Group                                                          | 1                                                              |         |      |    |      |    |     |        |         |
+| age1vwc6ywc0a2wpg9d80datnsevlepsepl9u628c26ej6cpj2ky8d8sp2ezhe |                                                                |         |      |    |      |    |     |        |         |
+| age192jvd4me826f75hz254ezh77yqp569y4rmur30w4m5mcve02vapq57ttg7 |                                                                |         |      |    |      |    |     |        |         |
+| age1649n9a584e79ahpuq752mutvcgphvajrs9hnhrmmv0vsw3cmmy4safmmkv |                                                                |         |      |    |      |    |     |        |         |
+| age1aqaey4gyy9meglslfytm3z2uxadq2nvdkthzvytrl8m8uax6lfxqs4lnr4 |                                                                |         |      |    |      |    |     |        |         |
+| +++                                                              | age1guhcnvfmwqnng9dvfyzlzrlxrd99jrdycp8j0fhrkxvp6nzecy4qc6gldl |         |      |    |      |    |     |        |         |
+| ---                                                            | age1uljz5r599kp6ln47426wcxzzejtt0vdxjuwdyp57y2wj3xm0xp0skrsxwg |         |      |    |      |    |     |        |         |

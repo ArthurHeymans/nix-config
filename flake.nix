@@ -114,6 +114,7 @@
       t14s-g6 = mkSystem "t14s-g6";
       gmktec-k11 = mkSystem "gmktec-k11";
       t480-arthur = mkSystem "t480-arthur";
+      x201-arthur = mkSystem "x201-arthur";
       newnew = mkSystem "newnew";
     };
   };

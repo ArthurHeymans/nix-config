@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{pkgs, hostname, ...}: {
   imports = [
     ./hyprpaper.nix
     ./wlogout.nix
@@ -149,8 +149,6 @@
 
         follow_mouse = 1;
 
-        sensitivity = 0; # -1.0 - 1.0, 0 means no modification.
-
         touchpad = {
           natural_scroll = false;
         };
@@ -271,7 +269,7 @@
         }
         {
           name = "tpps/2-ibm-trackpoint";
-          sensitivity = 1;
+          sensitivity = if hostname == "t480-arthur" then 1 else 0; # -1.0 - 1.0, 0 means no modification.
         }
       ];
     };

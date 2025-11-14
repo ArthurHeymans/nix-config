@@ -3,6 +3,7 @@ keys:
   - &t14s-g6 age192jvd4me826f75hz254ezh77yqp569y4rmur30w4m5mcve02vapq57ttg7
   - &gmktec-k11 age1649n9a584e79ahpuq752mutvcgphvajrs9hnhrmmv0vsw3cmmy4safmmkv
   - &t480-arthur age1aqaey4gyy9meglslfytm3z2uxadq2nvdkthzvytrl8m8uax6lfxqs4lnr4
+  - &x201-arthur age1guhcnvfmwqnng9dvfyzlzrlxrd99jrdycp8j0fhrkxvp6nzecy4qc6gldl
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$|secrets/authinfo$
     key_groups:
@@ -11,3 +12,4 @@ creation_rules:
           - *t14s-g6
           - *gmktec-k11
           - *t480-arthur
+          - *x201-arthur
