@@ -9,6 +9,7 @@
     signal-desktop-bin
     calibre
     libreoffice
+    gimp
   ];
 
   xdg.userDirs.enable = true;
