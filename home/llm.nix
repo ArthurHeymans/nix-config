@@ -33,6 +33,6 @@ in
       gemini-cli
       opencode
       jq # often used for parsing nixos output in AI agents
-    ]
-    ++ [ codex-acp ];
+      # codex-acp
+    ];
 }

@@ -99,4 +99,8 @@
   programs.zoxide.options = [
     "--cmd cd"
   ];
+
+  programs.atuin = {
+    enable = true;
+  };
 }
