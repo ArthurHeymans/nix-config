@@ -5,6 +5,7 @@
 }:
 {
   home.file.".config/eca/config.json".source = ./eca-config.json;
+  home.file.".gnus".source = ./.gnus;
   home.packages = with pkgs; [
     alsa-utils # emacs sound broken
     ispell
