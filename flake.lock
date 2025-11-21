@@ -95,11 +95,11 @@
     "doom-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1763545322,
-        "narHash": "sha256-U0oRE7MlGbdcFo0nINpMSlfzeypbjDFtLGFsY4ZpAAM=",
+        "lastModified": 1763706955,
+        "narHash": "sha256-++Xfm+7wMUUU4x3Wo94eZ/irbIdkoJu2TA7KdAaLvJ4=",
         "owner": "ArthurHeymans",
         "repo": ".doom.d",
-        "rev": "7205c938df989f44fdb329a261067b152c554557",
+        "rev": "8450fbbb907d7ee51153480b2d647f486fe675cd",
         "type": "github"
       },
       "original": {
