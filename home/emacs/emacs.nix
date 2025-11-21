@@ -33,6 +33,8 @@
     unzip
     socat
     dtach
+    poppler-utils
+    vips
     # emacs-lsp-booster
   ];
 
