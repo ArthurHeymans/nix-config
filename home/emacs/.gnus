@@ -21,10 +21,15 @@
 
                                         ; Reply to mails with matching email address
 (setq gnus-posting-styles
-      '((".*" ; Matches all groups of messages
+      '(("nnimap+9elements:.*"
+         (address "Arthur Heymans <arthur.heymans@9elements.com>")
+         ("X-Message-SMTP-Method" "smtp smtp.gmail.com 587 arthur.heymans@9elements.com"))
+        ("nnimap+aheymans:.*"
          (address "Arthur Heymans <arthur@aheymans.xyz>")
-         ("X-Message-SMTP-Method" "smtp smtp.gmail.com 587 arthur@aheymans.xyz")))
-      )
+         ("X-Message-SMTP-Method" "smtp smtp.gmail.com 587 arthur@aheymans.xyz"))
+        (".*" ; Default fallback
+         (address "Arthur Heymans <arthur@aheymans.xyz>")
+         ("X-Message-SMTP-Method" "smtp smtp.gmail.com 587 arthur@aheymans.xyz"))))
 
 (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
 
