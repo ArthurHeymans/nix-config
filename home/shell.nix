@@ -73,6 +73,9 @@
       add_newline = false;
 
       line_break.disabled = true;
+      nix_shell = {
+        symbol = "❄ ";
+      };
       directory = {
         truncation_length = 0;
         truncate_to_repo = true;
