@@ -18,9 +18,10 @@ in
 {
   home.packages = [
     jay-git
-    pkgs.i3status-rust
-    pkgs.i3status
   ];
+
+  home.file.".config/jay/config.toml".source = ./config.toml;
+  home.file.".config/jay/screenshot.sh".source = ./screenshot.sh;
 
   # TODO add config here
 }
