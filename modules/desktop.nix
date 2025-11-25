@@ -22,7 +22,7 @@ in
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd jay run";
         user = "greeter";
       };
     };
@@ -43,16 +43,6 @@ in
     jay-git
     ];
 
-  # services.displayManager.sessionPackages = [ pkgs.jay ];
-   # Create a session file for Jay
-  environment.etc."wayland-sessions/jay.desktop".text = ''
-    [Desktop Entry]
-    Name=Jay
-    Comment=Jay Wayland Compositor
-    Exec=jay
-    Type=Application
-  '';
-
   programs.uwsm = {
     enable = true;
     waylandCompositors = {
@@ -60,6 +50,11 @@ in
         prettyName = "Niri (UWSM)";
         comment = "Niri compositor managed by UWSM";
         binPath = "/run/current-system/sw/bin/niri-session";
+      };
+      jay = {
+        prettyName = "Jay";
+        binPath = "/run/current-system/sw/bin/jay";
+        extraArgs = [ "run" ];
       };
     };
   };
