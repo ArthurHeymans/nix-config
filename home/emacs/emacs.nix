@@ -3,8 +3,16 @@
   inputs,
   ...
 }:
+let
+  ecaConfig = import ./eca-config.nix;
+  ecaConfigJson = pkgs.runCommand "eca-config.json" {
+    nativeBuildInputs = [ pkgs.jq ];
+  } ''
+    echo '${builtins.toJSON ecaConfig}' | ${pkgs.jq}/bin/jq '.' > $out
+  '';
+in
 {
-  home.file.".config/eca/config.json".source = ./eca-config.json;
+  home.file.".config/eca/config.json".source = ecaConfigJson;
   home.file.".gnus".source = ./.gnus;
   home.packages = with pkgs; [
     alsa-utils # emacs sound broken
