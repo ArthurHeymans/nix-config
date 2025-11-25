@@ -45,7 +45,7 @@ keymap = """
 # Configure the TrackPoint with higher sensitivity
 [[inputs]]
 match.name = "TPPS/2 IBM TrackPoint"
-accel-speed = 1.0
+accel-speed = @ACCEL_SPEED@
 
 # Shortcuts that are processed by the compositor.
 # The left hand side should be a key, possibly prefixed with modifiers.
