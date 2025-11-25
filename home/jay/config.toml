@@ -20,6 +20,8 @@ on-graphics-initialized = [
     { type = "exec", exec = "mako" },
     { type = "exec", exec = "wl-tray-bridge" },
     { type = "exec", exec = "waybar" },
+    { type = "exec", exec = "swww-daemon" },
+    { type = "exec", exec = "nm-applet" },
 ]
 
 # Per-device input configuration
