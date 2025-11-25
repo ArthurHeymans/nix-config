@@ -159,6 +159,9 @@ XF86AudioPrev = { type = "exec", exec = ["playerctl", "previous"] }
 logo-Print = { type = "exec", exec = ["/home/arthur/.config/jay/screenshot.sh"] }
 logo-shift-Print = { type = "exec", exec = ["/home/arthur/.config/jay/screenshot.sh", "area"] }
 
+# mako dismiss
+ctrl-shift-space = { type = "exec", exec = ["makoctl", "dismiss", "--all"] }
+
 #TODO idle
 idle.minutes = 10
 on-idle = { type = "exec", exec = { prog = "swaylock", privileged = true } }
