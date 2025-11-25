@@ -6,16 +6,19 @@
         position = "top";
         modules-left = [
           "sway/workspaces"
-          "hyprland/workspaces"
+#          "hyprland/workspaces"
           "niri/workspaces"
+          "ext/workspaces"
           "sway/mode"
-          "hyprland/mode"
+#          "hyprland/mode"
+          "ext/mode"
           #          "wlr/taskbar"
         ];
         modules-center = [
           "sway/window"
-          "hyprland/window"
+#          "hyprland/window"
           "niri/window"
+          "ext/window"
         ];
         modules-right = [
           "idle_inhibitor"

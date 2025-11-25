@@ -27,6 +27,7 @@
     ../../home/keyboard.nix
     ../../home/kitty.nix
     ../../home/llm.nix
+    ../../home/jay.nix
     ../../home/media.nix
 #    ../../home/niri
     ../../home/pcb.nix
