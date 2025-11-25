@@ -2,7 +2,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   home.packages = with pkgs; [
     fzf
     grc
@@ -19,14 +20,6 @@
     enableBashIntegration = true;
   };
 
-  # these are not available at buildtime...
-  # home.sessionVariables = {
-  #   OPENAI_API_KEY = config.sops.secrets."environmentVariables/OPENAI_API_KEY".path;
-  #   OPENROUTER_API_KEY = config.sops.secrets."environmentVariables/OPENROUTER_API_KEY".path;
-  #   DEEPSEEK_API_KEY = config.sops.secrets."environmentVariables/DEEPSEEK_API_KEY".path;
-  #   ANTHROPIC_API_KEY = config.sops.secrets."environmentVariables/ANTHROPIC_API_KEY".path;
-  # };
-
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
@@ -36,7 +29,9 @@
 
       alias ls='eza --icons=auto'
       setenv OPENAI_API_KEY $(cat ${config.sops.secrets."environmentVariables/OPENAI_API_KEY".path})
-      setenv OPENROUTER_API_KEY $(cat ${config.sops.secrets."environmentVariables/OPENROUTER_API_KEY".path})
+      setenv OPENROUTER_API_KEY $(cat ${
+        config.sops.secrets."environmentVariables/OPENROUTER_API_KEY".path
+      })
       setenv DEEPSEEK_API_KEY $(cat ${config.sops.secrets."environmentVariables/DEEPSEEK_API_KEY".path})
       setenv ANTHROPIC_API_KEY $(cat ${config.sops.secrets."environmentVariables/ANTHROPIC_API_KEY".path})
     '';
@@ -93,12 +88,14 @@
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
+    enableBashIntegration = true;
+    #enableFishIntegration = true;
   };
 
   # zoxide
   programs.zoxide.enable = true;
-  programs.zoxide.enableBashIntegration= true;
-  programs.zoxide.enableFishIntegration= true;
+  programs.zoxide.enableBashIntegration = true;
+  programs.zoxide.enableFishIntegration = true;
   programs.zoxide.options = [
     "--cmd cd"
   ];
