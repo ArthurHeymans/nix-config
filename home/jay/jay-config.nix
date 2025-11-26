@@ -24,8 +24,8 @@
     { type = "exec"; exec = "waybar"; }
     { type = "exec"; exec = "swww-daemon"; }
     { type = "exec"; exec = "nm-applet"; }
-    { type = "exec"; exec = [ "wl-paste", "--type", "text", "--watch", "cliphist", "store" ]; }
-    { type = "exec"; exec = [ "wl-paste", "--type", "image", "--watch", "cliphist", "store" ]; }
+    { type = "exec"; exec = [ "wl-paste" "--type" "text" "--watch" "cliphist" "store" ]; }
+    { type = "exec"; exec = [ "wl-paste" "--type" "image" "--watch" "cliphist" "store" ]; }
   ];
 
   # Per-device input configuration
