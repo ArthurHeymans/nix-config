@@ -19,6 +19,7 @@
       "environmentVariables/OPENROUTER_API_KEY" = {};
       "environmentVariables/DEEPSEEK_API_KEY" = {};
       "environmentVariables/ANTHROPIC_API_KEY" = {};
+      "environmentVariables/ANTHROPIC_API_KEY_9E" = {};
     };
   };
 }
