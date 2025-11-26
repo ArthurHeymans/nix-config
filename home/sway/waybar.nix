@@ -7,7 +7,7 @@
         modules-left = [
           "sway/workspaces"
 #          "hyprland/workspaces"
-          "niri/workspaces"
+#          "niri/workspaces"
           "ext/workspaces"
           "sway/mode"
 #          "hyprland/mode"
@@ -108,6 +108,9 @@
           tooltip = false;
           on-click = "wlogout -p layer-shell &";
           format = "⏻";
+        };
+        "ext/workspaces" = {
+          on-click = "activate";
         };
       };
     };
