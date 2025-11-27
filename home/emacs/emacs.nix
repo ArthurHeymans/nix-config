@@ -43,6 +43,7 @@ in
     dtach
     poppler-utils
     vips
+    tmux
     # emacs-lsp-booster
   ];
 
