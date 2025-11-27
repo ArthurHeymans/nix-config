@@ -111,6 +111,7 @@
         };
         "ext/workspaces" = {
           on-click = "activate";
+          sort-by-id = true;
         };
       };
     };
