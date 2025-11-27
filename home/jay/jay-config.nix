@@ -37,7 +37,7 @@
     }
     # Configure the Ergo K860 keyboard with custom keymap
     {
-      match.name = "Logitech ERGO K860";
+      match.name = "ERGO K860 Keyboard";
       keymap = ''
         xkb_keymap {
             xkb_keycodes { include "evdev+aliases(qwerty)" };
