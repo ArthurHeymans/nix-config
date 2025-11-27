@@ -9,10 +9,10 @@ let
           args
           // {
             src = pkgs.fetchFromGitHub {
-              owner = "mahkoh";
+              owner = "ArthurHeymans";
               repo = "jay";
-              rev = "a2e21cb926664cfc1980f8a38ec1aa34a7792c19";
-              hash = "sha256-uhTi2CWSuLq+mgclcZwTSp1i2BKAqs7vt2wL9MJH+UE=";
+              rev = "10adbb2309a80f14f99d88455b9e6cc738f7cb5c";
+              hash = "sha256-jXLiWHuoHlbg8Kks8+AuHtF2LDfUA0gdd15L9qGx42I=";
             };
             cargoHash = "sha256-+5+jS4dCFE8hkkHAA4BcB+xtr4UF+px9iVPuQAIijwk=";
           }
