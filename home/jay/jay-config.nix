@@ -43,7 +43,7 @@
             xkb_keycodes { include "evdev+aliases(qwerty)" };
             xkb_types    { include "complete"              };
             xkb_compat   { include "complete"              };
-            xkb_symbols  { include "pc+us+inet(evdev)+ctrl(nocaps)+ctrl(swap_lwin_lctl)" };
+            xkb_symbols  { include "pc+us+inet(evdev)+caps(ctrl_modifier)+ctrl(swap_lwin_lctl)+ctrl(nocaps)" };
         };
       '';
     }
@@ -194,4 +194,18 @@
     separator-color = "#00ff00";
     attention-requested-bg-color = "#00ff00";
   };
+
+  outputs = [
+    {
+      match.model = "DELL U2312HM";
+      transform = "rotate-90";
+      x = 0;
+      y = 0;
+    }
+    {
+      match.model = "DELL P3424WE";
+      x = 1080;
+      y = 0;
+    }
+  ];
 }
