@@ -86,10 +86,10 @@
     logo-shift-l = "move-right";
 
     # Move workspace to output See https://github.com/mahkoh/jay/issues/660 to drop naming of workspace to achieve this
-    logo-shift-ctrl-h = { type = "move-to-output"; output = "left"; };
-    logo-shift-ctrl-Left = { type = "move-to-output"; output = "left"; };
-    logo-shift-ctrl-l = { type = "move-to-output"; output = "right"; };
-    logo-shift-ctrl-Right = { type = "move-to-output"; output = "right"; };
+    logo-shift-ctrl-h = { type = "move-to-output"; direction = "left"; };
+    logo-shift-ctrl-Left = { type = "move-to-output"; direction = "left"; };
+    logo-shift-ctrl-l = { type = "move-to-output"; direction = "right"; };
+    logo-shift-ctrl-Right = { type = "move-to-output"; direction = "right"; };
 
     # The toggle-split action changes the split direction of the current container.
     logo-t = "toggle-split";
