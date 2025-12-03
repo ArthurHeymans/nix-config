@@ -54,6 +54,9 @@
     }
   ];
 
+  # Configures a key that will enable window management mode while pressed.
+  window-management-key = "logo";
+
   # Shortcuts that are processed by the compositor.
   shortcuts = {
     # Terminal
