@@ -31,25 +31,25 @@
   };
   defaultModel = "anthropic/claude-sonnet-4.5";
   mcpServers = {
-    memory = {
-      command = "npx";
-      args = ["-y" "@modelcontextprotocol/server-memory"];
-    };
+    # memory = {
+    #   command = "npx";
+    #   args = ["-y" "@modelcontextprotocol/server-memory"];
+    # };
     fetch = {
       command = "uvx";
       args = ["mcp-server-fetch" "--ignore-robots-txt"];
     };
-    sequentialthinking = {
-      command = "npx";
-      args = ["-y" "@modelcontextprotocol/server-sequential-thinking"];
-    };
+    # sequentialthinking = {
+    #   command = "npx";
+    #   args = ["-y" "@modelcontextprotocol/server-sequential-thinking"];
+    # };
     serena = {
       command = "uvx";
       args = ["--from" "git+https://github.com/oraios/serena" "serena" "start-mcp-server"];
     };
-    context7 = {
-      command = "npx";
-      args = ["-y" "@upstash/context7-mcp"];
-    };
+    # context7 = {
+    #   command = "npx";
+    #   args = ["-y" "@upstash/context7-mcp"];
+    # };
   };
 }
