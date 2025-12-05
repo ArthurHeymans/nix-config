@@ -28,6 +28,16 @@
         "claude-sonnet-4.5" = {};
       };
     };
+    deepseek = {
+      api = "openai-chat";
+      url = "https://api.deepseek.com";
+      keyEnv = "DEEPSEEK_API_KEY";
+      models = {
+        "deepseek-chat" = {};
+        "deepseek-coder" = {};
+        "deepseek-reasoner" = {};
+       };
+    };
   };
   defaultModel = "anthropic/claude-sonnet-4.5";
   mcpServers = {
