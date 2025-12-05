@@ -1,9 +1,9 @@
 { config, pkgs, ... }:
 
 {
-  home.packages = with pkgs; [
-    swww
-  ];
+  # home.packages = with pkgs; [
+  #   awww.packages.${pkgs.stdenv.hostPlatform.system}.awww
+  # ];
 
   programs.niri = {
     enable = true;
@@ -105,7 +105,7 @@
       # Spawn at startup
       spawn-at-startup = [
         { command = ["waybar"]; }
-        { command = ["swww-daemon"]; }
+        { command = ["awww-daemon"]; }
         { command = ["wl-paste" "--type" "text" "--watch" "cliphist" "store"]; }
         { command = ["wl-paste" "--type" "image" "--watch" "cliphist" "store"]; }
         { command = ["netbird-ui"]; }

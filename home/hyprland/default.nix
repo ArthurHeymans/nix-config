@@ -1,4 +1,4 @@
-{pkgs, hostname, ...}: {
+{pkgs, hostname, inputs, ...}: {
   imports = [
     ./hyprpaper.nix
     ./wlogout.nix
@@ -12,7 +12,7 @@
     slurp
     wl-clipboard
     hyprpolkitagent
-    swww
+    inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww
   ];
 
   xdg.portal = {
@@ -42,7 +42,7 @@
     in {
       exec-once = [
         "waybar"
-        "swww-daemon"
+        "awww-daemon"
         "wl-paste --type text --watch cliphist store"
         "wl-paste --type image --watch cliphist store"
         "netbird-ui"

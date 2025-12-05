@@ -22,7 +22,7 @@
     { type = "exec"; exec = "mako"; }
     { type = "exec"; exec = "wl-tray-bridge"; }
     { type = "exec"; exec = "waybar"; }
-    { type = "exec"; exec = "swww-daemon"; }
+    { type = "exec"; exec = "awww-daemon"; }
     { type = "exec"; exec = "nm-applet"; }
     { type = "exec"; exec = [ "wl-paste" "--type" "text" "--watch" "cliphist" "store" ]; }
     { type = "exec"; exec = [ "wl-paste" "--type" "image" "--watch" "cliphist" "store" ]; }
