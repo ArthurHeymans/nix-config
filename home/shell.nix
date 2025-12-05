@@ -13,6 +13,7 @@
     nmap
     screen
     yazi
+    github-cli
   ];
 
   home.shell = {
