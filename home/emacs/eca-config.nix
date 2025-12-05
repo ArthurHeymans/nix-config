@@ -52,4 +52,21 @@
     #   args = ["-y" "@upstash/context7-mcp"];
     # };
   };
+  toolCall = {
+      approval = {
+        byDefault =  "ask";
+        allow = {
+          "eca_compact_chat" = {};
+          "eca_preview_file_change" = {};
+          "eca_read_file" = {};
+          "eca_directory_tree" = {};
+          "eca_grep" = {};
+          "eca_editor_diagnostics" = {};
+          "fetch" = {};
+          "serena" = {};
+        };
+        ask  = {};
+        deny = {};
+      };
+  };
 }
