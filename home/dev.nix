@@ -24,5 +24,6 @@
     wlink
     gdb
     lldb
+    jujutsu
   ];
 }
