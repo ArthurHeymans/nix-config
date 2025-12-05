@@ -7,8 +7,8 @@
       models = {
         "google/gemini-3-pro-preview" = {};
         "z-ai/glm-4.6" = {};
-        "deepseek/deepseek/deepseek-v3.2-exp" = {};
-        "openai/gpt-5-codex" = {};
+        "deepseek/deepseek-v3.2" = {};
+        "openai/gpt-5.1-codex" = {};
       };
     };
     openrouter_anthropic = {
