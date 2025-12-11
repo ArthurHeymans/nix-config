@@ -11,8 +11,8 @@ let
             src = pkgs.fetchFromGitHub {
               owner = "mahkoh";
               repo = "jay";
-              rev = "jorth/move-between-outputs";
-              hash = "sha256-+qhHrdjytML1zW2qZuNhcNrRvGRR5Lm6y/4NTItgRUk=";
+              rev = "c6cebc754681eebb042a020e73aab2d6f71cc857";
+              hash = "sha256-i0ZtruAtpYDqdZrYa+FY+g9bZPDzFMfxJtfiMPnYLL0=";
             };
             cargoHash = "sha256-+5+jS4dCFE8hkkHAA4BcB+xtr4UF+px9iVPuQAIijwk=";
           }
