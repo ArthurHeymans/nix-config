@@ -25,5 +25,6 @@
     gdb
     lldb
     jujutsu
+    llvmPackages.bintools
   ];
 }
