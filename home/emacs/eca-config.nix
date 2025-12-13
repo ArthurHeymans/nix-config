@@ -22,10 +22,11 @@
 
     anthropic_9e = {
       api = "anthropic";
-      url = "https://api.anthropic.com/v1/messages";
+      url = "https://api.anthropic.com";
       keyEnv = "ANTHROPIC_API_KEY_9E";
       models = {
-        "claude-sonnet-4.5" = {};
+        "claude-sonnet-4-5-20250929" = {};
+        "claude-opus-4-5-20251101" = {};
       };
     };
     deepseek = {
