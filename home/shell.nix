@@ -36,7 +36,7 @@
       setenv DEEPSEEK_API_KEY $(cat ${config.sops.secrets."environmentVariables/DEEPSEEK_API_KEY".path})
       setenv ANTHROPIC_API_KEY $(cat ${config.sops.secrets."environmentVariables/ANTHROPIC_API_KEY".path})
       setenv ANTHROPIC_API_KEY_9E $(cat ${config.sops.secrets."environmentVariables/ANTHROPIC_API_KEY_9E".path})
-      setenv GOOGLE_API_KEY_9E $(cat ${config.sops.secrets."environmentVariables/GOOGLE_API_KEY_9E".path})
+      setenv GOOGLE_API_KEY $(cat ${config.sops.secrets."environmentVariables/GOOGLE_API_KEY".path})
     '';
     plugins = [
       {
