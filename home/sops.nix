@@ -20,6 +20,7 @@
       "environmentVariables/DEEPSEEK_API_KEY" = {};
       "environmentVariables/ANTHROPIC_API_KEY" = {};
       "environmentVariables/ANTHROPIC_API_KEY_9E" = {};
+      "environmentVariables/GOOGLE_API_KEY" = {};
     };
   };
 }
