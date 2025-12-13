@@ -8,7 +8,7 @@
         "google/gemini-3-pro-preview" = {};
         "z-ai/glm-4.6" = {};
         "deepseek/deepseek-v3.2" = {};
-        "openai/gpt-5.1-codex" = {};
+        "openai/gpt-5.2" = {};
       };
     };
     openrouter_anthropic = {
