@@ -58,6 +58,11 @@ in
       epkgs.mu4e
       epkgs.vterm
     ];
+    emacsPackageOverrides = eself: esuper: {
+      gptel-forge = esuper.gptel-forge.overrideAttrs (attrs: {
+        nativeBuildInputs = (attrs.nativeBuildInputs or [ ]) ++ [ pkgs.git ];
+      });
+    };
   };
 
   xdg.desktopEntries.doom-emacs = {
