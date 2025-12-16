@@ -1,6 +1,6 @@
 #+title: Nix-config commands (Org Babel)
 #+subtitle: Run maintenance commands here (TRAMP-ready)
-##+PROPERTY: header-args :results output drawer
+#+PROPERTY: header-args :results output drawer
 
 This document defines the repository's maintenance commands as runnable
 Org Babel blocks.
@@ -13,7 +13,7 @@ TRAMP-ready blocks support remote execution over SSH with sudo elevation.
 Rebuild and activate NixOS configurations locally or remotely.
 ** local
 #+name: rebuild-local
-#+begin_src sh :dir (concat "/sudo::" (expand-file-name ".")) :async :results raw output drawer
+#+begin_src sh :dir (concat "/sudo:arthur@localhost:" (expand-file-name ".")) :async :results raw output drawer
 nixos-rebuild switch --flake .#$(hostname) 2>&1
 #+end_src
 
@@ -29,9 +29,9 @@ systems
 #+end_src
 
 #+name: rebuild-remote
-#+begin_src elisp :dir /sshx:gmktec-k11.lan:/home/arthur/nix-config/ :var targethost=select-host
-  (async-shell-command
-   (format "NIX_SSHOPTS=\"-C\" nixos-rebuild switch --flake .#%s --target-host %s --ask-sudo-password" targethost targethost))
+#+begin_src elisp :dir /sshx:gmktec-k11.lan:/home/arthur/src/nix-config/ :var targethost=select-host
+(async-shell-command
+ (format "NIX_SSHOPTS=\"-C\" nixos-rebuild switch --flake .#%s --target-host %s --ask-sudo-password" targethost targethost))
 #+end_src
 
 #+RESULTS: rebuild-remote
