@@ -1,3 +1,13 @@
+let
+  noGitOperationsRule = builtins.toFile "no-git-operations.md" ''
+    # Git Operations Rule
+
+    - Do NOT perform any git operations (commit, push, pull, create pull requests, comment on pull requests, or any other git-related actions) unless the user explicitly requests them.
+    - Explicit requests mean the user directly asks for a git operation, such as "commit these changes", "push to remote", "create a PR", etc.
+    - If code changes are made, do NOT automatically commit them. Wait for explicit user instruction.
+    - This rule takes precedence over any default git-related behavior.
+  '';
+in
 {
   providers = {
     openrouter = {
@@ -80,4 +90,7 @@
         deny = {};
       };
   };
+  rules = [
+    { path = "${noGitOperationsRule}"; }
+  ];
 }
