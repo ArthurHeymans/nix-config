@@ -16,6 +16,7 @@ in
       keyEnv = "OPENROUTER_API_KEY";
       models = {
         "google/gemini-3-pro-preview" = {};
+        "google/gemini-3-flash-preview" = {};
         "z-ai/glm-4.6" = {};
         "deepseek/deepseek-v3.2" = {};
         "openai/gpt-5.2" = {};
