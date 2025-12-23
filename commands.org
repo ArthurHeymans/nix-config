@@ -42,7 +42,7 @@ Update flake inputs to their latest versions.
 
 ** Update only the doom-config flake
 #+name: update-doom-cmd
-#+begin_src sh :detached t
+#+begin_src sh :async
 nix flake update doom-config --commit-lock-file
 #+end_src
 
@@ -51,7 +51,7 @@ nix flake update doom-config --commit-lock-file
 
 ** Update all flakes
 #+name: update-cmd
-#+begin_src sh :detached t
+#+begin_src sh :async
 nix flake update --commit-lock-file
 #+end_src
 
