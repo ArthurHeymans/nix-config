@@ -24,7 +24,7 @@
     pciutils
     psmisc
     wavemon
-    linux-wifi-hotspot
+    linux-wifi-hotspot # TODO re-enable when fixed
     wifi-qr
     haveged
     brightnessctl

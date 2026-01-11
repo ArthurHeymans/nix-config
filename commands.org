@@ -17,11 +17,6 @@ Rebuild and activate NixOS configurations locally or remotely.
 nixos-rebuild switch --flake .#$(hostname) 2>&1
 #+end_src
 
-#+RESULTS: rebuild-local
-:results:
-systems
-:end:
-
 ** remote
 #+name: select-host
 #+begin_src elisp :results value
@@ -46,17 +41,11 @@ Update flake inputs to their latest versions.
 nix flake update doom-config --commit-lock-file
 #+end_src
 
-#+RESULTS: update-doom-cmd
-: [detached]
-
 ** Update all flakes
 #+name: update-cmd
 #+begin_src sh :async
 nix flake update --commit-lock-file
 #+end_src
-
-#+RESULTS: update-cmd
-: [detached]
 
 * Garbage collect
 Remove Nix store items older than 1 day, locally or on selected host.
