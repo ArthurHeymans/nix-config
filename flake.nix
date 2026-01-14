@@ -111,6 +111,15 @@
           }
         ];
       };
+
+    # Minimal server system without home-manager
+    mkServerSystem = hostname:
+      nixpkgs.lib.nixosSystem {
+        specialArgs = specialArgs // { inherit hostname; };
+        modules = [
+          ./hosts/${hostname}
+        ];
+      };
   in {
     formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
     nixosConfigurations = {
@@ -120,6 +129,7 @@
       t480-arthur = mkSystem "t480-arthur";
       x201-arthur = mkSystem "x201-arthur";
       newnew = mkSystem "newnew";
+      gmktec-n100 = mkServerSystem "gmktec-n100";
     };
   };
 }
