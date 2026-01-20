@@ -166,7 +166,7 @@ in
         "custom/claude" = {
           exec = "${claude-usage-script}/bin/claude-usage";
           return-type = "json";
-          interval = 300;
+          interval = 60;
           tooltip = true;
           on-click = "${claude-usage-refresh}/bin/claude-usage-refresh";
           format = " {}";
