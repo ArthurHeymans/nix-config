@@ -28,7 +28,10 @@ let
   };
 in
 {
-  services.udev.packages = [ probe-rs-udev-rules ] ++ (with pkgs; [
+  services.udev.packages = [
+    probe-rs-udev-rules
+  ]
+  ++ (with pkgs; [
     qmk
     qmk-udev-rules # the only relevant
     qmk_hid
@@ -38,4 +41,9 @@ in
 
   # WCH Link rules are included in the probe-rs rules file
   # so we don't need the extraRules anymore
+
+  # EM100 programmer rules
+  services.udev.extraRules = ''
+    SUBSYSTEM=="usb", ATTR{idVendor}=="04b4", ATTR{idProduct}=="1235", MODE="0666", TAG+="uaccess"
+  '';
 }
