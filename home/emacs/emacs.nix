@@ -1,15 +1,38 @@
 {
   pkgs,
   inputs,
+  emacs-skia-src,
   ...
 }:
 let
   ecaConfig = import ./eca-config.nix;
-  ecaConfigJson = pkgs.runCommand "eca-config.json" {
-    nativeBuildInputs = [ pkgs.jq ];
-  } ''
-    echo '${builtins.toJSON ecaConfig}' | ${pkgs.jq}/bin/jq '.' > $out
-  '';
+  ecaConfigJson =
+    pkgs.runCommand "eca-config.json"
+      {
+        nativeBuildInputs = [ pkgs.jq ];
+      }
+      ''
+        echo '${builtins.toJSON ecaConfig}' | ${pkgs.jq}/bin/jq '.' > $out
+      '';
+  emacs-skia =
+    (pkgs.emacs-pgtk.override {
+      withTreeSitter = true;
+      srcRepo = true;
+    }).overrideAttrs
+      (oldAttrs: {
+        pname = "emacs-skia";
+        src = emacs-skia-src;
+        configureFlags = oldAttrs.configureFlags ++ [
+          "--with-skia"
+        ];
+        buildInputs = oldAttrs.buildInputs ++ [
+          pkgs.skia
+          pkgs.libepoxy
+        ];
+        preBuild = (oldAttrs.preBuild or "") + ''
+          mkdir -p src/deps/skia
+        '';
+      });
 in
 {
   home.file.".config/eca/config.json".source = ecaConfigJson;
@@ -17,7 +40,15 @@ in
   home.packages = with pkgs; [
     alsa-utils # emacs sound broken
     ispell
-    (aspellWithDicts (dicts: with dicts; [en en-computers en-science nl fr]))
+    (aspellWithDicts (
+      dicts: with dicts; [
+        en
+        en-computers
+        en-science
+        nl
+        fr
+      ]
+    ))
     hunspell
     hunspellDicts.nl_nl
     hunspellDicts.en-us
@@ -41,6 +72,7 @@ in
     unzip
     socat
     dtach
+    abduco
     poppler-utils
     vips
     tmux
@@ -49,7 +81,7 @@ in
 
   programs.doom-emacs = {
     enable = true;
-    emacs = pkgs.emacs-pgtk;
+    emacs = emacs-skia;
     doomDir = inputs.doom-config;
     tangleArgs = ".";
     provideEmacs = false;
@@ -58,11 +90,43 @@ in
       epkgs.mu4e
       epkgs.vterm
     ];
-    emacsPackageOverrides = eself: esuper: {
-      gptel-forge = esuper.gptel-forge.overrideAttrs (attrs: {
-        nativeBuildInputs = (attrs.nativeBuildInputs or [ ]) ++ [ pkgs.git ];
-      });
-    };
+    emacsPackageOverrides =
+      eself: esuper:
+      let
+        # Fix packages using deprecated cl macros (defun*, loop, etc.)
+        # These need cl-lib equivalents (cl-defun, cl-loop, etc.)
+        fixDeprecatedCl =
+          pkg:
+          pkg.overrideAttrs (attrs: {
+            postPatch = (attrs.postPatch or "") + ''
+              # Replace deprecated cl macros with cl-lib equivalents
+              find . -name "*.el" -exec sed -i \
+                -e 's/(defun\*/(cl-defun/g' \
+                -e 's/(defmacro\*/(cl-defmacro/g' \
+                -e 's/(loop /(cl-loop /g' \
+                -e 's/(return /(cl-return /g' \
+                {} \;
+              # Add (require 'cl-lib) to main elisp files
+              for f in *.el; do
+                if [ -f "$f" ]; then
+                  sed -i '1s/^/(require '"'"'cl-lib)\n/' "$f" || true
+                fi
+              done
+            '';
+          });
+      in
+      {
+        gptel-forge = esuper.gptel-forge.overrideAttrs (attrs: {
+          nativeBuildInputs = (attrs.nativeBuildInputs or [ ]) ++ [ pkgs.git ];
+        });
+        # Fix packages using deprecated defun* from cl package
+        elnode = fixDeprecatedCl esuper.elnode;
+        creole = fixDeprecatedCl esuper.creole;
+        fakir = fixDeprecatedCl esuper.fakir;
+        web = fixDeprecatedCl esuper.web;
+        kv = fixDeprecatedCl esuper.kv;
+        db = fixDeprecatedCl esuper.db;
+      };
   };
 
   xdg.desktopEntries.doom-emacs = {
@@ -98,13 +162,13 @@ in
     comment = "Handle org-protocol";
     exec = "emacsclient -- %u";
     #terminal = "false";
-    mimeType=["x-scheme-handler/org-protocol"];
+    mimeType = [ "x-scheme-handler/org-protocol" ];
   };
 
   # separate emacs for toying around with doom without nix in the mix
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs-pgtk;
+    package = emacs-skia;
     extraPackages = epkgs: [
       epkgs.treesit-grammars.with-all-grammars
       epkgs.mu4e
