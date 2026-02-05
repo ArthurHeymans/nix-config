@@ -1,9 +1,10 @@
 {
-#  niri,
+  #  niri,
   nix-doom-emacs-unstraightened,
   sops-nix,
   ...
-}: {
+}:
+{
   ##################################################################################################################
   #
   # All Arthur's Home Manager Configuration
@@ -13,11 +14,12 @@
   imports = [
     nix-doom-emacs-unstraightened.hmModule
     sops-nix.homeManagerModules.sops
- #   niri.homeModules.niri
+    #   niri.homeModules.niri
     ../../home/core.nix
 
     ../../home/alacritty.nix
     ../../home/browsers.nix
+    ../../home/syncthing.nix
     ../../home/container.nix
     ../../home/crypto.nix
     ../../home/dev.nix
@@ -29,7 +31,7 @@
     ../../home/llm.nix
     ../../home/jay
     ../../home/media.nix
-#    ../../home/niri
+    #    ../../home/niri
     ../../home/pcb.nix
     ../../home/obs-studio.nix
     ../../home/presenterm.nix
@@ -37,6 +39,7 @@
     ../../home/shell.nix
     ../../home/sops.nix
     ../../home/sway
+    ../../home/wayland
     #   ../../home/fcitx5
     #    ../../home/i3
     #    ../../home/programs

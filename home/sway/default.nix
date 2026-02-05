@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   gtk = {
     enable = true;
     theme = {
@@ -11,23 +12,6 @@
       package = pkgs.adwaita-icon-theme;
     };
   };
-
-  imports = [./waybar.nix];
-
-  home.packages = with pkgs; [
-    grim
-    slurp
-    wl-clipboard
-    mako
-
-    playerctl
-    pavucontrol
-    xdg-user-dirs # auto create dirs
-
-    networkmanagerapplet
-
-    waypipe
-  ];
 
   wayland.windowManager.sway = {
     enable = true;
@@ -44,13 +28,14 @@
       #menu = "wofi --show drun -p \"app:\" -L 10";
       #menu = "fuzzel";
       menu = "rofi -show drun -show-icons";
-      bars = [{command = "waybar";}];
-      keybindings = let
-        mod = config.wayland.windowManager.sway.config.modifier;
-        grim = "${pkgs.grim}/bin/grim";
-        slurp = "${pkgs.slurp}/bin/slurp";
-        screenshotLocation = "${config.xdg.userDirs.pictures}/Screenshots/scrn-$(date +'%Y-%m-%d-%H-%M-%S.png')";
-      in
+      bars = [ { command = "waybar"; } ];
+      keybindings =
+        let
+          mod = config.wayland.windowManager.sway.config.modifier;
+          grim = "${pkgs.grim}/bin/grim";
+          slurp = "${pkgs.slurp}/bin/slurp";
+          screenshotLocation = "${config.xdg.userDirs.pictures}/Screenshots/scrn-$(date +'%Y-%m-%d-%H-%M-%S.png')";
+        in
         #            screenshotSound = "${pkgs.alsa-utils}/bin/aplay ${./camera.wav}";
         lib.mkOptionDefault {
           # Full screen TODO add screenshot sound
@@ -94,23 +79,4 @@
     enable = true;
   };
 
-  services.gammastep = {
-    enable = false;
-    provider = "manual";
-    latitude = 50.0;
-    longitude = 4.0;
-    temperature.day = 5700;
-    temperature.night = 3500;
-    tray = true;
-    settings = {
-      general.adjustment-method = "wayland";
-    };
-  };
-
-  services.blueman-applet.enable = true;
-
-  services.mako = {
-    enable = true;
-    settings.height = 1000;
-  };
 }

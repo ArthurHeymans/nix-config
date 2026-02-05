@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   home.packages = with pkgs; [
     brave
     ferdium
@@ -7,8 +8,6 @@
     nyxt
   ];
 
-  services.syncthing.enable = true;
-
   xdg.desktopEntries.firefox-tridactyl = {
     name = "Firefox (Tridactyl)";
     genericName = "Web Browser";
@@ -16,7 +15,14 @@
     exec = "firefox --no-remote -P tridactyl %u";
     icon = "firefox";
     type = "Application";
-    categories = [ "Network" "WebBrowser" ];
-    mimeType = [ "text/html" "x-scheme-handler/http" "x-scheme-handler/https" ];
+    categories = [
+      "Network"
+      "WebBrowser"
+    ];
+    mimeType = [
+      "text/html"
+      "x-scheme-handler/http"
+      "x-scheme-handler/https"
+    ];
   };
 }

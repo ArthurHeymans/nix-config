@@ -2,7 +2,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   home.packages = with pkgs; [
     rustup
     cargo-binutils
@@ -17,8 +18,6 @@
     #ncurses
     go
     gopls
-    cliphist
-    wl-clipboard
     probe-rs-tools
     espflash
     wlink
