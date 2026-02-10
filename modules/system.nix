@@ -26,7 +26,7 @@
     ./printing.nix
     ./security.nix
     ./tailscale.nix
-    ./netbird.nix
+    #./netbird.nix
     ./sound.nix
     ./udev.nix
     ./users.nix
