@@ -42,8 +42,15 @@ in
   # WCH Link rules are included in the probe-rs rules file
   # so we don't need the extraRules anymore
 
-  # EM100 programmer rules
+  # EM100 programmer rules + ch341a
   services.udev.extraRules = ''
     SUBSYSTEM=="usb", ATTR{idVendor}=="04b4", ATTR{idProduct}=="1235", MODE="0666", TAG+="uaccess"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="1a86", ATTR{idProduct}=="5512", MODE="0666", TAG+="uaccess"
+    # CH347T
+    SUBSYSTEM=="usb", ATTR{idVendor}=="1a86", ATTR{idProduct}=="55db", MODE="0666", TAG+="uaccess"
+    # CH347F
+    SUBSYSTEM=="usb", ATTR{idVendor}=="1a86", ATTR{idProduct}=="55de", MODE="0666", TAG+="uaccess"
+    # FT4222
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="601c", MODE="0666"
   '';
 }
