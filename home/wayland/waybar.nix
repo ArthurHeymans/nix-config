@@ -53,7 +53,7 @@ in
         modules-center = [
           "sway/window"
           #          "hyprland/window"
-          "niri/window"
+          #          "niri/window"
           "ext/window"
         ];
         modules-right = [
@@ -161,7 +161,7 @@ in
         };
         "ext/workspaces" = {
           on-click = "activate";
-          sort-by-id = true;
+          sort-by-name = true;
         };
         "custom/claude" = {
           exec = "${claude-usage-script}/bin/claude-usage";
