@@ -5,7 +5,7 @@
     ferdium
     firefox
     transmission_4-gtk
-    nyxt
+    # nyxt
   ];
 
   xdg.desktopEntries.firefox-tridactyl = {
