@@ -133,6 +133,11 @@ in
         gptel-forge = esuper.gptel-forge.overrideAttrs (attrs: {
           nativeBuildInputs = (attrs.nativeBuildInputs or [ ]) ++ [ pkgs.git ];
         });
+        # tramp-rpc depends on msgpack (version "0" declared in Package-Requires).
+        # Ensure msgpack is available from melpaPackages during build.
+        tramp-rpc = esuper.tramp-rpc.overrideAttrs (attrs: {
+          packageRequires = (attrs.packageRequires or [ ]) ++ [ eself.msgpack ];
+        });
         # Fix packages using deprecated defun* from cl package
         elnode = fixDeprecatedCl esuper.elnode;
         creole = fixDeprecatedCl esuper.creole;
