@@ -11,6 +11,20 @@
     inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww
   ];
 
+  # Swaylock — lock screen (mirrors hyprlock settings)
+  programs.swaylock = {
+    enable = true;
+    settings = {
+      image = "~/Pictures/lock.jpg";
+      show-failed-attempts = true;
+    };
+  };
+
+  # Swayidle — idle management (mirrors hypridle timeouts)
+  # Not using services.swayidle because all compositor modules are imported
+  # unconditionally; a systemd service would also run under hyprland/sway.
+  # Spawning via niri's spawn-at-startup keeps it scoped to niri sessions.
+
   # niri.nixosModules.niri handles programs.niri.enable, portals, and polkit.
   # It auto-imports homeModules.config, so we only set programs.niri.settings here.
   programs.niri.settings = {
@@ -146,7 +160,23 @@
           "store"
         ];
       }
-      { command = [ "netbird-ui" ]; }
+      {
+        command = [
+          "swayidle"
+          "-w"
+          "timeout"
+          "300"
+          "loginctl lock-session"
+          "timeout"
+          "600"
+          "niri msg action power-off-monitors"
+          "before-sleep"
+          "loginctl lock-session"
+          "lock"
+          "sh -c 'pidof swaylock || swaylock -fF'"
+        ];
+      }
+#      { command = [ "netbird-ui" ]; }
       { command = [ "nm-applet" ]; }
       { command = [ "kdeconnect-indicator" ]; }
       {
