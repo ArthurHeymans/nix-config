@@ -1,5 +1,4 @@
 {
-  #  niri,
   nix-doom-emacs-unstraightened,
   sops-nix,
   ...
@@ -14,7 +13,7 @@
   imports = [
     nix-doom-emacs-unstraightened.hmModule
     sops-nix.homeManagerModules.sops
-    #   niri.homeModules.niri
+    # niri.homeModules.niri is injected automatically by niri.nixosModules.niri
     ../../home/core.nix
 
     ../../home/alacritty.nix
@@ -31,7 +30,7 @@
     ../../home/llm.nix
     ../../home/jay
     ../../home/media.nix
-    #    ../../home/niri
+    ../../home/niri
     ../../home/pcb.nix
     ../../home/obs-studio.nix
     ../../home/presenterm.nix

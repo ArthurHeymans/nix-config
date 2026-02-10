@@ -1,4 +1,10 @@
-{ lib, inputs, hostname, ... }: {
+{
+  lib,
+  inputs,
+  hostname,
+  ...
+}:
+{
   imports = [
     # Determinate Nix/Nixd NixOS module (manages nix.conf via nix.custom.conf)
     inputs.determinate.nixosModules.default
@@ -48,15 +54,15 @@
       "https://cache.nixos.org"
     ];
 
-    trusted-public-keys = ["cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="];
+    trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
 
-    # extra-substituters = [
-    #   "https://niri.cachix.org"
-    # ];
+    extra-substituters = [
+      "https://niri.cachix.org"
+    ];
 
-    # extra-trusted-public-keys = [
-    #   "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
-    # ];
+    extra-trusted-public-keys = [
+      "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
+    ];
 
     builders-use-substitutes = true;
   };
