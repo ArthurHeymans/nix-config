@@ -170,11 +170,11 @@
     "emacs-skia-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1770716393,
-        "narHash": "sha256-iRJX+4FFkyAKc9AUYh3CUNgbFfAalpj9qqyPWP35BzM=",
+        "lastModified": 1770667807,
+        "narHash": "sha256-ITZYM541DrXRXv1P5m3ORZ+ISAmeAvZJpxZfkdyJx4M=",
         "owner": "ArthurHeymans",
         "repo": "emacs",
-        "rev": "77441c6ffe008d70324c7590743e2e6dd642aa8d",
+        "rev": "aed4babbbf2a295577932781782abbd85d6858e7",
         "type": "github"
       },
       "original": {
