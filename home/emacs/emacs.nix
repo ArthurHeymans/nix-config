@@ -14,6 +14,16 @@ let
       ''
         echo '${builtins.toJSON ecaConfig}' | ${pkgs.jq}/bin/jq '.' > $out
       '';
+  tree-sitter-ron = pkgs.tree-sitter.buildGrammar {
+    language = "ron";
+    version = "0.2.0";
+    src = pkgs.fetchFromGitHub {
+      owner = "tree-sitter-grammars";
+      repo = "tree-sitter-ron";
+      rev = "78938553b93075e638035f624973083451b29055";
+      hash = "sha256-Sp0g6AWKHNjyUmL5k3RIU+5KtfICfg3o/DH77XRRyI0=";
+    };
+  };
   emacs-skia =
     (pkgs.emacs-pgtk.override {
       withTreeSitter = true;
@@ -86,7 +96,11 @@ in
     tangleArgs = ".";
     provideEmacs = false;
     extraPackages = epkgs: [
-      epkgs.treesit-grammars.with-all-grammars
+      (epkgs.treesit-grammars.with-all-grammars.overrideAttrs (old: {
+        buildCommand = old.buildCommand + ''
+          ln -s ${tree-sitter-ron}/parser lib/libtree-sitter-ron.so
+        '';
+      }))
       epkgs.mu4e
       epkgs.vterm
     ];
@@ -170,7 +184,11 @@ in
     enable = true;
     package = emacs-skia;
     extraPackages = epkgs: [
-      epkgs.treesit-grammars.with-all-grammars
+      (epkgs.treesit-grammars.with-all-grammars.overrideAttrs (old: {
+        buildCommand = old.buildCommand + ''
+          ln -s ${tree-sitter-ron}/parser lib/libtree-sitter-ron.so
+        '';
+      }))
       epkgs.mu4e
       epkgs.vterm
     ];
