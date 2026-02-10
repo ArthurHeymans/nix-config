@@ -1,23 +1,23 @@
 { pkgs, ... }:
 let
-  jay-git = pkgs.callPackage pkgs.jay.override {
-    rustPlatform = pkgs.rustPlatform // {
-      buildRustPackage =
-        args:
-        pkgs.rustPlatform.buildRustPackage (
-          args
-          // {
-            src = pkgs.fetchFromGitHub {
-              owner = "mahkoh";
-              repo = "jay";
-              rev = "c6cebc754681eebb042a020e73aab2d6f71cc857";
-              hash = "sha256-i0ZtruAtpYDqdZrYa+FY+g9bZPDzFMfxJtfiMPnYLL0=";
-            };
-            cargoHash = "sha256-+5+jS4dCFE8hkkHAA4BcB+xtr4UF+px9iVPuQAIijwk=";
-          }
-        );
-    };
-  };
+  # jay-git = pkgs.callPackage pkgs.jay.override {
+  #   rustPlatform = pkgs.rustPlatform // {
+  #     buildRustPackage =
+  #       args:
+  #       pkgs.rustPlatform.buildRustPackage (
+  #         args
+  #         // {
+  #           src = pkgs.fetchFromGitHub {
+  #             owner = "mahkoh";
+  #             repo = "jay";
+  #             rev = "c6cebc754681eebb042a020e73aab2d6f71cc857";
+  #             hash = "sha256-i0ZtruAtpYDqdZrYa+FY+g9bZPDzFMfxJtfiMPnYLL0=";
+  #           };
+  #           cargoHash = "sha256-+5+jS4dCFE8hkkHAA4BcB+xtr4UF+px9iVPuQAIijwk=";
+  #         }
+  #       );
+  #   };
+  # };
 in
 {
   programs.dconf.enable = true;
@@ -27,7 +27,7 @@ in
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd 'jay run'";
+#        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd 'jay run'";
         user = "greeter";
       };
     };
@@ -44,9 +44,9 @@ in
 
   programs.sway.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    jay-git
-  ];
+  #environment.systemPackages = with pkgs; [
+  #  jay-git
+  #];
 
   programs.uwsm = {
     enable = true;
@@ -56,11 +56,11 @@ in
         comment = "Niri compositor managed by UWSM";
         binPath = "/run/current-system/sw/bin/niri-session";
       };
-      jay = {
-        prettyName = "Jay";
-        binPath = "/run/current-system/sw/bin/jay";
-        extraArgs = [ "run" ];
-      };
+      # jay = {
+      #   prettyName = "Jay";
+      #   binPath = "/run/current-system/sw/bin/jay";
+      #   extraArgs = [ "run" ];
+      # };
     };
   };
   programs.hyprland.withUWSM = true;
