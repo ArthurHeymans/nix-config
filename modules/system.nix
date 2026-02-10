@@ -2,6 +2,7 @@
   lib,
   inputs,
   hostname,
+  pkgs,
   ...
 }:
 {
@@ -32,6 +33,14 @@
     ./virtualisation.nix
     ./zswap.nix
   ];
+
+  # Use the newest kernel by default
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  # Provide LTS kernel as an alternative boot entry
+  specialisation.lts.configuration = {
+    boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
+  };
 
   # Set hostname from flake configuration
   networking.hostName = hostname;
