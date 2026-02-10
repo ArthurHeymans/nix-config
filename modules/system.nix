@@ -66,10 +66,12 @@
     trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
 
     extra-substituters = [
+      "http://gmktec-k11.tail19d694.ts.net:5000?priority=30"
       "https://niri.cachix.org"
     ];
 
     extra-trusted-public-keys = [
+      "gmktec-k11:KaYkTTAvAv5cfwrsglqcsnyGKBUU1qzEXWB68BasinA="
       "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
     ];
 
@@ -85,6 +87,15 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  # Auto-upgrade: pull latest flake and switch daily at 04:00
+  # Scheduled after the nightly build on gmktec-k11 (03:00) so the cache is warm
+  system.autoUpgrade = {
+    enable = true;
+    flake = "github:ArthurHeymans/nix-config";
+    dates = "04:00";
+    allowReboot = false;
+  };
 
   # Default stateVersion for most systems
   system.stateVersion = lib.mkDefault "24.05";
