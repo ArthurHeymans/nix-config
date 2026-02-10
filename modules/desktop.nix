@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 let
   # jay-git = pkgs.callPackage pkgs.jay.override {
   #   rustPlatform = pkgs.rustPlatform // {
@@ -67,4 +67,5 @@ in
 
   programs.hyprland.enable = true;
   programs.niri.enable = true;
+  programs.niri.package = inputs.niri.packages.${pkgs.system}.niri-unstable; # recent-windows requires 25.11+
 }

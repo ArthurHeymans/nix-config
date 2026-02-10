@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   inputs,
   hostname,
@@ -7,6 +8,22 @@
 }:
 
 {
+  # recent-windows (Alt-Tab) — not yet in programs.niri.settings, so we
+  # append raw KDL to the rendered config and re-validate the result.
+  xdg.configFile.niri-config.source = lib.mkForce (
+    inputs.niri.lib.internal.validated-config-for pkgs config.programs.niri.package ''
+      ${config.programs.niri.finalConfig}
+
+      recent-windows {
+          binds {
+              Mod+Tab         { next-window; }
+              Mod+Shift+Tab   { previous-window; }
+              Mod+grave       { next-window     filter="app-id"; }
+              Mod+Shift+grave { previous-window filter="app-id"; }
+          }
+      }
+    ''
+  );
   home.packages = [
     inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww
   ];
@@ -176,7 +193,7 @@
           "sh -c 'pidof swaylock || swaylock -fF'"
         ];
       }
-#      { command = [ "netbird-ui" ]; }
+      #      { command = [ "netbird-ui" ]; }
       { command = [ "nm-applet" ]; }
       { command = [ "kdeconnect-indicator" ]; }
       {
