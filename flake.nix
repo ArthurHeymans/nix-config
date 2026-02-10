@@ -62,7 +62,7 @@
     };
 
     emacs-skia-src = {
-      url = "github:ArthurHeymans/emacs/skia";
+      url = "github:ArthurHeymans/emacs/skia-30.2";
       flake = false;
     };
 
