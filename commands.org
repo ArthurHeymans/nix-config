@@ -16,6 +16,10 @@ Rebuild and activate NixOS configurations locally or remotely.
 #+begin_src sh :dir (concat "/sudo:arthur@localhost:" (expand-file-name ".")) :async :results raw output drawer
 nixos-rebuild switch --flake .#$(hostname) 2>&1
 #+end_src
+** local with substituters
+#+begin_src sh :dir (concat "/sudo:arthur@localhost:" (expand-file-name ".")) :async :results raw output drawer
+nixos-rebuild switch --flake .#$(hostname) --option extra-substituters "http://gmktec-k11.tail19d694.ts.net:5000?priority=30" 2>&1
+#+end_src
 
 ** remote
 #+name: select-host

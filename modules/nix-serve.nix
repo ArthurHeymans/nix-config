@@ -5,7 +5,7 @@
   ];
 
   sops = {
-    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+    age.sshKeyPaths = [ "/home/arthur/.ssh/id_ed25519" ];
     secrets.nix_serve_private_key = {
       sopsFile = ../secrets/nix-serve-key.yaml;
       mode = "0400";
