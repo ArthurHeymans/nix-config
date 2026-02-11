@@ -167,6 +167,23 @@
         "type": "github"
       }
     },
+    "emacs-skia-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1770807903,
+        "narHash": "sha256-2+efIVdGGJDb0AG3LUmMZlJO/Xe2KzcwlIRfL9JS7SA=",
+        "owner": "ArthurHeymans",
+        "repo": "emacs",
+        "rev": "2d39ab453d6268a63f5bab8c4957a58386bca8ce",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ArthurHeymans",
+        "ref": "skia-30.2",
+        "repo": "emacs",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -696,6 +713,7 @@
         "determinate": "determinate",
         "disko": "disko",
         "doom-config": "doom-config",
+        "emacs-skia-src": "emacs-skia-src",
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
         "niri": "niri",
