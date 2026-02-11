@@ -1,7 +1,7 @@
 {
   pkgs,
   inputs,
-#  emacs-skia-src,
+  emacs-skia-src,
   ...
 }:
 let
@@ -24,25 +24,25 @@ let
       hash = "sha256-Sp0g6AWKHNjyUmL5k3RIU+5KtfICfg3o/DH77XRRyI0=";
     };
   };
-  # emacs-skia =
-  #   (pkgs.emacs-pgtk.override {
-  #     withTreeSitter = true;
-  #     srcRepo = true;
-  #   }).overrideAttrs
-  #     (oldAttrs: {
-  #       pname = "emacs-skia";
-  #       src = emacs-skia-src;
-  #       configureFlags = oldAttrs.configureFlags ++ [
-  #         "--with-skia"
-  #       ];
-  #       buildInputs = oldAttrs.buildInputs ++ [
-  #         pkgs.skia
-  #         pkgs.libepoxy
-  #       ];
-  #       preBuild = (oldAttrs.preBuild or "") + ''
-  #         mkdir -p src/deps/skia
-  #       '';
-  #     });
+  emacs-skia =
+    (pkgs.emacs-pgtk.override {
+      withTreeSitter = true;
+      srcRepo = true;
+    }).overrideAttrs
+      (oldAttrs: {
+        pname = "emacs-skia";
+        src = emacs-skia-src;
+        configureFlags = oldAttrs.configureFlags ++ [
+          "--with-skia"
+        ];
+        buildInputs = oldAttrs.buildInputs ++ [
+          pkgs.skia
+          pkgs.libepoxy
+        ];
+        preBuild = (oldAttrs.preBuild or "") + ''
+          mkdir -p src/deps/skia
+        '';
+      });
 in
 {
   home.file.".config/eca/config.json".source = ecaConfigJson;
@@ -91,8 +91,7 @@ in
 
   programs.doom-emacs = {
     enable = true;
-    # emacs = emacs-skia;
-    emacs = pkgs.emacs-pgtk;
+    emacs = emacs-skia;
     doomDir = inputs.doom-config;
     tangleArgs = ".";
     provideEmacs = false;
@@ -188,7 +187,7 @@ in
   # separate emacs for toying around with doom without nix in the mix
   programs.emacs = {
     enable = true;
-    package = pkgs.emacs-pgtk;
+    package = emacs-skia;
     extraPackages = epkgs: [
       (epkgs.treesit-grammars.with-all-grammars.overrideAttrs (old: {
         buildCommand = old.buildCommand + ''
