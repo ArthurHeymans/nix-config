@@ -67,5 +67,5 @@ in
 
   programs.hyprland.enable = true;
   programs.niri.enable = true;
-  programs.niri.package = inputs.niri.packages.${pkgs.system}.niri-unstable; # recent-windows requires 25.11+
+  programs.niri.package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable; # recent-windows requires 25.11+
 }
