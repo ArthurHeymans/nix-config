@@ -61,10 +61,10 @@
       flake = false;
     };
 
-    emacs-skia-src = {
-      url = "github:ArthurHeymans/emacs/skia-30.2";
-      flake = false;
-    };
+    # emacs-skia-src = {
+    #   url = "github:ArthurHeymans/emacs/skia-30.2";
+    #   flake = false;
+    # };
 
     niri = {
       url = "github:sodiboo/niri-flake";
