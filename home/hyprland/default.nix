@@ -251,14 +251,13 @@
           ",switch:off:Lid Switch, exec, hyprctl keyword monitor \"LVDS-1, enable\"; hyprctl keyword monitor \"eDP-1, enable\""
         ];
 
-        windowrulev2 = [
+        windowrule = [
           # Ignore maximize requests from apps. You'll probably like this.
-          "suppressevent maximize, class:.*"
+          "suppress_event maximize, match:class .*"
           # Fix some dragging issues with XWayland
-          "nofocus,class:^$,title:^$,xwayland:1,floating:1,fullscreen:0,pinned:0"
+          "no_focus on, match:class ^$, match:title ^$, match:xwayland 1, match:float 1, match:fullscreen 0, match:pin 0"
           # Make other-frame work
-          "workspace unset, class:^(emacs)$"
-          "focusonactivate, class:^(emacs)$"
+          "workspace unset, focus_on_activate on, match:class ^(emacs)$"
         ];
 
         # device specific settings
