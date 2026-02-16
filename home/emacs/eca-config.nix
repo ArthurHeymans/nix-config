@@ -17,7 +17,7 @@ in
       models = {
         "google/gemini-3-pro-preview" = {};
         "google/gemini-3-flash-preview" = {};
-        "z-ai/glm-4.6" = {};
+        "z-ai/glm-5" = {};
         "deepseek/deepseek-v3.2" = {};
         "openai/gpt-5.2" = {};
       };
@@ -65,10 +65,10 @@ in
     #   command = "npx";
     #   args = ["-y" "@modelcontextprotocol/server-sequential-thinking"];
     # };
-    serena = {
-      command = "uvx";
-      args = ["--from" "git+https://github.com/oraios/serena" "serena" "start-mcp-server"];
-    };
+    #serena = {
+    #  command = "uvx";
+    #  args = ["--from" "git+https://github.com/oraios/serena" "serena" "start-mcp-server"];
+    #};
     # context7 = {
     #   command = "npx";
     #   args = ["-y" "@upstash/context7-mcp"];
