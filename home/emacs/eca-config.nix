@@ -61,6 +61,10 @@ in
       command = "uvx";
       args = ["mcp-server-fetch" "--ignore-robots-txt"];
     };
+    emacs-mcp = {
+      command = "npx";
+      args = ["@keegancsmith/emacs-mcp-server" ];
+    };
     # sequentialthinking = {
     #   command = "npx";
     #   args = ["-y" "@modelcontextprotocol/server-sequential-thinking"];
