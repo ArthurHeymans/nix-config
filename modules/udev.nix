@@ -51,6 +51,8 @@ in
     # CH347F
     SUBSYSTEM=="usb", ATTR{idVendor}=="1a86", ATTR{idProduct}=="55de", MODE="0666", TAG+="uaccess"
     # FT4222
-    SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="601c", MODE="0666"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="601c", MODE="0666", TAG+="uaccess"
+    # Dediprog SF100/SF200/SF600/SF700 (VID:0483 PID:dada)
+    SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="dada", MODE="0666", TAG+="uaccess"
   '';
 }
