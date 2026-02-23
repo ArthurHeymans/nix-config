@@ -33,13 +33,6 @@ in
     };
   };
 
-  environment.etc."greetd/environments".text = ''
-    niri
-    sway
-    Hyprland
-    bash
-  '';
-
   services.dbus.packages = [ pkgs.gcr ];
 
   programs.sway.enable = true;
@@ -50,18 +43,18 @@ in
 
   programs.uwsm = {
     enable = true;
-    waylandCompositors = {
-      niri = {
-        prettyName = "Niri (UWSM)";
-        comment = "Niri compositor managed by UWSM";
-        binPath = "/run/current-system/sw/bin/niri-session";
-      };
-      # jay = {
-      #   prettyName = "Jay";
-      #   binPath = "/run/current-system/sw/bin/jay";
-      #   extraArgs = [ "run" ];
-      # };
-    };
+    # waylandCompositors = {
+    #   niri = {
+    #     prettyName = "Niri (UWSM)";
+    #     comment = "Niri compositor managed by UWSM";
+    #     binPath = "/run/current-system/sw/bin/niri-session";
+    #   };
+    #   # jay = {
+    #   #   prettyName = "Jay";
+    #   #   binPath = "/run/current-system/sw/bin/jay";
+    #   #   extraArgs = [ "run" ];
+    #   # };
+    # };
   };
   programs.hyprland.withUWSM = true;
 

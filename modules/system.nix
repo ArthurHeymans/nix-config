@@ -66,8 +66,8 @@
     trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
 
     extra-substituters = [
-        "https://niri.cachix.org"
-      ];
+      "https://niri.cachix.org"
+    ];
 
     extra-trusted-public-keys = [
       "gmktec-k11:KaYkTTAvAv5cfwrsglqcsnyGKBUU1qzEXWB68BasinA="
