@@ -22,6 +22,7 @@
     ./locale.nix
     ./networking.nix
     ./graphics.nix
+    ./oom.nix
     ./packages.nix
     ./printing.nix
     ./security.nix
