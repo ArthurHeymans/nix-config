@@ -4,6 +4,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     flashprog
+    em100
     coreboot-utils
     eza
     btop
