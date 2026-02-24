@@ -184,6 +184,27 @@
         "type": "github"
       }
     },
+    "ewm": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1771922863,
+        "narHash": "sha256-mBpBR5O70Y75vIZhcgR8oGBGpmPPTkXJZojeRzhCVOg=",
+        "ref": "Flake",
+        "rev": "203f120e7b100ef02c383b0ab69522240f6c21a8",
+        "revCount": 302,
+        "type": "git",
+        "url": "https://codeberg.org/avph/ewm"
+      },
+      "original": {
+        "ref": "Flake",
+        "type": "git",
+        "url": "https://codeberg.org/avph/ewm"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -714,6 +735,7 @@
         "disko": "disko",
         "doom-config": "doom-config",
         "emacs-skia-src": "emacs-skia-src",
+        "ewm": "ewm",
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
         "niri": "niri",

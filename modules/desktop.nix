@@ -1,5 +1,25 @@
-{ pkgs, inputs, ... }:
+{ config, pkgs, inputs,  ... }:
 let
+emacs-skia =
+    (pkgs.emacs-pgtk.override {
+      withTreeSitter = true;
+      srcRepo = true;
+    }).overrideAttrs
+      (oldAttrs: {
+        pname = "emacs-skia";
+        src = inputs.emacs-skia-src;
+        configureFlags = oldAttrs.configureFlags ++ [
+          "--with-skia"
+        ];
+        buildInputs = oldAttrs.buildInputs ++ [
+          pkgs.skia
+          pkgs.libepoxy
+        ];
+        preBuild = (oldAttrs.preBuild or "") + ''
+          mkdir -p src/deps/skia
+        '';
+      });
+
   # jay-git = pkgs.callPackage pkgs.jay.override {
   #   rustPlatform = pkgs.rustPlatform // {
   #     buildRustPackage =
@@ -61,4 +81,19 @@ in
   programs.hyprland.enable = true;
   programs.niri.enable = true;
   programs.niri.package = inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable; # recent-windows requires 25.11+
+
+  programs.ewm = {
+    enable = true;
+    #extraEmacsArgs = "--debug-init  --eval \"(setq debug-on-error t)\"";
+    #extraEmacsArgs = "-Q";
+    emacsPackage = emacs-skia.pkgs.withPackages (epkgs: [
+      config.programs.ewm.ewmPackage
+      epkgs.consult
+      (epkgs.treesit-grammars.with-grammars (
+        gs: builtins.attrValues (builtins.removeAttrs gs [ "tree-sitter-quint" ])
+      ))
+      epkgs.mu4e
+      epkgs.vterm
+    ]);
+  };
 }

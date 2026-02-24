@@ -52,6 +52,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    ewm = {
+      url = "git+https://codeberg.org/avph/ewm?ref=Flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     ########################  Some non-flake repositories  #########################################
 
     ########################  My own repositories  #########################################
@@ -94,6 +99,7 @@
       home-manager,
       niri,
       determinate,
+      ewm,
       ...
     }@inputs:
     let
@@ -113,6 +119,7 @@
             ./hosts/${hostname}
             ./users/${username}/nixos.nix
             niri.nixosModules.niri
+            ewm.nixosModules.default
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
