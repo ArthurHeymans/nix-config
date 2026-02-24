@@ -15,25 +15,25 @@ let
         echo '${builtins.toJSON ecaConfig}' | ${pkgs.jq}/bin/jq '.' > $out
       '';
 
-  emacs-skia =
-    (pkgs.emacs-pgtk.override {
-      withTreeSitter = true;
-      srcRepo = true;
-    }).overrideAttrs
-      (oldAttrs: {
-        pname = "emacs-skia";
-        src = emacs-skia-src;
-        configureFlags = oldAttrs.configureFlags ++ [
-          "--with-skia"
-        ];
-        buildInputs = oldAttrs.buildInputs ++ [
-          pkgs.skia
-          pkgs.libepoxy
-        ];
-        preBuild = (oldAttrs.preBuild or "") + ''
-          mkdir -p src/deps/skia
-        '';
-      });
+  # emacs-skia =
+  #   (pkgs.emacs-pgtk.override {
+  #     withTreeSitter = true;
+  #     srcRepo = true;
+  #   }).overrideAttrs
+  #     (oldAttrs: {
+  #       pname = "emacs-skia";
+  #       src = emacs-skia-src;
+  #       configureFlags = oldAttrs.configureFlags ++ [
+  #         "--with-skia"
+  #       ];
+  #       buildInputs = oldAttrs.buildInputs ++ [
+  #         pkgs.skia
+  #         pkgs.libepoxy
+  #       ];
+  #       preBuild = (oldAttrs.preBuild or "") + ''
+  #         mkdir -p src/deps/skia
+  #       '';
+  #     });
 in
 {
   home.file.".config/eca/config.json".source = ecaConfigJson;
@@ -82,7 +82,8 @@ in
 
   programs.doom-emacs = {
     enable = true;
-    emacs = emacs-skia;
+    #emacs = emacs-skia;
+    emacs = pkgs.emacs-pgtk;
     doomDir = inputs.doom-config;
     tangleArgs = ".";
     provideEmacs = false;
@@ -178,7 +179,8 @@ in
   # separate emacs for toying around with doom without nix in the mix
   programs.emacs = {
     enable = true;
-    package = emacs-skia;
+    # package = emacs-skia;
+    package = pkgs.emacs-pgtk;
     extraPackages = epkgs: [
       # Use with-grammars to skip tree-sitter-quint (same upstream hash issue)
       (epkgs.treesit-grammars.with-grammars (

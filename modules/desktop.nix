@@ -1,24 +1,24 @@
 { config, pkgs, inputs,  ... }:
 let
-emacs-skia =
-    (pkgs.emacs-pgtk.override {
-      withTreeSitter = true;
-      srcRepo = true;
-    }).overrideAttrs
-      (oldAttrs: {
-        pname = "emacs-skia";
-        src = inputs.emacs-skia-src;
-        configureFlags = oldAttrs.configureFlags ++ [
-          "--with-skia"
-        ];
-        buildInputs = oldAttrs.buildInputs ++ [
-          pkgs.skia
-          pkgs.libepoxy
-        ];
-        preBuild = (oldAttrs.preBuild or "") + ''
-          mkdir -p src/deps/skia
-        '';
-      });
+# emacs-skia =
+#     (pkgs.emacs-pgtk.override {
+#       withTreeSitter = true;
+#       srcRepo = true;
+#     }).overrideAttrs
+#       (oldAttrs: {
+#         pname = "emacs-skia";
+#         src = inputs.emacs-skia-src;
+#         configureFlags = oldAttrs.configureFlags ++ [
+#           "--with-skia"
+#         ];
+#         buildInputs = oldAttrs.buildInputs ++ [
+#           pkgs.skia
+#           pkgs.libepoxy
+#         ];
+#         preBuild = (oldAttrs.preBuild or "") + ''
+#           mkdir -p src/deps/skia
+#         '';
+#       });
 
   # jay-git = pkgs.callPackage pkgs.jay.override {
   #   rustPlatform = pkgs.rustPlatform // {
@@ -86,7 +86,7 @@ in
     enable = true;
     #extraEmacsArgs = "--debug-init  --eval \"(setq debug-on-error t)\"";
     #extraEmacsArgs = "-Q";
-    emacsPackage = emacs-skia.pkgs.withPackages (epkgs: [
+    emacsPackage = pkgs.emacs-pgtk.pkgs.withPackages (epkgs: [
       config.programs.ewm.ewmPackage
       epkgs.consult
       (epkgs.treesit-grammars.with-grammars (
