@@ -44,7 +44,9 @@ in
 
   # EM100 programmer rules + ch341a
   services.udev.extraRules = ''
+    # EM100
     SUBSYSTEM=="usb", ATTR{idVendor}=="04b4", ATTR{idProduct}=="1235", MODE="0666", TAG+="uaccess"
+    # CH341A
     SUBSYSTEM=="usb", ATTR{idVendor}=="1a86", ATTR{idProduct}=="5512", MODE="0666", TAG+="uaccess"
     # CH347T
     SUBSYSTEM=="usb", ATTR{idVendor}=="1a86", ATTR{idProduct}=="55db", MODE="0666", TAG+="uaccess"
@@ -54,5 +56,7 @@ in
     SUBSYSTEM=="usb", ATTR{idVendor}=="0403", ATTR{idProduct}=="601c", MODE="0666", TAG+="uaccess"
     # Dediprog SF100/SF200/SF600/SF700 (VID:0483 PID:dada)
     SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="dada", MODE="0666", TAG+="uaccess"
+    # 1f3a:efe8 Allwinner Technology sunxi SoC OTG connector in FEL/flashing mode
+    SUBSYSTEM=="usb", ATTR{idVendor}=="1f3a", ATTR{idProduct}=="efe8", MODE="0666", TAG+="uaccess"
   '';
 }
