@@ -19,6 +19,7 @@
     go
     gopls
     probe-rs-tools
+    sunxi-tools
     espflash
     wlink
     gdb
