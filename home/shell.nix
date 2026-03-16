@@ -14,6 +14,7 @@
     screen
     yazi
     github-cli
+    file
   ];
 
   home.shell = {
