@@ -1,7 +1,8 @@
 {
   pkgs,
   inputs,
-  emacs-skia-src,
+  osConfig,
+  #emacs-skia-src,
   ...
 }:
 let
@@ -95,6 +96,7 @@ in
       ))
       epkgs.mu4e
       epkgs.vterm
+      osConfig.programs.ewm.ewmPackage
     ];
     emacsPackageOverrides =
       eself: esuper:
@@ -188,6 +190,7 @@ in
       ))
       epkgs.mu4e
       epkgs.vterm
+      osConfig.programs.ewm.ewmPackage
     ];
   };
 }
