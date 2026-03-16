@@ -39,6 +39,9 @@ in
     vial
   ]);
 
+  # tool to figure out jtag
+  hardware.glasgow.enable = true;
+
   # WCH Link rules are included in the probe-rs rules file
   # so we don't need the extraRules anymore
 
