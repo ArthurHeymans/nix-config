@@ -1,24 +1,29 @@
-{ config, pkgs, inputs,  ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 let
-# emacs-skia =
-#     (pkgs.emacs-pgtk.override {
-#       withTreeSitter = true;
-#       srcRepo = true;
-#     }).overrideAttrs
-#       (oldAttrs: {
-#         pname = "emacs-skia";
-#         src = inputs.emacs-skia-src;
-#         configureFlags = oldAttrs.configureFlags ++ [
-#           "--with-skia"
-#         ];
-#         buildInputs = oldAttrs.buildInputs ++ [
-#           pkgs.skia
-#           pkgs.libepoxy
-#         ];
-#         preBuild = (oldAttrs.preBuild or "") + ''
-#           mkdir -p src/deps/skia
-#         '';
-#       });
+  # emacs-skia =
+  #     (pkgs.emacs-pgtk.override {
+  #       withTreeSitter = true;
+  #       srcRepo = true;
+  #     }).overrideAttrs
+  #       (oldAttrs: {
+  #         pname = "emacs-skia";
+  #         src = inputs.emacs-skia-src;
+  #         configureFlags = oldAttrs.configureFlags ++ [
+  #           "--with-skia"
+  #         ];
+  #         buildInputs = oldAttrs.buildInputs ++ [
+  #           pkgs.skia
+  #           pkgs.libepoxy
+  #         ];
+  #         preBuild = (oldAttrs.preBuild or "") + ''
+  #           mkdir -p src/deps/skia
+  #         '';
+  #       });
 
   # jay-git = pkgs.callPackage pkgs.jay.override {
   #   rustPlatform = pkgs.rustPlatform // {
@@ -42,15 +47,10 @@ in
 {
   programs.dconf.enable = true;
 
-  # greetd with tuigreet
-  services.greetd = {
+  # greetd with sysc-greet
+  services.sysc-greet = {
     enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd 'niri-session'";
-        user = "greeter";
-      };
-    };
+    compositor = "niri";
   };
 
   services.dbus.packages = [ pkgs.gcr ];

@@ -90,6 +90,11 @@
     awww = {
       url = "git+https://codeberg.org/LGFae/awww";
     };
+
+    sysc-greet = {
+      url = "github:Nomadcxx/sysc-greet";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -119,6 +124,7 @@
             ./hosts/${hostname}
             ./users/${username}/nixos.nix
             niri.nixosModules.niri
+            inputs.sysc-greet.nixosModules.default
             ewm.nixosModules.default
             home-manager.nixosModules.home-manager
             {
