@@ -6,7 +6,7 @@
     evince
     nautilus
     mullvad-vpn
-    signal-desktop-bin
+    signal-desktop
     calibre
     libreoffice
     gimp
