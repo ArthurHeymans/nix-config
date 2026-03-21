@@ -22,6 +22,7 @@
     enable = true;
     extraPortals = [
       pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-gnome
       pkgs.xdg-desktop-portal-gtk
     ];
     config = {
@@ -50,7 +51,7 @@
           "awww-daemon"
           "wl-paste --type text --watch cliphist store"
           "wl-paste --type image --watch cliphist store"
-         # "netbird-ui"
+          # "netbird-ui"
           "nm-applet"
           "kdeconnect-indicator"
         ];

@@ -96,7 +96,9 @@ in
       ))
       epkgs.mu4e
       epkgs.vterm
-      osConfig.programs.ewm.ewmPackage
+      # ewm-core is provided by ewm-launch's own emacs-with-packages;
+      # including it here creates a duplicate (stale) load-path entry
+      # that shadows the system copy.
     ];
     emacsPackageOverrides =
       eself: esuper:
@@ -190,7 +192,7 @@ in
       ))
       epkgs.mu4e
       epkgs.vterm
-      osConfig.programs.ewm.ewmPackage
+      # ewm-core is provided by ewm-launch's own emacs-with-packages
     ];
   };
 }
