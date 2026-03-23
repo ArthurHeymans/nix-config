@@ -126,7 +126,7 @@ in
           });
       in
       {
-        gptel-forge = esuper.gptel-forge.overrideAttrs (attrs: {
+        gptel-forge-prs = esuper.gptel-forge-prs.overrideAttrs (attrs: {
           nativeBuildInputs = (attrs.nativeBuildInputs or [ ]) ++ [ pkgs.git ];
         });
         # tramp-rpc depends on msgpack (version "0" declared in Package-Requires).
