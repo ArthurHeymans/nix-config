@@ -53,7 +53,7 @@
     };
 
     ewm = {
-      url = "git+https://codeberg.org/avph/ewm?ref=window-recording";
+      url = "git+https://codeberg.org/ezemtsov/ewm";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

@@ -195,4 +195,17 @@ in
       # ewm-core is provided by ewm-launch's own emacs-with-packages
     ];
   };
+
+  # XDG portal config for ewm
+  xdg.portal = {
+    enable = true;
+    config = {
+      ewm = {
+	    default = "gnome;gtk";
+	    "org.freedesktop.impl.portal.Access" = "gtk";
+	    "org.freedesktop.impl.portal.Notification" = "gtk";
+	    "org.freedesktop.impl.portal.Secret" = "gnome-keyring";
+	  };
+    };
+  };
 }
