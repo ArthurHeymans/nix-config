@@ -198,6 +198,9 @@
           # Notifications
           "CTRL SHIFT, Space, exec, makoctl dismiss --all"
 
+          # Voxtype push-to-talk (hold to record, release to stop)
+          "$mod, semicolon, exec, voxtype record start"
+
           # Screenshots
           "$mod, Print, exec, ${grim} ${screenshotLocation}"
           "$mod SHIFT, Print, exec, ${slurp} | ${grim} -g - ${screenshotLocation}"
@@ -222,6 +225,11 @@
           "$mod, code:19, workspace, 10"
           "$mod SHIFT, code:19, movetoworkspacesilent, 10"
         ];
+        # 'r' release — voxtype push-to-talk stop on key release
+        bindr = [
+          "$mod, semicolon, exec, voxtype record stop"
+        ];
+
         # 'm' Mouse
         bindm = [
           # Move/resize windows with mainMod + LMB/RMB and dragging

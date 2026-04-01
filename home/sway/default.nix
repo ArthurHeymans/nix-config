@@ -111,6 +111,10 @@
           "XF86AudioPlay" = "exec playerctl play-pause";
           "XF86AudioPrev" = "exec playerctl previous";
 
+          # Voxtype push-to-talk (hold to record, release to stop)
+          "${mod}+semicolon" = "exec voxtype record start";
+          "--release ${mod}+semicolon" = "exec voxtype record stop";
+
           # Dismiss notifications (matches Hyprland Ctrl+Shift+Space)
           "Control+Shift+Space" = "exec makoctl dismiss --all";
         };

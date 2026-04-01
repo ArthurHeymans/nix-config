@@ -404,6 +404,9 @@
         allow-when-locked = true;
       };
 
+      # ── Voxtype push-to-talk (hold to record, release to stop) ──
+      "Mod+Semicolon".action = spawn "voxtype" "record" "toggle";
+
       # ── Notification dismissal (same as hyprland) ───────────────
       "Ctrl+Shift+Space".action = spawn "makoctl" "dismiss" "--all";
     };

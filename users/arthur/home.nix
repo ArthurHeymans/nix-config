@@ -18,6 +18,7 @@
 
     ../../home/alacritty.nix
     ../../home/browsers.nix
+    ../../home/voxtype.nix
     ../../home/syncthing.nix
     ../../home/container.nix
     ../../home/crypto.nix
@@ -28,7 +29,7 @@
     ../../home/keyboard.nix
     ../../home/kitty.nix
     ../../home/llm.nix
-#    ../../home/jay
+    #    ../../home/jay
     ../../home/media.nix
     ../../home/niri
     ../../home/pcb.nix
