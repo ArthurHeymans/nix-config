@@ -1,4 +1,10 @@
-{ pkgs, config, hostname, ... }: {
+{
+  pkgs,
+  config,
+  hostname,
+  ...
+}:
+{
   home.packages = with pkgs; [
     vlc
     spotify
@@ -14,6 +20,7 @@
 
   xdg.userDirs.enable = true;
   xdg.userDirs.createDirectories = true;
+  xdg.userDirs.setSessionVariables = false;
 
   services.librespot = {
     enable = true;
