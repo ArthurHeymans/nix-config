@@ -35,6 +35,21 @@ let
   #         mkdir -p src/deps/skia
   #       '';
   #     });
+  elBeBackForEpkgs =
+    epkgs:
+    let
+      ebb-module = inputs.el-be-back.packages.${pkgs.system}.default;
+    in
+    epkgs.trivialBuild {
+      pname = "el-be-back";
+      version = "0.1.0";
+      src = inputs.el-be-back;
+      postInstall = ''
+        local ext="${if pkgs.stdenv.isDarwin then "dylib" else "so"}"
+        install -m444 ${ebb-module}/lib/ebb-module.$ext \
+          $out/share/emacs/site-lisp/
+      '';
+    };
 in
 {
   home.file.".config/eca/config.json".source = ecaConfigJson;
@@ -96,6 +111,7 @@ in
       ))
       epkgs.mu4e
       epkgs.vterm
+      (elBeBackForEpkgs epkgs)
       osConfig.programs.ewm.ewmPackage
     ];
     emacsPackageOverrides =
@@ -184,12 +200,14 @@ in
     # package = emacs-skia;
     package = pkgs.emacs-pgtk;
     extraPackages = epkgs: [
-      # Use with-grammars to skip tree-sitter-quint (same upstream hash issue)
+      # Use with-grammars to skip tree-sitter-quint: upstream pins rev="release"
+      # (a branch, not a commit), so the hash breaks whenever they push.
       (epkgs.treesit-grammars.with-grammars (
         gs: builtins.attrValues (builtins.removeAttrs gs [ "tree-sitter-quint" ])
       ))
       epkgs.mu4e
       epkgs.vterm
+      (elBeBackForEpkgs epkgs)
       osConfig.programs.ewm.ewmPackage
     ];
   };
