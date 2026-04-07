@@ -3,6 +3,9 @@
   pkgs,
   ...
 }:
+let
+  ghostel-module = pkgs.callPackage ./emacs/ghostel-module.nix {};
+in
 {
   home.packages = with pkgs; [
     fzf
@@ -28,6 +31,9 @@
       if test "$TERM" = "dumb"
         exec sh
       end
+
+      # Ghostel terminal emulator shell integration
+      test "$INSIDE_EMACS" = 'ghostel'; and source ${ghostel-module}/etc/ghostel.fish
 
       alias ls='eza --icons=auto'
       setenv OPENAI_API_KEY $(cat ${config.sops.secrets."environmentVariables/OPENAI_API_KEY".path})
@@ -62,6 +68,10 @@
   programs.bash = {
     enable = true;
     enableCompletion = true;
+    initExtra = ''
+      # Ghostel terminal emulator shell integration
+      [[ "$INSIDE_EMACS" = 'ghostel' ]] && source ${ghostel-module}/etc/ghostel.bash
+    '';
   };
 
   programs.starship = {

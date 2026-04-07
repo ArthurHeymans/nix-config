@@ -35,6 +35,8 @@ let
   #         mkdir -p src/deps/skia
   #       '';
   #     });
+  ghostel-module = pkgs.callPackage ./ghostel-module.nix {};
+
   elBeBackForEpkgs =
     epkgs:
     let
@@ -155,6 +157,15 @@ in
         web = fixDeprecatedCl esuper.web;
         kv = fixDeprecatedCl esuper.kv;
         db = fixDeprecatedCl esuper.db;
+        # Inject pre-built native module into ghostel, similar to how
+        # nixpkgs injects the compiled .so into emacs-vterm.
+        ghostel = esuper.ghostel.overrideAttrs (old: {
+          postInstall = (old.postInstall or "") + ''
+            local ext="${if pkgs.stdenv.isDarwin then "dylib" else "so"}"
+            install -m444 ${ghostel-module}/lib/ghostel-module.$ext \
+              $out/share/emacs/site-lisp/elpa/ghostel-*/
+          '';
+        });
       };
   };
 
