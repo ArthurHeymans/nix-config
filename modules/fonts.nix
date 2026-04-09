@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   fonts = {
     packages = with pkgs; [
       # icon fonts
@@ -22,6 +23,8 @@
       nerd-fonts.fira-code
       nerd-fonts.jetbrains-mono
       nerd-fonts.iosevka
+      nerd-fonts.caskaydia-cove
+      nerd-fonts.commit-mono
     ];
 
     # use fonts specified by user rather than default ones
@@ -43,7 +46,7 @@
         "JetBrainsMono Nerd Font"
         "Noto Color Emoji"
       ];
-      emoji = ["Noto Color Emoji"];
+      emoji = [ "Noto Color Emoji" ];
     };
   };
 }
