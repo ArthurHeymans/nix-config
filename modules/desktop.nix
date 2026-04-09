@@ -2,6 +2,7 @@
   config,
   pkgs,
   inputs,
+  username,
   ...
 }:
 let
@@ -86,14 +87,8 @@ in
     enable = true;
     #extraEmacsArgs = "--debug-init  --eval \"(setq debug-on-error t)\"";
     #extraEmacsArgs = "-Q";
-    emacsPackage = pkgs.emacs-pgtk.pkgs.withPackages (epkgs: [
-      config.programs.ewm.ewmPackage
-      epkgs.consult
-      (epkgs.treesit-grammars.with-grammars (
-        gs: builtins.attrValues (builtins.removeAttrs gs [ "tree-sitter-quint" ])
-      ))
-      epkgs.mu4e
-      epkgs.vterm
-    ]);
+    # Use the nix-doom-emacs-unstraightened-built emacs, which already includes
+    # ewmPackage (added via programs.doom-emacs.extraPackages in home/emacs/emacs.nix).
+    emacsPackage = config.home-manager.users.${username}.programs.doom-emacs.finalEmacsPackage;
   };
 }
