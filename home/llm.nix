@@ -6,7 +6,7 @@
   ...
 }:
 let
-  opencode = llm-agents.packages.${pkgs.system}.opencode;
+  opencode = llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode;
 
   pkgsWithRust = pkgs.extend rust-overlay.overlays.default;
 

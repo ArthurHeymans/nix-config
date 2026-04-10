@@ -35,12 +35,12 @@ let
   #         mkdir -p src/deps/skia
   #       '';
   #     });
-  ghostel-module = pkgs.callPackage ./ghostel-module.nix {};
+  ghostel-module = pkgs.callPackage ./ghostel-module.nix { };
 
   elBeBackForEpkgs =
     epkgs:
     let
-      ebb-module = inputs.el-be-back.packages.${pkgs.system}.default;
+      ebb-module = inputs.el-be-back.packages.${pkgs.stdenv.hostPlatform.system}.default;
     in
     epkgs.trivialBuild {
       pname = "el-be-back";
@@ -228,11 +228,11 @@ in
     enable = true;
     config = {
       ewm = {
-	    default = "gnome;gtk";
-	    "org.freedesktop.impl.portal.Access" = "gtk";
-	    "org.freedesktop.impl.portal.Notification" = "gtk";
-	    "org.freedesktop.impl.portal.Secret" = "gnome-keyring";
-	  };
+        default = "gnome;gtk";
+        "org.freedesktop.impl.portal.Access" = "gtk";
+        "org.freedesktop.impl.portal.Notification" = "gtk";
+        "org.freedesktop.impl.portal.Secret" = "gnome-keyring";
+      };
     };
   };
 }
