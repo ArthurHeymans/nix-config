@@ -29,7 +29,6 @@
     ../../home/keyboard.nix
     ../../home/kitty.nix
     ../../home/llm.nix
-    #    ../../home/jay
     ../../home/media.nix
     ../../home/mime.nix
     ../../home/niri
