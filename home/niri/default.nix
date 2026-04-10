@@ -24,7 +24,7 @@
     ''
   );
   home.packages = [
-    inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww
+    pkgs.swww
   ];
 
   # Swaylock — lock screen (mirrors hyprlock settings)

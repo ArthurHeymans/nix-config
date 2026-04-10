@@ -15,7 +15,7 @@
 
   home.packages = with pkgs; [
     hyprpolkitagent
-    inputs.awww.packages.${pkgs.stdenv.hostPlatform.system}.awww
+    pkgs.swww
   ];
 
   xdg.portal = {
