@@ -29,4 +29,12 @@
       name = "${hostname}-librespot";
     };
   };
+
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "video/x-matroska" = "mpv.desktop";
+      "video/mp4" = "mpv.desktop";
+    };
+  };
 }
