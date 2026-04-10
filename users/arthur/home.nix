@@ -31,6 +31,7 @@
     ../../home/llm.nix
     #    ../../home/jay
     ../../home/media.nix
+    ../../home/mime.nix
     ../../home/niri
     ../../home/pcb.nix
     ../../home/obs-studio.nix
