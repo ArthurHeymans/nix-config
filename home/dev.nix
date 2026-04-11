@@ -47,6 +47,7 @@ in
     lldb
     jujutsu
     llvmPackages.bintools
+    qemu
 
     # reverse engineering
     ghidra
