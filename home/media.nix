@@ -13,6 +13,7 @@
     nautilus
     mullvad-vpn
     signal-desktop
+    telegram-desktop
     calibre
     libreoffice
     gimp
