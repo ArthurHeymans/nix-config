@@ -1,6 +1,12 @@
 { pkgs, ... }:
 let
-  voxtype-vulkan = pkgs.voxtype.override { vulkanSupport = true; };
+  # Override to drop the x86-64-v3 RUSTFLAGS set upstream (requires AVX2/Haswell+).
+  # Sandy Bridge supports AVX but not AVX2, so target x86-64-v2 instead.
+  voxtype-vulkan = (pkgs.voxtype.override { vulkanSupport = true; }).overrideAttrs (old: {
+    env = (old.env or { }) // {
+      RUSTFLAGS = "-C target-cpu=x86-64-v2";
+    };
+  });
 in
 {
   home.packages = [
