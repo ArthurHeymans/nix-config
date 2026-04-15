@@ -11,6 +11,7 @@
       "sound"
       "dialout"
       "plugdev"
+      "video"
     ];
     initialPassword = "password";
   };
