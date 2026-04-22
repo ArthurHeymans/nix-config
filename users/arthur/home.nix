@@ -67,6 +67,7 @@
       ".direnv"
       ".direnv/*"
       ".dir-locals.el"
+      ".pi-lens"
     ];
   };
 }
