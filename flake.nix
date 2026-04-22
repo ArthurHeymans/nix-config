@@ -66,10 +66,10 @@
       flake = false;
     };
 
-    el-be-back = {
-      url = "github:ArthurHeymans/el-be-back";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    #el-be-back = {
+    #  url = "github:ArthurHeymans/el-be-back";
+    #  inputs.nixpkgs.follows = "nixpkgs";
+    #};
 
     #emacs-skia-src = {
     #  url = "github:ArthurHeymans/emacs/skia-30.2";

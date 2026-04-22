@@ -37,21 +37,21 @@ let
   #     });
   ghostel-module = pkgs.callPackage ./ghostel-module.nix { };
 
-  elBeBackForEpkgs =
-    epkgs:
-    let
-      ebb-module = inputs.el-be-back.packages.${pkgs.stdenv.hostPlatform.system}.default;
-    in
-    epkgs.trivialBuild {
-      pname = "el-be-back";
-      version = "0.1.0";
-      src = inputs.el-be-back;
-      postInstall = ''
-        local ext="${if pkgs.stdenv.isDarwin then "dylib" else "so"}"
-        install -m444 ${ebb-module}/lib/ebb-module.$ext \
-          $out/share/emacs/site-lisp/
-      '';
-    };
+  # elBeBackForEpkgs =
+  #   epkgs:
+  #   let
+  #     ebb-module = inputs.el-be-back.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  #   in
+  #   epkgs.trivialBuild {
+  #     pname = "el-be-back";
+  #     version = "0.1.0";
+  #     src = inputs.el-be-back;
+  #     postInstall = ''
+  #       local ext="${if pkgs.stdenv.isDarwin then "dylib" else "so"}"
+  #       install -m444 ${ebb-module}/lib/ebb-module.$ext \
+  #         $out/share/emacs/site-lisp/
+  #     '';
+  #   };
 in
 {
   home.file.".config/eca/config.json".source = ecaConfigJson;
@@ -113,7 +113,7 @@ in
       ))
       epkgs.mu4e
       epkgs.vterm
-      (elBeBackForEpkgs epkgs)
+      # (elBeBackForEpkgs epkgs)
       osConfig.programs.ewm.ewmPackage
     ];
     emacsPackageOverrides =
@@ -218,7 +218,7 @@ in
       ))
       epkgs.mu4e
       epkgs.vterm
-      (elBeBackForEpkgs epkgs)
+      # (elBeBackForEpkgs epkgs)
       osConfig.programs.ewm.ewmPackage
     ];
   };
