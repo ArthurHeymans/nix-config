@@ -10,16 +10,16 @@
   autoPatchelfHook,
 }:
 let
-  version = "0.7.1";
+  version = "0.14.0";
   src = fetchFromGitHub {
     owner = "dakra";
     repo = "ghostel";
     rev = "v${version}";
-    hash = "sha256-uLZG3XMpGIkCkYLT7kVZd8jpYzavEsCYP5Qgm/WFMsA=";
+    hash = "sha256-QycHizu59inuZkBsHqOx2sOf0wkIq64K9t2xM2QL1pY=";
   };
   prebuiltModule = fetchurl {
     url = "https://github.com/dakra/ghostel/releases/download/v${version}/ghostel-module-x86_64-linux.so";
-    hash = "sha256-yDFOUTmr9ZO0rL6WymLmZqaUPEvO43fUO7IR7BY/dNc=";
+    hash = "sha256-iALk4pAVTk/vG6CDSUCpCgrNzMBbORBwEgKo0bRRiwI=";
   };
 in
 stdenv.mkDerivation {
