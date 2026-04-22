@@ -7,6 +7,7 @@
 }:
 let
   opencode = llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode;
+  pi = llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.pi;
 
   pkgsWithRust = pkgs.extend rust-overlay.overlays.default;
 
@@ -41,6 +42,7 @@ in
     codex
     gemini-cli
     opencode
+    pi
     jq # often used for parsing nixos output in AI agents
     # codex-acp
   ];
