@@ -53,7 +53,7 @@
     };
 
     ewm = {
-      url = "git+https://codeberg.org/ezemtsov/ewm";
+      url = "git+https://codeberg.org/avph/ewm?ref=fix/startup-focus-and-dashboard";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
