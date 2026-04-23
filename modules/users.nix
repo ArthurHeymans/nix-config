@@ -12,6 +12,7 @@
       "dialout"
       "plugdev"
       "video"
+      "input"
     ];
     initialPassword = "password";
   };
