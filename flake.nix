@@ -86,12 +86,6 @@
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
     nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
 
-    # other rust toolchain
-    rust-overlay = {
-      url = "github:oxalica/rust-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     sysc-greet = {
       url = "github:Nomadcxx/sysc-greet";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -108,9 +102,7 @@
       nixpkgs,
       nixpkgs-unstable,
       home-manager,
-      niri,
       determinate,
-      ewm,
       ...
     }@inputs:
     let
@@ -129,9 +121,9 @@
           modules = [
             ./hosts/${hostname}
             ./users/${username}/nixos.nix
-            niri.nixosModules.niri
+            inputs.niri.nixosModules.niri
             inputs.sysc-greet.nixosModules.default
-            ewm.nixosModules.default
+            inputs.ewm.nixosModules.default
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
@@ -143,7 +135,7 @@
         };
     in
     {
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
+      formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
       nixosConfigurations = {
         x220-nixos = mkSystem "x220-nixos";
         t14s-g6 = mkSystem "t14s-g6";
