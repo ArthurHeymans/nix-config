@@ -207,6 +207,23 @@
         "type": "github"
       }
     },
+    "emacs-skia-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1777057186,
+        "narHash": "sha256-5Lho5Ld2YLY+OxKGYH/+fftHW0HvUKtUAyJJS/1H3Sw=",
+        "owner": "ArthurHeymans",
+        "repo": "emacs",
+        "rev": "0b2fb5c5dfde021e9328a34a9421ffc9216d247c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ArthurHeymans",
+        "ref": "skia-30.2",
+        "repo": "emacs",
+        "type": "github"
+      }
+    },
     "ewm": {
       "inputs": {
         "nixpkgs": [
@@ -803,6 +820,7 @@
         "determinate": "determinate",
         "disko": "disko",
         "doom-config": "doom-config",
+        "emacs-skia-src": "emacs-skia-src",
         "ewm": "ewm",
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
