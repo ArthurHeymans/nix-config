@@ -213,16 +213,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1776932823,
-        "narHash": "sha256-48diLokiN4L46DZFIaUVVY+IJbRaG0S2J0nuHUz2unY=",
-        "ref": "fix/startup-focus-and-dashboard",
-        "rev": "5f2d0f39b6d1319cfb72e1102f6471b7a787ba6d",
-        "revCount": 420,
+        "lastModified": 1777727877,
+        "narHash": "sha256-0PFulqJMRiydYMpuvrxc8JU3Ck+hqYrEsIbQGVko4oA=",
+        "ref": "multigpu",
+        "rev": "80a00903121fc962cc6dd68ead4c11c06fd89337",
+        "revCount": 443,
         "type": "git",
         "url": "https://codeberg.org/avph/ewm"
       },
       "original": {
-        "ref": "fix/startup-focus-and-dashboard",
+        "ref": "multigpu",
         "type": "git",
         "url": "https://codeberg.org/avph/ewm"
       }

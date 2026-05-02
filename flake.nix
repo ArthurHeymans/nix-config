@@ -53,7 +53,7 @@
     };
 
     ewm = {
-      url = "git+https://codeberg.org/avph/ewm?ref=fix/startup-focus-and-dashboard";
+      url = "git+https://codeberg.org/avph/ewm?ref=multigpu";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
