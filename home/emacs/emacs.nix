@@ -2,7 +2,7 @@
   pkgs,
   inputs,
   osConfig,
-  emacs-skia-src,
+  #emacs-skia-src,
   ...
 }:
 let
@@ -16,25 +16,25 @@ let
         echo '${builtins.toJSON ecaConfig}' | ${pkgs.jq}/bin/jq '.' > $out
       '';
 
-  emacs-skia =
-    (pkgs.emacs-pgtk.override {
-      withTreeSitter = true;
-      srcRepo = true;
-    }).overrideAttrs
-      (oldAttrs: {
-        pname = "emacs-skia";
-        src = emacs-skia-src;
-        configureFlags = oldAttrs.configureFlags ++ [
-          "--with-skia"
-        ];
-        buildInputs = oldAttrs.buildInputs ++ [
-          pkgs.skia
-          pkgs.libepoxy
-        ];
-        preBuild = (oldAttrs.preBuild or "") + ''
-          mkdir -p src/deps/skia
-        '';
-      });
+  # emacs-skia =
+  #   (pkgs.emacs-pgtk.override {
+  #     withTreeSitter = true;
+  #     srcRepo = true;
+  #   }).overrideAttrs
+  #     (oldAttrs: {
+  #       pname = "emacs-skia";
+  #       src = emacs-skia-src;
+  #       configureFlags = oldAttrs.configureFlags ++ [
+  #         "--with-skia"
+  #       ];
+  #       buildInputs = oldAttrs.buildInputs ++ [
+  #         pkgs.skia
+  #         pkgs.libepoxy
+  #       ];
+  #       preBuild = (oldAttrs.preBuild or "") + ''
+  #         mkdir -p src/deps/skia
+  #       '';
+  #     });
   ghostel-module = pkgs.callPackage ./ghostel-module.nix { };
 
   # elBeBackForEpkgs =
@@ -208,8 +208,8 @@ in
   # separate emacs for toying around with doom without nix in the mix
   programs.emacs = {
     enable = true;
-    package = emacs-skia;
-    # package = pkgs.emacs-pgtk;
+    # package = emacs-skia;
+    package = pkgs.emacs-pgtk;
     extraPackages = epkgs: [
       # Use with-grammars to skip tree-sitter-quint: upstream pins rev="release"
       # (a branch, not a commit), so the hash breaks whenever they push.
