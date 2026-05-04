@@ -213,11 +213,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1777727877,
-        "narHash": "sha256-0PFulqJMRiydYMpuvrxc8JU3Ck+hqYrEsIbQGVko4oA=",
+        "lastModified": 1777875223,
+        "narHash": "sha256-nymhHeOs43Biy7+bqT3ixeVE64cEf3UC+c9LhdExs9E=",
         "ref": "multigpu",
-        "rev": "80a00903121fc962cc6dd68ead4c11c06fd89337",
-        "revCount": 443,
+        "rev": "21260cfcb69a12c7a8e7168f364c2acf08352a41",
+        "revCount": 445,
         "type": "git",
         "url": "https://codeberg.org/avph/ewm"
       },
