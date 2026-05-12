@@ -5,7 +5,10 @@
   ...
 }:
 let
-  ghostel-module = pkgs.callPackage ./emacs/ghostel-module.nix {};
+  ghostel-shell-integration = pkgs.runCommand "ghostel-shell-integration" { } ''
+    install -Dm444 ${pkgs.emacsPackages.ghostel.src}/etc/shell/ghostel.bash $out/etc/ghostel.bash
+    install -Dm444 ${pkgs.emacsPackages.ghostel.src}/etc/shell/ghostel.fish $out/etc/ghostel.fish
+  '';
 in
 {
   home.packages = with pkgs; [
@@ -34,7 +37,7 @@ in
       end
 
       # Ghostel terminal emulator shell integration
-      test "$INSIDE_EMACS" = 'ghostel'; and source ${ghostel-module}/etc/ghostel.fish
+      test "$INSIDE_EMACS" = 'ghostel'; and source ${ghostel-shell-integration}/etc/ghostel.fish
 
       source ${osConfig.programs.ewm.ewmPackage}/etc/emacs-ewm.fish
 
@@ -76,7 +79,7 @@ in
     initExtra = ''
 
       # Ghostel terminal emulator shell integration
-      [[ "$INSIDE_EMACS" = 'ghostel' ]] && source ${ghostel-module}/etc/ghostel.bash
+      [[ "$INSIDE_EMACS" = 'ghostel' ]] && source ${ghostel-shell-integration}/etc/ghostel.bash
 
       source ${osConfig.programs.ewm.ewmPackage}/etc/emacs-ewm.bash
     '';
