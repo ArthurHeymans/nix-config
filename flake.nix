@@ -53,7 +53,7 @@
     };
 
     ewm = {
-      url = "git+https://codeberg.org/avph/ewm?ref=multigpu";
+      url = "git+https://codeberg.org/avph/ewm?ref=input-mode-toggle";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
