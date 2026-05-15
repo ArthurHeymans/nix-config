@@ -24,7 +24,7 @@
     ''
   );
   home.packages = [
-    pkgs.swww
+    pkgs.awww
   ];
 
   # Swaylock — lock screen (mirrors hyprlock settings)

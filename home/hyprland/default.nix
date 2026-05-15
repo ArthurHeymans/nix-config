@@ -15,7 +15,7 @@
 
   home.packages = with pkgs; [
     hyprpolkitagent
-    pkgs.swww
+    pkgs.awww
   ];
 
   xdg.portal = {
@@ -37,6 +37,7 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
+    configType = "hyprlang";
     systemd.enable = false;
 
     settings =
