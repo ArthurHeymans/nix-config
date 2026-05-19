@@ -38,6 +38,10 @@
   # Use the newest kernel by default
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  # Avoid binding CH341A SPI adapters to the kernel SPI driver; userspace
+  # flashrom/libusb access should claim the device instead.
+  boot.blacklistedKernelModules = [ "spi_ch341" ];
+
   # Provide LTS kernel as an alternative boot entry
   specialisation.lts.configuration = {
     boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
