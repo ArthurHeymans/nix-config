@@ -53,7 +53,8 @@
     };
 
     ewm = {
-      url = "git+https://codeberg.org/avph/ewm?ref=input-mode-toggle";
+      url = "git+https://codeberg.org/ezemtsov/ewm";
+      # url = "git+https://codeberg.org/avph/ewm?ref=input-mode-toggle";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
