@@ -7,9 +7,6 @@
 }:
 {
   imports = [
-    # Determinate Nix/Nixd NixOS module (manages nix.conf via nix.custom.conf)
-    inputs.determinate.nixosModules.default
-
     ./bash.nix
     ./bluetooth.nix
     ./boot.nix

@@ -82,10 +82,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Determinate: downstream Nix + Nixd module for NixOS
-    # Use FlakeHub URL as recommended by Determinate docs
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/*";
-    nixpkgs.url = "https://flakehub.com/f/NixOS/nixpkgs/0.1";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     sysc-greet = {
       url = "github:Nomadcxx/sysc-greet";
@@ -103,7 +100,7 @@
       nixpkgs,
       nixpkgs-unstable,
       home-manager,
-      determinate,
+
       ...
     }@inputs:
     let
