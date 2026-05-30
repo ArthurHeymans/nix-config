@@ -155,11 +155,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780059776,
-        "narHash": "sha256-jEkRa1PIlMsV9cjQf+XQnqBgx8cWftDOfZOHNbVEILk=",
+        "lastModified": 1780089963,
+        "narHash": "sha256-ZLLxB8EQGhZwV0v+VwVCbLOwF2cKw17WYQzngjsuavA=",
         "ref": "refs/heads/master",
-        "rev": "bc2f256d0caf4556d62203d629d018d8b693005d",
-        "revCount": 742,
+        "rev": "4a75096c328e898ea591fc782a4507a193712c23",
+        "revCount": 744,
         "type": "git",
         "url": "https://codeberg.org/ezemtsov/ewm"
       },
@@ -310,11 +310,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779969295,
-        "narHash": "sha256-HwIJ3tOcwSMiV75L7KqJXciXR9UfT+d7rwOZMX7cTnA=",
+        "lastModified": 1780099287,
+        "narHash": "sha256-efIPwVGtIWIjWcznhaop6XN6HxnOL8800hF6CBNvlqQ=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "61e2c9659324181e0f0ed911958c536333b1d4f6",
+        "rev": "7d8127d308c3fb9664f7e643eec944be74ebb37d",
         "type": "github"
       },
       "original": {
@@ -361,11 +361,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1780050433,
-        "narHash": "sha256-90mQY7VUvn6WoNh+m4LSqS+XTcofWOBLgYYmSJVyr98=",
+        "lastModified": 1780102818,
+        "narHash": "sha256-pagCAbNXNQrp0Zx0xcJN274AZOGcq3rYMu762sufDAI=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "0fb42103f93cd5c1152254856d7eccb3e91c8bf6",
+        "rev": "5294788c26e9bc173b02314df0babe90788a3f52",
         "type": "github"
       },
       "original": {
@@ -454,12 +454,15 @@
       }
     },
     "nixos-hardware": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
       "locked": {
-        "lastModified": 1779826373,
-        "narHash": "sha256-3sRzgLX86qV5NlhWUAufLmHwkyP03tmL3VdZIM13dEo=",
+        "lastModified": 1780065812,
+        "narHash": "sha256-SCSLUKBmwlSLGQ8Xbr8PjRFtiHNk0l9ktqkcmqdBkfE=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "ef4efb84766a166c906bd55759574676bf91267c",
+        "rev": "b76b5639c0593e0aeb0b5879ad62d4b30596c144",
         "type": "github"
       },
       "original": {
@@ -471,18 +474,15 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1779560665,
-        "narHash": "sha256-tpyBcxPpcQb8ukyNF7DoCwfSY3VPsxHoYwj00Cayv5o=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "64c08a7ca051951c8eae34e3e3cb1e202fe36786",
-        "type": "github"
+        "lastModified": 1767892417,
+        "narHash": "sha256-8bW3q88CEg2u4hSP66Vf4lpbLonHz7hqDNBMcCY7E9U=",
+        "rev": "3497aa5c9457a9d88d71fa93a4a8368816fbeeba",
+        "type": "tarball",
+        "url": "https://releases.nixos.org/nixos/unstable/nixos-26.05pre924538.3497aa5c9457/nixexprs.tar.xz"
       },
       "original": {
-        "owner": "nixos",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
       }
     },
     "nixpkgs-stable": {
@@ -518,6 +518,22 @@
       }
     },
     "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1779560665,
+        "narHash": "sha256-tpyBcxPpcQb8ukyNF7DoCwfSY3VPsxHoYwj00Cayv5o=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "64c08a7ca051951c8eae34e3e3cb1e202fe36786",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
       "locked": {
         "lastModified": 1775888245,
         "narHash": "sha256-nwASzrRDD1JBEu/o8ekKYEXm/oJW6EMCzCRdrwcLe90=",
@@ -592,7 +608,7 @@
         "niri": "niri",
         "nix-doom-emacs-unstraightened": "nix-doom-emacs-unstraightened",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "pre-commit-hooks": "pre-commit-hooks",
         "sops-nix": "sops-nix",
@@ -622,7 +638,7 @@
     },
     "sops-nix": {
       "inputs": {
-        "nixpkgs": "nixpkgs_2"
+        "nixpkgs": "nixpkgs_3"
       },
       "locked": {
         "lastModified": 1777944972,
