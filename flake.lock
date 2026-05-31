@@ -135,11 +135,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779993298,
-        "narHash": "sha256-eV2NaJnpxKDw71o0SPDdC0ZXtiQawwsqWo3SAfCR+NY=",
+        "lastModified": 1780135342,
+        "narHash": "sha256-pyKIxk42VxjUjM15PSO7mXteOO/EntbqeZwaoRiD3QY=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "2d896b772f50ab8dc711b5761a23404d43129bb8",
+        "rev": "e4f64d25c8c7828615267f9c222e1dab0d6973ba",
         "type": "github"
       },
       "original": {
@@ -155,11 +155,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780089963,
-        "narHash": "sha256-ZLLxB8EQGhZwV0v+VwVCbLOwF2cKw17WYQzngjsuavA=",
+        "lastModified": 1780170046,
+        "narHash": "sha256-ep15qlf2GCICMYB9ogPtjd7XdUbTE3VqM68s6OgD8HE=",
         "ref": "refs/heads/master",
-        "rev": "4a75096c328e898ea591fc782a4507a193712c23",
-        "revCount": 744,
+        "rev": "4cdd82cc5e42fd85049883971db9291eda5db5f4",
+        "revCount": 789,
         "type": "git",
         "url": "https://codeberg.org/ezemtsov/ewm"
       },
@@ -361,11 +361,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1780102818,
-        "narHash": "sha256-pagCAbNXNQrp0Zx0xcJN274AZOGcq3rYMu762sufDAI=",
+        "lastModified": 1780189385,
+        "narHash": "sha256-L1SyM2GaeMFISP7tWJeAFXF7VuY6blnSGtr5fsdeLOM=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "5294788c26e9bc173b02314df0babe90788a3f52",
+        "rev": "488f4b1aa8bbd5241ec9971d84ada33d74127235",
         "type": "github"
       },
       "original": {
@@ -440,11 +440,11 @@
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1780054923,
-        "narHash": "sha256-51cOTdsO2tFuzUXV6iuVcmxbCtPvn9MGVs/x7G7grIc=",
+        "lastModified": 1780136369,
+        "narHash": "sha256-gaYGpR8nnuali30tbg2OUv8/5+ytfoqg/9obiB0fSYM=",
         "owner": "marienz",
         "repo": "nix-doom-emacs-unstraightened",
-        "rev": "02dff38a03309ad73488702fbe96db6867c38449",
+        "rev": "a0ff590619d1812880bf57fb753919757c6d8b2d",
         "type": "github"
       },
       "original": {
