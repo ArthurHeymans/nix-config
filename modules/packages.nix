@@ -30,6 +30,7 @@
     wifi-qr
     haveged
     brightnessctl
+    acpica-tools
 
     zellij
 
