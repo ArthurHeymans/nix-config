@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
+let
+  zmx = inputs.zmx.packages.${pkgs.stdenv.hostPlatform.system}.zmx;
+in
 {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -31,6 +34,7 @@
     haveged
     brightnessctl
     acpica-tools
+    zmx
 
     zellij
 

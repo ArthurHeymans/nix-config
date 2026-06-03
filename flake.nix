@@ -91,13 +91,14 @@
       url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    zmx.url = "github:neurosnap/zmx";
   };
 
   outputs =
     {
       nixpkgs,
       home-manager,
-
       ...
     }@inputs:
     let
