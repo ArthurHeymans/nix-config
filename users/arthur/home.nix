@@ -54,7 +54,10 @@
         name = "Arthur Heymans";
         email = "arthur@aheymans.xyz";
       };
-      github.user = "ArthurHeymans";
+      github = {
+        user = "ArthurHeymans";
+        "github.com".user = "ArthurHeymans";
+      };
     };
     signing = {
       signByDefault = true;
