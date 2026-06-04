@@ -2,7 +2,6 @@
   pkgs,
   inputs,
   osConfig,
-  #emacs-skia-src,
   ...
 }:
 let
@@ -16,25 +15,40 @@ let
         echo '${builtins.toJSON ecaConfig}' | ${pkgs.jq}/bin/jq '.' > $out
       '';
 
-  # emacs-skia =
-  #   (pkgs.emacs-pgtk.override {
-  #     withTreeSitter = true;
-  #     srcRepo = true;
-  #   }).overrideAttrs
-  #     (oldAttrs: {
-  #       pname = "emacs-skia";
-  #       src = emacs-skia-src;
-  #       configureFlags = oldAttrs.configureFlags ++ [
-  #         "--with-skia"
-  #       ];
-  #       buildInputs = oldAttrs.buildInputs ++ [
-  #         pkgs.skia
-  #         pkgs.libepoxy
-  #       ];
-  #       preBuild = (oldAttrs.preBuild or "") + ''
-  #         mkdir -p src/deps/skia
-  #       '';
-  #     });
+  # EWM's author maintains the PGTK Skia patches on Codeberg.  Keep this
+  # pinned instead of following the branch implicitly so rebuilds stay
+  # reproducible.
+  emacsSkia =
+    (pkgs.emacs-pgtk.override {
+      withTreeSitter = true;
+      srcRepo = true;
+    }).overrideAttrs
+      (oldAttrs: {
+        pname = "emacs-skia";
+        version = "30.2-skia-b328605";
+        src = pkgs.fetchgit {
+          url = "https://codeberg.org/ezemtsov/emacs.git";
+          rev = "b328605b4d3fcf17edadf44a68c8ea4d54225a2a";
+          hash = "sha256-QiLqCxVyFdjzTrj2DEi089Eenj9SKmZFLHYaall0iJ4=";
+        };
+        configureFlags = oldAttrs.configureFlags ++ [
+          "--with-skia"
+        ];
+        buildInputs = oldAttrs.buildInputs ++ [
+          pkgs.skia
+          pkgs.libepoxy
+        ];
+        nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [
+          pkgs.autoconf
+          pkgs.automake
+        ];
+        preConfigure = (oldAttrs.preConfigure or "") + ''
+          ./autogen.sh
+        '';
+        postInstall = (oldAttrs.postInstall or "") + ''
+          rm -f $out/bin/ctags $out/share/man/man1/ctags.1.gz
+        '';
+      });
   ghostelForEpkgs =
     epkgs:
     let
@@ -157,8 +171,7 @@ in
 
   programs.doom-emacs = {
     enable = true;
-    #emacs = emacs-skia;
-    emacs = pkgs.emacs-pgtk;
+    emacs = emacsSkia;
     doomDir = inputs.doom-config;
     tangleArgs = ".";
     provideEmacs = false;
@@ -260,8 +273,7 @@ in
   # separate emacs for toying around with doom without nix in the mix
   programs.emacs = {
     enable = true;
-    # package = emacs-skia;
-    package = pkgs.emacs-pgtk;
+    package = emacsSkia;
     extraPackages = epkgs: [
       # Use with-grammars to skip tree-sitter-quint: upstream pins rev="release"
       # (a branch, not a commit), so the hash breaks whenever they push.
