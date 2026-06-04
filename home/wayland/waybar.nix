@@ -41,7 +41,7 @@ in
       mainBar = {
         position = "top";
         modules-left = [
-          "sway/workspaces"
+          # "sway/workspaces"
           #          "hyprland/workspaces"
           #          "niri/workspaces"
           "ext/workspaces"
