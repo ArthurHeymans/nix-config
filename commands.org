@@ -24,7 +24,7 @@ nixos-rebuild switch --flake .#$(hostname) --option extra-substituters "http://g
 ** remote
 #+name: select-host
 #+begin_src elisp :results value
-(completing-read "Select a host" '("x220-nixos" "gmktec-k11" "t480-arthur" "x201-arthur" "x61-arthur"))
+(completing-read "Select a host" '("x220-nixos" "gmktec-k11" "gmktec-g3" "t480-arthur" "x201-arthur" "x61-arthur"))
 #+end_src
 
 #+name: rebuild-remote
@@ -32,9 +32,6 @@ nixos-rebuild switch --flake .#$(hostname) --option extra-substituters "http://g
 (async-shell-command
  (format "NIX_SSHOPTS=\"-C\" nixos-rebuild switch --flake .#%s --target-host %s --ask-sudo-password" targethost targethost))
 #+end_src
-
-#+RESULTS: rebuild-remote
-: #<process *Async Shell Command*>
 
 * update flake
 Update flake inputs to their latest versions.
@@ -51,6 +48,49 @@ nix flake update doom-config
 nix flake update
 #+end_src
 
+* maintain server
+Common gmktec-g3 home server maintenance commands.
+
+** Build server configuration locally
+Checks that the server system closure evaluates and builds before deploying.
+#+name: build-gmktec-g3
+#+begin_src sh :async :results raw output drawer
+nix build .#nixosConfigurations.gmktec-g3.config.system.build.toplevel 2>&1
+#+end_src
+
+** Deploy current checkout to server
+Build locally and activate on the server over SSH. This uses the committed or
+working-tree flake from this checkout.
+#+name: deploy-gmktec-g3
+#+begin_src sh :async :results raw output drawer
+NIX_SSHOPTS="-C" nixos-rebuild switch --flake .#gmktec-g3 --target-host gmktec-g3 --ask-sudo-password 2>&1
+#+end_src
+
+** Update flake inputs and deploy server
+Update inputs in this checkout, build the server, then activate it remotely.
+Review and commit the resulting flake.lock with jj afterwards.
+#+name: update-deploy-gmktec-g3
+#+begin_src sh :async :results raw output drawer
+set -euo pipefail
+nix flake update
+nix build .#nixosConfigurations.gmktec-g3.config.system.build.toplevel
+NIX_SSHOPTS="-C" nixos-rebuild switch --flake .#gmktec-g3 --target-host gmktec-g3 --ask-sudo-password 2>&1
+#+end_src
+
+** Let the server update itself from GitHub now
+The server has system.autoUpgrade enabled against github:ArthurHeymans/nix-config.
+Run its updater immediately instead of waiting for the timer.
+#+name: server-auto-upgrade-now
+#+begin_src sh :async :results raw output drawer
+ssh gmktec-g3 sudo systemctl start nixos-upgrade.service
+#+end_src
+
+** Check server updater status
+#+name: server-auto-upgrade-status
+#+begin_src sh :async :results raw output drawer
+ssh gmktec-g3 systemctl status nixos-upgrade.service nixos-upgrade.timer --no-pager
+#+end_src
+
 * Garbage collect
 Remove Nix store items older than 1 day, locally or on selected host.
 #+name: gc-remote
@@ -65,15 +105,10 @@ Remove Nix store items older than 1 day, locally or on selected host.
 * Install when a random live ISO is booted
 ** Install
 #+name: nixos-everywhere
-#+begin_src sh :detached t :var configname="x61-arthur" remote="x61-arthur"
+#+begin_src sh :detached t :var configname="gmktec-g3" remote="gmktec-g3"
 nix run github:nix-community/nixos-anywhere -- --generate-hardware-config nixos-generate-config hosts/$configname/hardware-configuration.nix --flake .#$configname --target-host root@$remote  2>&1
 #+end_src
 
-#+RESULTS: nixos-everywhere
-: [detached]
-
-#+RESULTS:
-: [detached]
 ** Update sops
 #+begin_src sh :dir /sshfs:x201-arthur:/home/arthur/ :results raw drawer
 rm ~/.ssh/id_ed25519*
@@ -81,50 +116,18 @@ ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519 -q -N ""
 cat ~/.ssh/id_ed25519.pub
 #+end_src
 
-#+RESULTS:
-:results:
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG7kI68/elpmRp017AlpcbWPrWQwjgzcS00VsDdOJhvs arthur@x201-arthur
-:end:
-
 - Add key to .sops.yaml
 
 #+begin_src sh :dir /sshfs:x201-arthur:/home/arthur :results raw drawer
 nix-shell -p ssh-to-age --run "ssh-to-age -i ~/.ssh/id_ed25519.pub"
 #+end_src
 
-#+RESULTS:
-:results:
-[35;1mwarning:[0m Nix search path entry '[35;1m/nix/var/nix/profiles/per-user/root/channels[0m' does not exist, ignoring
-age1guhcnvfmwqnng9dvfyzlzrlxrd99jrdycp8j0fhrkxvp6nzecy4qc6gldl
-:end:
-
 #+begin_src sh :dir /sshfs:x201-arthur:/home/arthur
 mkdir -p ~/.config/sops/age/
 nix-shell -p ssh-to-age --run "ssh-to-age -private-key -i ~/.ssh/id_ed25519 > ~/.config/sops/age/keys.txt"
 #+end_src
 
-#+RESULTS:
-| [35;1mwarning:[0m Nix search path entry '[35;1m/nix/var/nix/profiles/per-user/root/channels[0m' does not exist | ignoring |
-
 Update sops secrets with new key
 #+begin_src sh
 sops updatekeys -y secrets/*
 #+end_src
-
-#+RESULTS:
-| The                                                            | following                                                      | changes | will | be | made | to | the | file's | groups: |
-| Group                                                          | 1                                                              |         |      |    |      |    |     |        |         |
-| age1vwc6ywc0a2wpg9d80datnsevlepsepl9u628c26ej6cpj2ky8d8sp2ezhe |                                                                |         |      |    |      |    |     |        |         |
-| age192jvd4me826f75hz254ezh77yqp569y4rmur30w4m5mcve02vapq57ttg7 |                                                                |         |      |    |      |    |     |        |         |
-| age1649n9a584e79ahpuq752mutvcgphvajrs9hnhrmmv0vsw3cmmy4safmmkv |                                                                |         |      |    |      |    |     |        |         |
-| age1aqaey4gyy9meglslfytm3z2uxadq2nvdkthzvytrl8m8uax6lfxqs4lnr4 |                                                                |         |      |    |      |    |     |        |         |
-| +++                                                              | age1guhcnvfmwqnng9dvfyzlzrlxrd99jrdycp8j0fhrkxvp6nzecy4qc6gldl |         |      |    |      |    |     |        |         |
-| ---                                                            | age1uljz5r599kp6ln47426wcxzzejtt0vdxjuwdyp57y2wj3xm0xp0skrsxwg |         |      |    |      |    |     |        |         |
-| The                                                            | following                                                      | changes | will | be | made | to | the | file's | groups: |
-| Group                                                          | 1                                                              |         |      |    |      |    |     |        |         |
-| age1vwc6ywc0a2wpg9d80datnsevlepsepl9u628c26ej6cpj2ky8d8sp2ezhe |                                                                |         |      |    |      |    |     |        |         |
-| age192jvd4me826f75hz254ezh77yqp569y4rmur30w4m5mcve02vapq57ttg7 |                                                                |         |      |    |      |    |     |        |         |
-| age1649n9a584e79ahpuq752mutvcgphvajrs9hnhrmmv0vsw3cmmy4safmmkv |                                                                |         |      |    |      |    |     |        |         |
-| age1aqaey4gyy9meglslfytm3z2uxadq2nvdkthzvytrl8m8uax6lfxqs4lnr4 |                                                                |         |      |    |      |    |     |        |         |
-| +++                                                              | age1guhcnvfmwqnng9dvfyzlzrlxrd99jrdycp8j0fhrkxvp6nzecy4qc6gldl |         |      |    |      |    |     |        |         |
-| ---                                                            | age1uljz5r599kp6ln47426wcxzzejtt0vdxjuwdyp57y2wj3xm0xp0skrsxwg |         |      |    |      |    |     |        |         |

@@ -1,11 +1,11 @@
 {
   config,
+  lib,
   osConfig,
   pkgs,
   ...
-}:
-let
-  ghostel-shell-integration = pkgs.runCommand "ghostel-shell-integration" { } ''
+}: let
+  ghostel-shell-integration = pkgs.runCommand "ghostel-shell-integration" {} ''
     install -Dm444 ${pkgs.emacsPackages.ghostel.src}/etc/shell/ghostel.bash $out/etc/ghostel.bash
     install -Dm444 ${pkgs.emacsPackages.ghostel.src}/etc/shell/ghostel.fish $out/etc/ghostel.fish
   '';
@@ -37,39 +37,20 @@ let
 
     exec ${pkgs.emacs-pgtk}/bin/emacsclient "''${args[@]}" "$@"
   '';
-in
-{
+in {
+  imports = [
+    ./shell-base.nix
+  ];
+
   home.sessionVariables = {
     EDITOR = "ewm-editor";
     VISUAL = "ewm-editor";
   };
 
-  home.packages = with pkgs; [
-    ewm-editor
-    fzf
-    grc
-    just
-    bat
-    ripgrep
-    nmap
-    screen
-    yazi
-    github-cli
-    file
-  ];
-
-  home.shell = {
-    enableFishIntegration = true;
-    enableBashIntegration = true;
-  };
+  home.packages = [ewm-editor];
 
   programs.fish = {
-    enable = true;
-    interactiveShellInit = ''
-      if test "$TERM" = "dumb"
-        exec sh
-      end
-
+    interactiveShellInit = lib.mkAfter ''
       # Ghostel terminal emulator shell integration
       test "$INSIDE_EMACS" = 'ghostel'; and source ${ghostel-shell-integration}/etc/ghostel.fish
 
@@ -78,7 +59,6 @@ in
       set -gx EDITOR ewm-editor
       set -gx VISUAL ewm-editor
 
-      alias ls='eza --icons=auto'
       setenv OPENAI_API_KEY $(cat ${config.sops.secrets."environmentVariables/OPENAI_API_KEY".path})
       setenv OPENROUTER_API_KEY $(cat ${
         config.sops.secrets."environmentVariables/OPENROUTER_API_KEY".path
@@ -92,81 +72,19 @@ in
     '';
     plugins = [
       {
-        name = "grc";
-        src = pkgs.fishPlugins.grc.src;
-      } # colorized command output
-      {
-        name = "fzf-fish";
-        src = pkgs.fishPlugins.fzf-fish.src;
-      } # fuzzy finding
-      {
         name = "forgit";
         src = pkgs.fishPlugins.forgit.src;
-      } # fuzzy git
-      {
-        name = "hydro";
-        src = pkgs.fishPlugins.hydro.src;
-      } # info about git
+      }
     ];
   };
 
-  programs.bash = {
-    enable = true;
-    enableCompletion = true;
-    initExtra = ''
+  programs.bash.initExtra = ''
+    # Ghostel terminal emulator shell integration
+    [[ "$INSIDE_EMACS" = 'ghostel' ]] && source ${ghostel-shell-integration}/etc/ghostel.bash
 
-      # Ghostel terminal emulator shell integration
-      [[ "$INSIDE_EMACS" = 'ghostel' ]] && source ${ghostel-shell-integration}/etc/ghostel.bash
+    source ${osConfig.programs.ewm.ewmPackage}/etc/emacs-ewm.bash
 
-      source ${osConfig.programs.ewm.ewmPackage}/etc/emacs-ewm.bash
-
-      export EDITOR=ewm-editor
-      export VISUAL=ewm-editor
-    '';
-  };
-
-  programs.starship = {
-    enable = true;
-    enableFishIntegration = true;
-    settings = {
-      #format = "$shlvl$shell$username$hostname$nix_shell$git_branch$git_commit$git_state$git_status$directory$jobs$cmd_duration$character";
-      add_newline = false;
-
-      line_break.disabled = true;
-      nix_shell = {
-        symbol = "❄ ";
-      };
-      directory = {
-        truncation_length = 0;
-        truncate_to_repo = true;
-      };
-      time = {
-        time_format = "%T";
-        format = "🕙 $time($style) ";
-        style = "bright-white";
-        disabled = false;
-      };
-    };
-  };
-
-  # Easy shell environments
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
-    enableBashIntegration = true;
-    #enableFishIntegration = true;
-  };
-
-  # zoxide
-  programs.zoxide.enable = true;
-  programs.zoxide.enableBashIntegration = true;
-  programs.zoxide.enableFishIntegration = true;
-  programs.zoxide.options = [
-    "--cmd cd"
-  ];
-
-  programs.atuin = {
-    enable = true;
-    flags = [ "--disable-up-arrow" ];
-  };
+    export EDITOR=ewm-editor
+    export VISUAL=ewm-editor
+  '';
 }

@@ -101,27 +101,47 @@
       inherit username inputs;
     };
 
-    mkSystem = hostname:
+    mkNixos = {
+      hostname,
+      homeModule,
+      extraModules ? [],
+    }:
       nixpkgs.lib.nixosSystem {
         specialArgs =
           specialArgs
           // {
             inherit hostname;
           };
-        modules = [
-          ./hosts/${hostname}
-          ./users/${username}/nixos.nix
+        modules =
+          [
+            ./hosts/${hostname}
+            ./users/${username}/nixos.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = (specialArgs // {inherit hostname;}) // inputs;
+              home-manager.users.${username} = import homeModule;
+            }
+          ]
+          ++ extraModules;
+      };
+
+    mkSystem = hostname:
+      mkNixos {
+        inherit hostname;
+        homeModule = ./users/${username}/home.nix;
+        extraModules = [
           inputs.niri.nixosModules.niri
           inputs.sysc-greet.nixosModules.default
           inputs.ewm.nixosModules.default
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = (specialArgs // {inherit hostname;}) // inputs;
-            home-manager.users.${username} = import ./users/${username}/home.nix;
-          }
         ];
+      };
+
+    mkServer = hostname:
+      mkNixos {
+        inherit hostname;
+        homeModule = ./users/${username}/server-home.nix;
       };
   in {
     formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
@@ -129,6 +149,7 @@
       x220-nixos = mkSystem "x220-nixos";
       t14s-g6 = mkSystem "t14s-g6";
       gmktec-k11 = mkSystem "gmktec-k11";
+      gmktec-g3 = mkServer "gmktec-g3";
       t480-arthur = mkSystem "t480-arthur";
       x201-arthur = mkSystem "x201-arthur";
       x61-arthur = mkSystem "x61-arthur";

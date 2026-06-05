@@ -2,8 +2,7 @@
   nix-doom-emacs-unstraightened,
   sops-nix,
   ...
-}:
-{
+}: {
   ##################################################################################################################
   #
   # All Arthur's Home Manager Configuration
@@ -15,6 +14,7 @@
     sops-nix.homeManagerModules.sops
     # niri.homeModules.niri is injected automatically by niri.nixosModules.niri
     ../../home/core.nix
+    ../../home/version-control.nix
 
     ../../home/alacritty.nix
     ../../home/browsers.nix
@@ -46,46 +46,4 @@
     #    ../../home/rofi
     #    ../../home/shell
   ];
-
-  programs.git = {
-    enable = true;
-    settings = {
-      user = {
-        name = "Arthur Heymans";
-        email = "arthur@aheymans.xyz";
-      };
-      github = {
-        user = "ArthurHeymans";
-        "github.com".user = "ArthurHeymans";
-      };
-    };
-    signing = {
-      signByDefault = true;
-      key = "4401A5C26DF3FFFDF472F84AA1D13A950A6651BB";
-      format = "openpgp";
-    };
-    ignores = [
-      ".aider*"
-      ".envrc"
-      ".direnv"
-      ".direnv/*"
-      ".dir-locals.el"
-      ".pi-lens"
-    ];
-  };
-
-  programs.jujutsu = {
-    enable = true;
-    settings = {
-      signing = {
-        behavior = "own";
-        backend = "gpg";
-        key = "4401A5C26DF3FFFDF472F84AA1D13A950A6651BB";
-      };
-      user = {
-        name = "Arthur Heymans";
-        email = "arthur@aheymans.xyz";
-      };
-    };
-  };
 }
