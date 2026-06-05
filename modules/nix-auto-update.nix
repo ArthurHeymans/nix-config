@@ -18,9 +18,12 @@ let
 
   build_cmds = lib.concatMapStringsSep "\n" (host: ''
     echo "Building ${host}..."
+    set +e
     nix build "${flake_dir}#nixosConfigurations.${host}.config.system.build.toplevel" \
       --no-link --print-out-paths 2>&1 | tee -a "$log"
-    if [ "''${PIPESTATUS[0]}" -ne 0 ]; then
+    build_status="''${PIPESTATUS[0]}"
+    set -e
+    if [ "$build_status" -ne 0 ]; then
       failed_hosts="$failed_hosts ${host}"
     fi
   '') hosts;
@@ -39,80 +42,169 @@ in
           lib.makeBinPath (
             with pkgs;
             [
-              nix
-              git
-              openssh
               coreutils
               gawk
-              msmtp
+              git
               gnugrep
+              jq
+              jujutsu
+              msmtp
+              nix
+              openssh
             ]
           )
         }:/run/wrappers/bin"
       ];
     };
     script = ''
-      set -euo pipefail
-      log=$(mktemp /tmp/nix-flake-update-XXXXXX.log)
-      failed_hosts=""
+            set -euo pipefail
+            log=$(mktemp /tmp/nix-flake-update-XXXXXX.log)
+            lock_before=$(mktemp /tmp/nix-flake-lock-before-XXXXXX.json)
+            failed_hosts=""
+            old_change=""
+            update_change=""
+            main_before=""
+            main_moved="false"
 
-      send_failure_email() {
-        local subject="$1"
-        {
-          echo "From: nix-auto-update <${notify_email}>"
-          echo "To: ${notify_email}"
-          echo "Subject: [nix-config] $subject"
-          echo "Content-Type: text/plain; charset=utf-8"
-          echo ""
-          echo "$subject"
-          echo ""
-          echo "--- log output ---"
-          tail -200 "$log"
-        } | msmtp -a aheymans ${notify_email}
-      }
+            cleanup() {
+              if [ -n "$old_change" ]; then
+                jj edit "$old_change" >/dev/null 2>&1 || true
+              fi
+              rm -f "$log" "$lock_before"
+            }
 
-      trap 'rm -f "$log"' EXIT
+            send_email() {
+              local subject="$1"
+              local body="$2"
+              {
+                echo "From: nix-auto-update <${notify_email}>"
+                echo "To: ${notify_email}"
+                echo "Subject: [nix-config] $subject"
+                echo "Content-Type: text/plain; charset=utf-8"
+                echo ""
+                echo "$body"
+                echo ""
+                echo "--- log output ---"
+                tail -200 "$log"
+              } | msmtp -a aheymans ${notify_email}
+            }
 
-      echo "=== Flake update started at $(date) ===" | tee "$log"
+            updated_inputs() {
+              local before="$1"
+              local after="$2"
 
-      # Pull latest changes first
-      git pull --rebase 2>&1 | tee -a "$log" || {
-        send_failure_email "git pull failed on $(hostname)"
-        exit 1
-      }
+              jq -r -n --slurpfile before "$before" --slurpfile after "$after" '
+                def nodes($file):
+                  $file[0].nodes
+                  | to_entries
+                  | map({key: .key, locked: .value.locked})
+                  | map(select(.locked != null));
+                def locked_label($locked):
+                  if $locked.rev? then ($locked.rev | tostring)[0:12]
+                  elif $locked.lastModified? then ($locked.lastModified | tostring)
+                  elif $locked.narHash? then ($locked.narHash | tostring)[0:20]
+                  else "changed"
+                  end;
+                (nodes($before) | INDEX(.key)) as $old |
+                (nodes($after) | INDEX(.key)) as $new |
+                (
+                  (($old | keys_unsorted[]) as $key |
+                    select($new[$key] == null) |
+                    "- \($key): removed"),
+                  (($new | keys_unsorted[]) as $key |
+                    select($old[$key] == null or $old[$key].locked != $new[$key].locked) |
+                    if $old[$key] == null then
+                      "- \($key): added " + locked_label($new[$key].locked)
+                    else
+                      "- \($key): " + locked_label($old[$key].locked) + " -> " + locked_label($new[$key].locked)
+                    end)
+                )
+              ' | sort
+            }
 
-      # Update flake inputs
-      nix flake update 2>&1 | tee -a "$log" || {
-        send_failure_email "nix flake update failed on $(hostname)"
-        exit 1
-      }
+            abandon_update() {
+              if [ "$main_moved" = "true" ] && [ -n "$main_before" ]; then
+                jj bookmark set main -r "$main_before" --allow-backwards >/dev/null 2>&1 || true
+                main_moved="false"
+              fi
+              if [ -n "$update_change" ]; then
+                jj abandon "$update_change" >/dev/null 2>&1 || true
+                update_change=""
+              fi
+            }
 
-      # Check if flake.lock actually changed
-      if git diff --quiet flake.lock; then
-        echo "No flake input changes, nothing to do." | tee -a "$log"
-        exit 0
-      fi
+            fail() {
+              local subject="$1"
+              local body="$2"
+              abandon_update
+              send_email "$subject" "$body"
+              exit 1
+            }
 
-      # Build all host configurations
-      ${build_cmds}
+            trap cleanup EXIT
 
-      if [ -n "$failed_hosts" ]; then
-        send_failure_email "Build failed for:$failed_hosts on $(hostname)"
-        # Restore flake.lock to avoid committing a broken update
-        git checkout flake.lock
-        exit 1
-      fi
+            echo "=== Flake update started at $(date) ===" | tee "$log"
 
-      echo "All builds succeeded, committing and pushing." | tee -a "$log"
+            old_change=$(jj log --no-graph -r @ -T 'change_id')
+            main_before=$(jj log --no-graph -r main -T 'change_id')
 
-      git add flake.lock
-      git commit -m "flake: update inputs" 2>&1 | tee -a "$log"
-      git push 2>&1 | tee -a "$log" || {
-        send_failure_email "git push failed on $(hostname)"
-        exit 1
-      }
+            # Fetch latest changes first, then do the automated update in its own jj change.
+            jj git fetch 2>&1 | tee -a "$log" || \
+              fail "jj git fetch failed on $(hostname)" "jj git fetch failed before attempting the nightly flake update."
 
-      echo "=== Flake update completed at $(date) ===" | tee -a "$log"
+            jj new main@origin -m "flake: update inputs" 2>&1 | tee -a "$log" || \
+              fail "jj new failed on $(hostname)" "Could not create the temporary flake update change."
+            update_change=$(jj log --no-graph -r @ -T 'change_id')
+            cp flake.lock "$lock_before"
+
+            # Update flake inputs
+            nix flake update 2>&1 | tee -a "$log" || \
+              fail "nix flake update failed on $(hostname)" "nix flake update failed on the temporary jj change."
+
+            # Check if flake.lock actually changed
+            if [ -z "$(jj diff --summary -- flake.lock)" ]; then
+              echo "No flake input changes, nothing to do." | tee -a "$log"
+              abandon_update
+              send_email "no flake input changes on $(hostname)" "No flake input changes were available during the nightly update."
+              exit 0
+            fi
+
+            input_summary=$(updated_inputs "$lock_before" flake.lock || echo "- flake.lock changed; failed to summarize inputs")
+            if [ -z "$input_summary" ]; then
+              input_summary="- flake.lock changed; no locked input changes detected"
+            fi
+
+            # Build all host configurations
+            ${build_cmds}
+
+            if [ -n "$failed_hosts" ]; then
+              fail "build failed for:$failed_hosts on $(hostname)" "Build failed for:$failed_hosts.
+
+      Updated inputs attempted:
+      $input_summary"
+            fi
+
+            echo "All builds succeeded, committing and pushing." | tee -a "$log"
+
+            printf 'flake: update inputs\n\nUpdated inputs:\n%s\n' "$input_summary" | \
+              jj desc --stdin 2>&1 | tee -a "$log" || \
+              fail "jj desc failed on $(hostname)" "Could not set the flake update commit message."
+            jj bookmark set main -r "$update_change" 2>&1 | tee -a "$log" || \
+              fail "jj bookmark set failed on $(hostname)" "Could not move the main bookmark to the flake update change."
+            main_moved="true"
+            jj git push --bookmark main 2>&1 | tee -a "$log" || \
+              fail "jj git push failed on $(hostname)" "jj git push failed after all builds succeeded.
+
+      Updated inputs:
+      $input_summary"
+
+            echo "=== Flake update completed at $(date) ===" | tee -a "$log"
+            send_email "flake inputs updated on $(hostname)" "Nightly flake input update succeeded.
+
+      Updated inputs:
+      $input_summary
+
+      Built hosts: ${lib.concatStringsSep " " hosts}"
     '';
   };
 
