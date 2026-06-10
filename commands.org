@@ -24,7 +24,7 @@ nixos-rebuild switch --flake .#$(hostname) --option extra-substituters "http://g
 ** remote
 #+name: select-host
 #+begin_src elisp :results value
-(completing-read "Select a host" '("x220-nixos" "gmktec-k11" "t480-arthur" "x201-arthur"))
+(completing-read "Select a host" '("x220-nixos" "gmktec-k11" "t480-arthur" "x201-arthur" "x61-arthur"))
 #+end_src
 
 #+name: rebuild-remote
@@ -65,7 +65,7 @@ Remove Nix store items older than 1 day, locally or on selected host.
 * Install when a random live ISO is booted
 ** Install
 #+name: nixos-everywhere
-#+begin_src sh :detached t :var configname="t480-arthur" remote="nixos.lan"
+#+begin_src sh :detached t :var configname="x61-arthur" remote="x61-arthur"
 nix run github:nix-community/nixos-anywhere -- --generate-hardware-config nixos-generate-config hosts/$configname/hardware-configuration.nix --flake .#$configname --target-host root@$remote  2>&1
 #+end_src
 

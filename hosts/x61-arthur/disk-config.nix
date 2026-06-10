@@ -3,10 +3,15 @@
     disk = {
       main = {
         type = "disk";
-        device = "/dev/nvme0n1";
+        device = "/dev/disk/by-path/pci-0000:00:1f.2-ata-1.0";
         content = {
           type = "gpt";
           partitions = {
+            grub = {
+              size = "1M";
+              type = "EF02"; # for grub MBR
+              attributes = [0]; # partition attribute
+            };
             ESP = {
               size = "512M";
               type = "EF00";
@@ -14,7 +19,7 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [ "umask=0077" ];
+                mountOptions = ["umask=0077"];
               };
             };
             luks = {
@@ -30,7 +35,7 @@
                 };
                 content = {
                   type = "btrfs";
-                  extraArgs = [ "-f" ];
+                  extraArgs = ["-f"];
                   subvolumes = {
                     "/root" = {
                       mountpoint = "/";

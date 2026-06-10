@@ -4,6 +4,7 @@ keys:
   - &gmktec-k11 age1649n9a584e79ahpuq752mutvcgphvajrs9hnhrmmv0vsw3cmmy4safmmkv
   - &t480-arthur age1aqaey4gyy9meglslfytm3z2uxadq2nvdkthzvytrl8m8uax6lfxqs4lnr4
   - &x201-arthur age1guhcnvfmwqnng9dvfyzlzrlxrd99jrdycp8j0fhrkxvp6nzecy4qc6gldl
+  - &x61-arthur age1hfvqs49qa82w5d4hamqxpze5hpau02jqhzxrfvk4sfkd5p5dzfvqyfv73s
 creation_rules:
   - path_regex: secrets/nix-serve-key\.yaml$
     key_groups:
@@ -17,3 +18,4 @@ creation_rules:
           - *gmktec-k11
           - *t480-arthur
           - *x201-arthur
+          - *x61-arthur

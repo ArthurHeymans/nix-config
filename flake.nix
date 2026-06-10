@@ -90,50 +90,48 @@
     zmx.url = "github:neurosnap/zmx";
   };
 
-  outputs =
-    {
-      nixpkgs,
-      home-manager,
-      ...
-    }@inputs:
-    let
-      username = "arthur";
-      system = "x86_64-linux";
-      specialArgs = {
-        inherit username inputs;
-      };
+  outputs = {
+    nixpkgs,
+    home-manager,
+    ...
+  } @ inputs: let
+    username = "arthur";
+    system = "x86_64-linux";
+    specialArgs = {
+      inherit username inputs;
+    };
 
-      mkSystem =
-        hostname:
-        nixpkgs.lib.nixosSystem {
-          specialArgs = specialArgs // {
+    mkSystem = hostname:
+      nixpkgs.lib.nixosSystem {
+        specialArgs =
+          specialArgs
+          // {
             inherit hostname;
           };
-          modules = [
-            ./hosts/${hostname}
-            ./users/${username}/nixos.nix
-            inputs.niri.nixosModules.niri
-            inputs.sysc-greet.nixosModules.default
-            inputs.ewm.nixosModules.default
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = (specialArgs // { inherit hostname; }) // inputs;
-              home-manager.users.${username} = import ./users/${username}/home.nix;
-            }
-          ];
-        };
-    in
-    {
-      formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
-      nixosConfigurations = {
-        x220-nixos = mkSystem "x220-nixos";
-        t14s-g6 = mkSystem "t14s-g6";
-        gmktec-k11 = mkSystem "gmktec-k11";
-        t480-arthur = mkSystem "t480-arthur";
-        x201-arthur = mkSystem "x201-arthur";
-        newnew = mkSystem "newnew";
+        modules = [
+          ./hosts/${hostname}
+          ./users/${username}/nixos.nix
+          inputs.niri.nixosModules.niri
+          inputs.sysc-greet.nixosModules.default
+          inputs.ewm.nixosModules.default
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = (specialArgs // {inherit hostname;}) // inputs;
+            home-manager.users.${username} = import ./users/${username}/home.nix;
+          }
+        ];
       };
+  in {
+    formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
+    nixosConfigurations = {
+      x220-nixos = mkSystem "x220-nixos";
+      t14s-g6 = mkSystem "t14s-g6";
+      gmktec-k11 = mkSystem "gmktec-k11";
+      t480-arthur = mkSystem "t480-arthur";
+      x201-arthur = mkSystem "x201-arthur";
+      x61-arthur = mkSystem "x61-arthur";
     };
+  };
 }
