@@ -15,6 +15,7 @@ let
     "x201-arthur"
   ];
   notify_email = "arthur@aheymans.xyz";
+  host_name = config.networking.hostName;
 
   build_cmds = lib.concatMapStringsSep "\n" (host: ''
     echo "Building ${host}..."
@@ -46,6 +47,7 @@ in
               gawk
               git
               gnugrep
+              gnupg
               jq
               jujutsu
               msmtp
@@ -150,22 +152,22 @@ in
 
             # Fetch latest changes first, then do the automated update in its own jj change.
             jj git fetch 2>&1 | tee -a "$log" || \
-              fail "jj git fetch failed on $(hostname)" "jj git fetch failed before attempting the nightly flake update."
+              fail "jj git fetch failed on ${host_name}" "jj git fetch failed before attempting the nightly flake update."
 
             jj new main@origin -m "flake: update inputs" 2>&1 | tee -a "$log" || \
-              fail "jj new failed on $(hostname)" "Could not create the temporary flake update change."
+              fail "jj new failed on ${host_name}" "Could not create the temporary flake update change."
             update_change=$(jj log --no-graph -r @ -T 'change_id')
             cp flake.lock "$lock_before"
 
             # Update flake inputs
             nix flake update 2>&1 | tee -a "$log" || \
-              fail "nix flake update failed on $(hostname)" "nix flake update failed on the temporary jj change."
+              fail "nix flake update failed on ${host_name}" "nix flake update failed on the temporary jj change."
 
             # Check if flake.lock actually changed
             if [ -z "$(jj diff --summary -- flake.lock)" ]; then
               echo "No flake input changes, nothing to do." | tee -a "$log"
               abandon_update
-              send_email "no flake input changes on $(hostname)" "No flake input changes were available during the nightly update."
+              send_email "no flake input changes on ${host_name}" "No flake input changes were available during the nightly update."
               exit 0
             fi
 
@@ -178,7 +180,7 @@ in
             ${build_cmds}
 
             if [ -n "$failed_hosts" ]; then
-              fail "build failed for:$failed_hosts on $(hostname)" "Build failed for:$failed_hosts.
+              fail "build failed for:$failed_hosts on ${host_name}" "Build failed for:$failed_hosts.
 
       Updated inputs attempted:
       $input_summary"
@@ -188,18 +190,18 @@ in
 
             printf 'flake: update inputs\n\nUpdated inputs:\n%s\n' "$input_summary" | \
               jj desc --stdin 2>&1 | tee -a "$log" || \
-              fail "jj desc failed on $(hostname)" "Could not set the flake update commit message."
+              fail "jj desc failed on ${host_name}" "Could not set the flake update commit message."
             jj bookmark set main -r "$update_change" 2>&1 | tee -a "$log" || \
-              fail "jj bookmark set failed on $(hostname)" "Could not move the main bookmark to the flake update change."
+              fail "jj bookmark set failed on ${host_name}" "Could not move the main bookmark to the flake update change."
             main_moved="true"
             jj git push --bookmark main 2>&1 | tee -a "$log" || \
-              fail "jj git push failed on $(hostname)" "jj git push failed after all builds succeeded.
+              fail "jj git push failed on ${host_name}" "jj git push failed after all builds succeeded.
 
       Updated inputs:
       $input_summary"
 
             echo "=== Flake update completed at $(date) ===" | tee -a "$log"
-            send_email "flake inputs updated on $(hostname)" "Nightly flake input update succeeded.
+            send_email "flake inputs updated on ${host_name}" "Nightly flake input update succeeded.
 
       Updated inputs:
       $input_summary
