@@ -90,6 +90,7 @@ let
 in
 {
   programs.dconf.enable = true;
+  programs.xwayland.enable = true;
 
   # greetd with sysc-greet
   services.sysc-greet = {
@@ -121,7 +122,13 @@ in
   # Second ewm session: plain emacs. Must be in environment.systemPackages so
   # share/wayland-sessions/ is linked into /run/current-system/sw/share/wayland-sessions/,
   # which is where sysc-greet scans for session desktop files.
-  environment.systemPackages = [ ewmEmacsSystemPackage ];
+  environment.systemPackages = [
+    ewmEmacsSystemPackage
+    pkgs.xwayland-satellite
+  ];
   services.displayManager.sessionPackages = [ ewmEmacsSystemPackage ];
   systemd.packages = [ ewmEmacsSystemPackage ];
+
+  # EWM has on-demand xwayland-satellite integration: it looks for the binary at
+  # startup, creates the X11 sockets itself, and propagates DISPLAY to children.
 }
