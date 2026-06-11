@@ -90,6 +90,11 @@ ssh gmktec-g3 sudo systemctl start nixos-upgrade.service
 #+begin_src sh :async :results raw output drawer
 ssh gmktec-g3 systemctl status nixos-upgrade.service nixos-upgrade.timer --no-pager
 #+end_src
+** Configure syncthing
+#+name: forward syncthing
+#+begin_src sh
+ssh -N -L 8386:127.0.0.1:8384 arthur@192.168.0.6
+#+end_src
 
 * Garbage collect
 Remove Nix store items older than 1 day, locally or on selected host.
