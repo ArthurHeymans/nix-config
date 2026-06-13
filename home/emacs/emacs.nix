@@ -50,69 +50,7 @@ let
         '';
       });
   emacsPgtk = pkgs.emacs-pgtk;
-  emacsPackage =
-    if osConfig.networking.hostName == "x61-arthur"
-    then emacsPgtk
-    else emacsSkia;
-  ghostelForEpkgs =
-    epkgs:
-    let
-      zig = pkgs.zig_0_15;
-      libExt = pkgs.stdenv.hostPlatform.extensions.sharedLibrary;
-      unpackZigArtifact =
-        name: artifact:
-        pkgs.runCommand name
-          {
-            nativeBuildInputs = [ zig ];
-          }
-          ''
-            hash=$(zig fetch --global-cache-dir "$TMPDIR" ${artifact})
-            mv "$TMPDIR/p/$hash" "$out"
-            chmod 755 "$out"
-          '';
-      ghosttySourceDeps = unpackZigArtifact "ghostty-source" (
-        pkgs.fetchurl {
-          url = "https://github.com/ghostty-org/ghostty/archive/01825411ab2720e47e6902e9464e805bc6a062a1.tar.gz";
-          hash = "sha256-1VUgfGglf4oRjyFYckJdcRPJOstyEhWAAGOirEZ56Yo=";
-        }
-      );
-      ghosttyThemeDeps = unpackZigArtifact "ghostty-themes" (
-        pkgs.fetchurl {
-          url = "https://deps.files.ghostty.org/ghostty-themes-release-20260323-152405-a2c7b60.tgz";
-          hash = "sha256-fWgXdUXh2/dNZqERzEu9hz4xyy4nl+GUjLMpUMrsRnA=";
-        }
-      );
-      waylandProtocolsDeps = unpackZigArtifact "wayland-protocols" (
-        pkgs.fetchurl {
-          url = "https://gitlab.freedesktop.org/wayland/wayland-protocols/-/archive/1.47/wayland-protocols-1.47.tar.gz";
-          hash = "sha256-3S3xSrX0EDgleq7cxLX7msDuAY8/D5SvkJcCjmDTMiM=";
-        }
-      );
-      ghostelZigDeps = pkgs.runCommand "${epkgs.ghostel.pname}-${epkgs.ghostel.version}-zig-deps" { } ''
-        mkdir -p $out
-        cp -rLT ${pkgs.ghostty.deps} $out
-        chmod -R u+w $out
-        cp -rLT ${ghosttySourceDeps} "$out/ghostty-1.3.2-dev-5UdBCzaaBwVjJOr-ltYINjybeEOAmLAauH5oq8-cdNGN"
-        cp -rLT ${ghosttyThemeDeps} "$out/N-V-__8AAL6FAwBDPampKgDjoxlJYDIn2jv0VaINS4W6CXJN"
-        cp -rLT ${waylandProtocolsDeps} "$out/N-V-__8AAFdWDwA0ktbNUi9pFBHCRN4weXIgIfCrVjfGxqgA"
-      '';
-    in
-    epkgs.ghostel.overrideAttrs (old: {
-      deps = ghostelZigDeps;
-      nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ zig ];
-      env = (old.env or { }) // {
-        EMACS_INCLUDE_DIR = "${epkgs.emacs}/include";
-      };
-      preBuild = ''
-        export ZIG_GLOBAL_CACHE_DIR=$(mktemp -d)
-        mkdir -p "$ZIG_GLOBAL_CACHE_DIR/p"
-        cp -rLT ${ghostelZigDeps} "$ZIG_GLOBAL_CACHE_DIR/p"
-        chmod -R u+w "$ZIG_GLOBAL_CACHE_DIR/p"
-
-        zig build -Doptimize=ReleaseFast -Dcpu=baseline
-        test -f ghostel-module${libExt}
-      '';
-    });
+  emacsPackage = if osConfig.networking.hostName == "x61-arthur" then emacsPgtk else emacsSkia;
   # elBeBackForEpkgs =
   #   epkgs:
   #   let
@@ -233,9 +171,6 @@ in
         web = fixDeprecatedCl esuper.web;
         kv = fixDeprecatedCl esuper.kv;
         db = fixDeprecatedCl esuper.db;
-        # Build ghostel's native Zig module from the package source, like
-        # nixpkgs does for vterm, instead of injecting a release binary.
-        ghostel = ghostelForEpkgs esuper;
       };
   };
 
@@ -287,7 +222,7 @@ in
       ))
       epkgs.mu4e
       epkgs.vterm
-      (ghostelForEpkgs epkgs)
+      epkgs.ghostel
       # (elBeBackForEpkgs epkgs)
       osConfig.programs.ewm.ewmPackage
     ];
