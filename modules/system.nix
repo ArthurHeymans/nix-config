@@ -31,6 +31,11 @@
     boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
   };
 
+  # Provide an alternate boot entry with relaxed /dev/mem access.
+  specialisation."iomem-relaxed".configuration = {
+    boot.kernelParams = ["iomem=relaxed"];
+  };
+
   nix.settings = {
     extra-substituters = [
       "https://niri.cachix.org"
