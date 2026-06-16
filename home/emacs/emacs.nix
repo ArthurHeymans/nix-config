@@ -91,6 +91,11 @@ in
     hugo
     mu
     isync
+    # NonGNU ELPA archive/build tooling.
+    bubblewrap
+    discount
+    imagemagick
+    lzip
     clang-tools
     emacs-all-the-icons-fonts
     emacs-lsp-booster
