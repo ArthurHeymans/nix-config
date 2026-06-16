@@ -109,7 +109,7 @@ in
     poppler-utils
     vips
     tmux
-    # emacs-lsp-booster
+    yaml-language-server
   ];
 
   programs.doom-emacs = {
