@@ -10,13 +10,16 @@ let
     postBuild = ''
       rm $out/bin/mako
       makeWrapper ${lib.getExe pkgs.mako} $out/bin/mako \
-        --run 'case ":''${XDG_CURRENT_DESKTOP:-}:" in *:ewm:*|*:EWM:*) echo "mako is disabled for EWM sessions; use EDNC instead." >&2; exit 1;; esac'
+        --run 'case ":''${XDG_CURRENT_DESKTOP:-}:" in *:ewm:*|*:EWM:*) echo "mako is disabled for EWM sessions; use EDNC instead." >&2; exit 1;; esac; if @SYSTEMCTL@ --user -q is-active ewm.service ewm-emacs.service 2>/dev/null; then echo "mako is disabled for EWM sessions; use EDNC instead." >&2; exit 1; fi'
+      substituteInPlace $out/bin/mako \
+        --replace-fail @SYSTEMCTL@ ${pkgs.systemd}/bin/systemctl
 
       rm $out/share/dbus-1/services/fr.emersion.mako.service
       cat > $out/share/dbus-1/services/fr.emersion.mako.service <<'EOF'
       [D-BUS Service]
       Name=org.freedesktop.Notifications
       Exec=@MAKO@
+      SystemdService=mako.service
       EOF
       substituteInPlace $out/share/dbus-1/services/fr.emersion.mako.service \
         --replace-fail @MAKO@ $out/bin/mako
@@ -32,13 +35,14 @@ let
       [Service]
       Type=dbus
       BusName=org.freedesktop.Notifications
-      ExecCondition=/bin/sh -c 'case ":''${XDG_CURRENT_DESKTOP:-}:" in *:ewm:*|*:EWM:*) exit 1;; *) [ -n "$WAYLAND_DISPLAY" ];; esac'
+      ExecCondition=/bin/sh -c 'case ":''${XDG_CURRENT_DESKTOP:-}:" in *:ewm:*|*:EWM:*) exit 1;; esac; if @SYSTEMCTL@ --user -q is-active ewm.service ewm-emacs.service 2>/dev/null; then exit 1; fi; [ -n "$WAYLAND_DISPLAY" ]'
       ExecStart=@MAKO@
       ExecReload=@MAKOCTL@ reload
       EOF
       substituteInPlace $out/share/systemd/user/mako.service \
         --replace-fail @MAKO@ $out/bin/mako \
-        --replace-fail @MAKOCTL@ ${lib.getExe' pkgs.mako "makoctl"}
+        --replace-fail @MAKOCTL@ ${lib.getExe' pkgs.mako "makoctl"} \
+        --replace-fail @SYSTEMCTL@ ${pkgs.systemd}/bin/systemctl
     '';
   };
 in
