@@ -89,12 +89,14 @@ in {
     ./disk-config.nix
   ];
 
-  # Install like x201: BIOS GRUB today, with an ESP for future UEFI boot.
+  # Keep a BIOS GRUB install on the disk for SeaBIOS boots, but let UEFI
+  # installs update Boot####/BootOrder for CrabEFI instead of relying on the
+  # removable fallback path.
   boot.loader.custom = {
     bootloader = "grub";
     grubDevice = "/dev/disk/by-path/pci-0000:00:1f.2-ata-1.0";
     grubGfxMode = "1024x768";
-    grubEfiInstallAsRemovable = true;
+    grubEfiInstallAsRemovable = false;
   };
 
   services.sysc-greet.enable = lib.mkForce false;
