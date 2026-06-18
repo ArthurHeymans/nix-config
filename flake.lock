@@ -171,16 +171,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1781420533,
-        "narHash": "sha256-sUV3fLHkcg0Ad3yjC9rqfn6c4/vuAJ64INExNZl5qm8=",
-        "ref": "EmacsScreencast",
-        "rev": "aec8fa0bbd7e5ae44a5628c9d45e67aeeabc2bab",
-        "revCount": 890,
+        "lastModified": 1781799230,
+        "narHash": "sha256-Ikb42CW6SNjeV7o8WEAb9mpLd+8prb3+Qrn7npVZRVM=",
+        "ref": "typing-latency-logging",
+        "rev": "cf72a5cfcf2fe0619f94c1386c565ba568badc74",
+        "revCount": 891,
         "type": "git",
         "url": "https://codeberg.org/avph/ewm"
       },
       "original": {
-        "ref": "EmacsScreencast",
+        "ref": "typing-latency-logging",
         "type": "git",
         "url": "https://codeberg.org/avph/ewm"
       }

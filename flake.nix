@@ -56,7 +56,7 @@
 
     ewm = {
       # url = "git+https://codeberg.org/ezemtsov/ewm";
-      url = "git+https://codeberg.org/avph/ewm?ref=EmacsScreencast";
+      url = "git+https://codeberg.org/avph/ewm?ref=typing-latency-logging";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
