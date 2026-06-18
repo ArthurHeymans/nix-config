@@ -99,6 +99,7 @@ in
       epkgs.ghostel
       # (elBeBackForEpkgs epkgs)
       osConfig.programs.ewm.ewmPackage
+      epkgs.pdf-tools
     ];
     emacsPackageOverrides =
       eself: esuper:
@@ -195,6 +196,7 @@ in
       epkgs.ghostel
       # (elBeBackForEpkgs epkgs)
       osConfig.programs.ewm.ewmPackage
+      epkgs.pdf-tools
     ];
   };
 
