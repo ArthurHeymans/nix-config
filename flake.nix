@@ -48,7 +48,9 @@
     };
 
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v1.0.0";
+      # Track master until the next release after v1.0.0: nixpkgs removed the
+      # now-obsolete boot.bootspec.enable option that v1.0.0 still defines.
+      url = "github:nix-community/lanzaboote";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
