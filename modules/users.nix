@@ -13,6 +13,7 @@
       "plugdev"
       "video"
       "input"
+      "libvirtd"
     ];
     initialPassword = "password";
   };
