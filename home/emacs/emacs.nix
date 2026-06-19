@@ -15,42 +15,7 @@ let
         echo '${builtins.toJSON ecaConfig}' | ${pkgs.jq}/bin/jq '.' > $out
       '';
 
-  # EWM's author maintains the PGTK Skia patches on Codeberg.  Keep this
-  # pinned instead of following the branch implicitly so rebuilds stay
-  # reproducible.
-  emacsSkia =
-    (pkgs.emacs-pgtk.override {
-      withTreeSitter = true;
-      srcRepo = true;
-    }).overrideAttrs
-      (oldAttrs: {
-        pname = "emacs-skia";
-        version = "30.2-skia-b328605";
-        src = pkgs.fetchgit {
-          url = "https://codeberg.org/ezemtsov/emacs.git";
-          rev = "b328605b4d3fcf17edadf44a68c8ea4d54225a2a";
-          hash = "sha256-QiLqCxVyFdjzTrj2DEi089Eenj9SKmZFLHYaall0iJ4=";
-        };
-        configureFlags = oldAttrs.configureFlags ++ [
-          "--with-skia"
-        ];
-        buildInputs = oldAttrs.buildInputs ++ [
-          pkgs.skia
-          pkgs.libepoxy
-        ];
-        nativeBuildInputs = (oldAttrs.nativeBuildInputs or [ ]) ++ [
-          pkgs.autoconf
-          pkgs.automake
-        ];
-        preConfigure = (oldAttrs.preConfigure or "") + ''
-          ./autogen.sh
-        '';
-        postInstall = (oldAttrs.postInstall or "") + ''
-          rm -f $out/bin/ctags $out/share/man/man1/ctags.1.gz
-        '';
-      });
-  emacsPgtk = pkgs.emacs-pgtk;
-  emacsPackage = if osConfig.networking.hostName == "x61-arthur" then emacsPgtk else emacsSkia;
+  emacsPackage = pkgs.emacs-pgtk;
   # elBeBackForEpkgs =
   #   epkgs:
   #   let
