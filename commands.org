@@ -33,6 +33,12 @@ nixos-rebuild switch --flake .#$(hostname) --option extra-substituters "http://g
  (format "NIX_SSHOPTS=\"-C\" nixos-rebuild switch --flake .#%s --target-host %s --ask-sudo-password" targethost targethost))
 #+end_src
 
+#+name: rebuild local
+#+begin_src elisp  :var targethost=select-host
+(async-shell-command
+ (format "NIX_SSHOPTS=\"-C\" nixos-rebuild switch --flake .#%s --target-host %s --ask-sudo-password" targethost targethost))
+#+end_src
+
 * update flake
 Update flake inputs to their latest versions.
 
