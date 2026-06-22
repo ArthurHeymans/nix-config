@@ -14,8 +14,24 @@ let
   ewm-editor = pkgs.writeShellScriptBin "ewm-editor" ''
     set -euo pipefail
 
+    fallback_editor="''${EWM_EDITOR_FALLBACK:-${pkgs.vim}/bin/vim}"
     socket_name="''${EMACS_SOCKET_NAME:-}"
     runtime_dir="''${XDG_RUNTIME_DIR:-}"
+
+    fallback() {
+      if [[ "$fallback_editor" == "ewm-editor" ]]; then
+        fallback_editor=${pkgs.vim}/bin/vim
+      fi
+      exec $fallback_editor "$@"
+    }
+
+    if [[ -n "$socket_name" ]]; then
+      if [[ "$socket_name" == /* ]]; then
+        [[ -S "$socket_name" ]] || socket_name=""
+      elif [[ -n "$runtime_dir" ]]; then
+        [[ -S "$runtime_dir/emacs/$socket_name" ]] || socket_name=""
+      fi
+    fi
 
     if [[ -z "$socket_name" && -n "$runtime_dir" ]]; then
       for candidate in server ewm vt2; do
@@ -31,11 +47,11 @@ let
       fi
     fi
 
-    args=(--alternate-editor=false)
-    if [[ -n "$socket_name" ]]; then
-      args=(--socket-name "$socket_name" "''${args[@]}")
+    if [[ -z "$socket_name" ]]; then
+      fallback "$@"
     fi
 
+    args=(--alternate-editor=false --socket-name "$socket_name")
     exec ${pkgs.emacs-pgtk}/bin/emacsclient "''${args[@]}" "$@"
   '';
 in
