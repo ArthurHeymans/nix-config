@@ -1,7 +1,11 @@
-{lib, config, ...}: {
+{ lib, config, ... }: {
   options.boot.loader.custom = {
     bootloader = lib.mkOption {
-      type = lib.types.enum ["systemd-boot" "grub" "none"];
+      type = lib.types.enum [
+        "systemd-boot"
+        "grub"
+        "none"
+      ];
       default = "systemd-boot";
       description = "Which bootloader to use";
     };
@@ -48,7 +52,9 @@
         useOSProber = config.boot.loader.custom.grubUseOSProber;
         efiSupport = true;
         efiInstallAsRemovable = config.boot.loader.custom.grubEfiInstallAsRemovable;
-        gfxmodeBios = lib.mkIf (config.boot.loader.custom.grubGfxMode != "") config.boot.loader.custom.grubGfxMode;
+        gfxmodeBios = lib.mkIf (
+          config.boot.loader.custom.grubGfxMode != ""
+        ) config.boot.loader.custom.grubGfxMode;
       };
     })
   ];

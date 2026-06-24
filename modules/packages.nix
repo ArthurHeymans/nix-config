@@ -2,14 +2,15 @@
   inputs,
   pkgs,
   ...
-}: let
+}:
+let
   zmx = inputs.zmx.packages.${pkgs.stdenv.hostPlatform.system}.zmx;
-in {
+in
+{
   # Desktop/development packages shared by laptop and workstation systems.
   environment.systemPackages = with pkgs; [
     acpi
     acpica-tools
-    alejandra
     brightnessctl
     coreboot-utils
     deadnix

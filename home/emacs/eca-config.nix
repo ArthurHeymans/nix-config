@@ -15,11 +15,11 @@ in
       url = "https://openrouter.ai/api/v1";
       keyEnv = "OPENROUTER_API_KEY";
       models = {
-        "google/gemini-3-pro-preview" = {};
-        "google/gemini-3-flash-preview" = {};
-        "z-ai/glm-5" = {};
-        "deepseek/deepseek-v3.2" = {};
-        "openai/gpt-5.2" = {};
+        "google/gemini-3-pro-preview" = { };
+        "google/gemini-3-flash-preview" = { };
+        "z-ai/glm-5" = { };
+        "deepseek/deepseek-v3.2" = { };
+        "openai/gpt-5.2" = { };
       };
     };
     openrouter_anthropic = {
@@ -27,7 +27,7 @@ in
       url = "https://openrouter.ai/api/v1";
       keyEnv = "OPENROUTER_API_KEY";
       models = {
-        "anthropic/claude-sonnet-4.5" = {};
+        "anthropic/claude-sonnet-4.5" = { };
       };
     };
 
@@ -36,8 +36,8 @@ in
       url = "https://api.anthropic.com";
       keyEnv = "ANTHROPIC_API_KEY_9E";
       models = {
-        "claude-sonnet-4-5-20250929" = {};
-        "claude-opus-4-5-20251101" = {};
+        "claude-sonnet-4-5-20250929" = { };
+        "claude-opus-4-5-20251101" = { };
       };
     };
     deepseek = {
@@ -45,10 +45,10 @@ in
       url = "https://api.deepseek.com";
       keyEnv = "DEEPSEEK_API_KEY";
       models = {
-        "deepseek-chat" = {};
-        "deepseek-coder" = {};
-        "deepseek-reasoner" = {};
-       };
+        "deepseek-chat" = { };
+        "deepseek-coder" = { };
+        "deepseek-reasoner" = { };
+      };
     };
   };
   defaultModel = "anthropic/claude-sonnet-4.5";
@@ -59,11 +59,14 @@ in
     # };
     fetch = {
       command = "uvx";
-      args = ["mcp-server-fetch" "--ignore-robots-txt"];
+      args = [
+        "mcp-server-fetch"
+        "--ignore-robots-txt"
+      ];
     };
     emacs-mcp = {
       command = "npx";
-      args = ["@keegancsmith/emacs-mcp-server" ];
+      args = [ "@keegancsmith/emacs-mcp-server" ];
     };
     # sequentialthinking = {
     #   command = "npx";
@@ -79,21 +82,21 @@ in
     # };
   };
   toolCall = {
-      approval = {
-        byDefault =  "ask";
-        allow = {
-          "eca_compact_chat" = {};
-          "eca_preview_file_change" = {};
-          "eca_read_file" = {};
-          "eca_directory_tree" = {};
-          "eca_grep" = {};
-          "eca_editor_diagnostics" = {};
-          "fetch" = {};
-          "serena" = {};
-        };
-        ask  = {};
-        deny = {};
+    approval = {
+      byDefault = "ask";
+      allow = {
+        "eca_compact_chat" = { };
+        "eca_preview_file_change" = { };
+        "eca_read_file" = { };
+        "eca_directory_tree" = { };
+        "eca_grep" = { };
+        "eca_editor_diagnostics" = { };
+        "fetch" = { };
+        "serena" = { };
       };
+      ask = { };
+      deny = { };
+    };
   };
   rules = [
     { path = "${noGitOperationsRule}"; }

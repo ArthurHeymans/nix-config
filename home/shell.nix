@@ -4,8 +4,9 @@
   osConfig,
   pkgs,
   ...
-}: let
-  ghostel-shell-integration = pkgs.runCommand "ghostel-shell-integration" {} ''
+}:
+let
+  ghostel-shell-integration = pkgs.runCommand "ghostel-shell-integration" { } ''
     install -Dm444 ${pkgs.emacsPackages.ghostel.src}/etc/shell/ghostel.bash $out/etc/ghostel.bash
     install -Dm444 ${pkgs.emacsPackages.ghostel.src}/etc/shell/ghostel.fish $out/etc/ghostel.fish
   '';
@@ -37,7 +38,8 @@
 
     exec ${pkgs.emacs-pgtk}/bin/emacsclient "''${args[@]}" "$@"
   '';
-in {
+in
+{
   imports = [
     ./shell-base.nix
   ];
@@ -47,7 +49,7 @@ in {
     VISUAL = "ewm-editor";
   };
 
-  home.packages = [ewm-editor];
+  home.packages = [ ewm-editor ];
 
   programs.fish = {
     interactiveShellInit = lib.mkAfter ''

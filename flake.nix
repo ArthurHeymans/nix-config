@@ -97,69 +97,104 @@
     zmx.url = "github:neurosnap/zmx";
   };
 
-  outputs = {
-    nixpkgs,
-    home-manager,
-    ...
-  } @ inputs: let
-    username = "arthur";
-    system = "x86_64-linux";
-    specialArgs = {
-      inherit username inputs;
-    };
+  outputs =
+    {
+      nixpkgs,
+      home-manager,
+      ...
+    }@inputs:
+    let
+      username = "arthur";
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+      preCommitCheck = inputs.pre-commit-hooks.lib.${system}.run {
+        src = ./.;
+        hooks.nixfmt.enable = true;
+      };
+      specialArgs = {
+        inherit username inputs;
+      };
 
-    mkNixos = {
-      hostname,
-      homeModule,
-      extraModules ? [],
-    }:
-      nixpkgs.lib.nixosSystem {
-        specialArgs =
-          specialArgs
-          // {
+      mkNixos =
+        {
+          hostname,
+          homeModule,
+          extraModules ? [ ],
+        }:
+        nixpkgs.lib.nixosSystem {
+          specialArgs = specialArgs // {
             inherit hostname;
           };
-        modules =
-          [
+          modules = [
             ./hosts/${hostname}
             ./users/${username}/nixos.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = (specialArgs // {inherit hostname;}) // inputs;
+              home-manager.extraSpecialArgs = (specialArgs // { inherit hostname; }) // inputs;
               home-manager.users.${username} = import homeModule;
             }
           ]
           ++ extraModules;
+        };
+
+      mkSystem =
+        hostname:
+        mkNixos {
+          inherit hostname;
+          homeModule = ./users/${username}/home.nix;
+          extraModules = [
+            inputs.niri.nixosModules.niri
+            inputs.sysc-greet.nixosModules.default
+            inputs.ewm.nixosModules.default
+          ];
+        };
+
+      mkServer =
+        hostname:
+        mkNixos {
+          inherit hostname;
+          homeModule = ./users/${username}/server-home.nix;
+        };
+    in
+    {
+      checks.${system}.pre-commit-check = preCommitCheck;
+
+      devShells.${system}.default = pkgs.mkShell {
+        shellHook = preCommitCheck.shellHook;
+        buildInputs = preCommitCheck.enabledPackages;
       };
 
-    mkSystem = hostname:
-      mkNixos {
-        inherit hostname;
-        homeModule = ./users/${username}/home.nix;
-        extraModules = [
-          inputs.niri.nixosModules.niri
-          inputs.sysc-greet.nixosModules.default
-          inputs.ewm.nixosModules.default
+      formatter.${system} = pkgs.writeShellApplication {
+        name = "nixfmt-repo";
+        runtimeInputs = [
+          pkgs.findutils
+          pkgs.nixfmt
         ];
+        text = ''
+          if [ "$#" -eq 0 ]; then
+            find . \
+              -path ./.git -prune -o \
+              -path ./.jj -prune -o \
+              -path ./.pi-lens -prune -o \
+              -path ./result -prune -o \
+              -type f -name '*.nix' -print0 \
+              | xargs -0 --no-run-if-empty nixfmt
+          else
+            nixfmt "$@"
+          fi
+        '';
       };
 
-    mkServer = hostname:
-      mkNixos {
-        inherit hostname;
-        homeModule = ./users/${username}/server-home.nix;
+      nixosConfigurations = {
+        x220-nixos = mkSystem "x220-nixos";
+        t14s-g6 = mkSystem "t14s-g6";
+        gmktec-k11 = mkSystem "gmktec-k11";
+        gmktec-g3 = mkServer "gmktec-g3";
+        t480-arthur = mkSystem "t480-arthur";
+        x201-arthur = mkSystem "x201-arthur";
+        x61-arthur = mkSystem "x61-arthur";
       };
-  in {
-    formatter.${system} = nixpkgs.legacyPackages.${system}.alejandra;
-    nixosConfigurations = {
-      x220-nixos = mkSystem "x220-nixos";
-      t14s-g6 = mkSystem "t14s-g6";
-      gmktec-k11 = mkSystem "gmktec-k11";
-      gmktec-g3 = mkServer "gmktec-g3";
-      t480-arthur = mkSystem "t480-arthur";
-      x201-arthur = mkSystem "x201-arthur";
-      x61-arthur = mkSystem "x61-arthur";
     };
-  };
 }

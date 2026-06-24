@@ -15,7 +15,7 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOIhZlW5JLnPVAWQCKGhPcDhhq0jlQamjI6wCx5UKAXZ arthur@t480-arthur"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG7kI68/elpmRp017AlpcbWPrWQwjgzcS00VsDdOJhvs arthur@x201-arthur"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGLia2BubtMLFw1tDiDdDtIRcG2Pg0Nl8vTS8q0Z1tng arthur@x61-arthur"
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH2swnPv8HuDLr5Eo0gGeHtckis5yxJYtQEUhw4wyAwr u0_a303@localhost" #Phone
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH2swnPv8HuDLr5Eo0gGeHtckis5yxJYtQEUhw4wyAwr u0_a303@localhost" # Phone
     ];
   };
 }

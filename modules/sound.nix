@@ -1,4 +1,4 @@
-{...}: {
+{ ... }: {
   # Enable sound with pipewire.
   #sound.enable = false;
   services.pulseaudio.enable = false;

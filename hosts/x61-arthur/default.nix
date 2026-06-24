@@ -4,7 +4,8 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   niriPackage = config.programs.niri.package;
   syscGreet = inputs.sysc-greet.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
@@ -81,7 +82,8 @@
         }
     });
   '';
-in {
+in
+{
   imports = [
     ../../modules/system.nix
     ./hardware-configuration.nix
@@ -107,9 +109,9 @@ in {
     home = "/var/lib/greeter";
     createHome = true;
   };
-  users.groups.greeter = {};
+  users.groups.greeter = { };
 
-  environment.pathsToLink = ["/share/wayland-sessions"];
+  environment.pathsToLink = [ "/share/wayland-sessions" ];
   environment.systemPackages = [
     syscGreet
     pkgs.foot

@@ -2,7 +2,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   imports = [
     ./base.nix
     ./bluetooth.nix
@@ -10,7 +11,6 @@
     ./fonts.nix
     ./geoclue.nix
     ./gvfs.nix
-    #./llm.nix
     ./networking.nix
     ./graphics.nix
     ./packages.nix
@@ -24,7 +24,7 @@
 
   # Avoid binding CH341A SPI adapters to the kernel SPI driver; userspace
   # flashrom/libusb access should claim the device instead.
-  boot.blacklistedKernelModules = ["spi_ch341"];
+  boot.blacklistedKernelModules = [ "spi_ch341" ];
 
   # Provide LTS kernel as an alternative boot entry.
   specialisation.lts.configuration = {
@@ -33,7 +33,7 @@
 
   # Provide an alternate boot entry with relaxed /dev/mem access.
   specialisation."iomem-relaxed".configuration = {
-    boot.kernelParams = ["iomem=relaxed"];
+    boot.kernelParams = [ "iomem=relaxed" ];
   };
 
   nix.settings = {

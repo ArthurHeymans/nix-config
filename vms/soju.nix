@@ -1,11 +1,11 @@
-{...}: {
+{ ... }: {
   systemd.tmpfiles.rules = [
     "d /srv/soju 0750 root root - -"
   ];
 
   microvm = {
     vms.soju = {
-      config = {lib, ...}: {
+      config = { lib, ... }: {
         imports = [
           ../users/arthur/nixos.nix
         ];
@@ -46,7 +46,7 @@
           useNetworkd = true;
           firewall = {
             enable = true;
-            allowedTCPPorts = [6667];
+            allowedTCPPorts = [ 6667 ];
           };
         };
 
@@ -68,7 +68,7 @@
 
         users.users.arthur = {
           isNormalUser = true;
-          extraGroups = ["wheel"];
+          extraGroups = [ "wheel" ];
         };
 
         security.sudo.wheelNeedsPassword = false;
@@ -79,7 +79,7 @@
         # and let soju use the mounted working directory directly.
         systemd.services.soju.serviceConfig = {
           DynamicUser = lib.mkForce false;
-          StateDirectory = lib.mkForce [];
+          StateDirectory = lib.mkForce [ ];
         };
 
         services = {
@@ -97,7 +97,7 @@
           soju = {
             enable = true;
             hostName = "soju.gmktec-g3";
-            listen = ["irc+insecure://:6667"];
+            listen = [ "irc+insecure://:6667" ];
             enableMessageLogging = false;
             extraConfig = ''
               message-store memory

@@ -1,4 +1,4 @@
-{...}: {
+{ ... }: {
   imports = [
     ../../home/core.nix
     ../../home/server-shell.nix

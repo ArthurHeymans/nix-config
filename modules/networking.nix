@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   # Enable NetworkManager by default
   networking.networkmanager.enable = true;
 

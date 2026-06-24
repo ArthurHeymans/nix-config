@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   # bash no newline
   programs.bash.promptInit = ''
     # Provide a nice prompt if the terminal supports it.

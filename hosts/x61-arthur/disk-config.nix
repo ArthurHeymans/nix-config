@@ -10,7 +10,7 @@
             grub = {
               size = "1M";
               type = "EF02"; # for grub MBR
-              attributes = [0]; # partition attribute
+              attributes = [ 0 ]; # partition attribute
             };
             ESP = {
               size = "512M";
@@ -19,7 +19,7 @@
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = ["umask=0077"];
+                mountOptions = [ "umask=0077" ];
               };
             };
             luks = {
@@ -35,7 +35,7 @@
                 };
                 content = {
                   type = "btrfs";
-                  extraArgs = ["-f"];
+                  extraArgs = [ "-f" ];
                   subvolumes = {
                     "/root" = {
                       mountpoint = "/";

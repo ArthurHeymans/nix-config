@@ -4,7 +4,8 @@
   hostname,
   username,
   ...
-}: {
+}:
+{
   imports = [
     ./bash.nix
     ./boot.nix
@@ -35,7 +36,7 @@
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
     ];
-    trusted-users = [username];
+    trusted-users = [ username ];
   };
 
   nix.gc = {

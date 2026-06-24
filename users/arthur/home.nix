@@ -2,7 +2,8 @@
   nix-doom-emacs-unstraightened,
   sops-nix,
   ...
-}: {
+}:
+{
   ##################################################################################################################
   #
   # All Arthur's Home Manager Configuration

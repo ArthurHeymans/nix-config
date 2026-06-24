@@ -1,11 +1,11 @@
-{...}: {
+{ ... }: {
   systemd.tmpfiles.rules = [
     "d /srv/syncthing 0750 arthur users - -"
   ];
 
   microvm = {
     vms.syncthing = {
-      config = {lib, ...}: {
+      config = { lib, ... }: {
         imports = [
           ../users/arthur/nixos.nix
         ];
@@ -64,7 +64,7 @@
 
         users.users.arthur = {
           isNormalUser = true;
-          extraGroups = ["wheel"];
+          extraGroups = [ "wheel" ];
         };
 
         security.sudo.wheelNeedsPassword = false;

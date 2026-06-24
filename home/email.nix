@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   programs.mbsync.enable = true;
   programs.msmtp.enable = true;
 
@@ -22,7 +23,13 @@
           enable = true;
           create = "both";
           expunge = "both";
-          patterns = ["*" "![Gmail]*" "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail"];
+          patterns = [
+            "*"
+            "![Gmail]*"
+            "[Gmail]/Sent Mail"
+            "[Gmail]/Starred"
+            "[Gmail]/All Mail"
+          ];
           extraConfig = {
             channel = {
               Sync = "All";
@@ -47,7 +54,13 @@
           enable = true;
           create = "both";
           expunge = "both";
-          patterns = ["*" "![Gmail]*" "[Gmail]/Sent Mail" "[Gmail]/Starred" "[Gmail]/All Mail"];
+          patterns = [
+            "*"
+            "![Gmail]*"
+            "[Gmail]/Sent Mail"
+            "[Gmail]/Starred"
+            "[Gmail]/All Mail"
+          ];
           extraConfig = {
             channel = {
               Sync = "All";
@@ -72,7 +85,7 @@
           enable = true;
           create = "both";
           expunge = "both";
-          patterns = ["*"];
+          patterns = [ "*" ];
           extraConfig = {
             channel = {
               Sync = "All";

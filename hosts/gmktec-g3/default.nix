@@ -1,4 +1,4 @@
-{inputs, ...}: {
+{ inputs, ... }: {
   imports = [
     ../../modules/server.nix
     ../../vms
@@ -8,7 +8,7 @@
     ./hardware-configuration.nix
   ];
 
-  boot.kernelModules = ["vhost_net"];
+  boot.kernelModules = [ "vhost_net" ];
 
   networking = {
     useDHCP = false;

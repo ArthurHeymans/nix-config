@@ -3,7 +3,8 @@
   config,
   llm-agents,
   ...
-}: let
+}:
+let
   pi = llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.pi;
   jj-hunk = pkgs.rustPlatform.buildRustPackage rec {
     pname = "jj-hunk";
@@ -20,7 +21,8 @@
     # installed in PATH; `cargo install --locked jj-hunk` succeeds locally.
     doCheck = false;
   };
-in {
+in
+{
   home.packages = with pkgs; [
     pi
     jj-hunk
