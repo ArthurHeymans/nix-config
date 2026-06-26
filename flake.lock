@@ -362,6 +362,22 @@
         "type": "github"
       }
     },
+    "jcode-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1782480780,
+        "narHash": "sha256-7Sl1ARv6EwVzaMb7OUv46hTat+YzL8WcGMH5ZNVF34I=",
+        "owner": "1jehuang",
+        "repo": "jcode",
+        "rev": "381306ee971cf3db14c036aa6c073824f8b70822",
+        "type": "github"
+      },
+      "original": {
+        "owner": "1jehuang",
+        "repo": "jcode",
+        "type": "github"
+      }
+    },
     "lanzaboote": {
       "inputs": {
         "crane": "crane",
@@ -657,6 +673,7 @@
         "doom-config": "doom-config",
         "ewm": "ewm",
         "home-manager": "home-manager",
+        "jcode-src": "jcode-src",
         "lanzaboote": "lanzaboote",
         "llm-agents": "llm-agents",
         "microvm": "microvm",

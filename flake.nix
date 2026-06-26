@@ -89,6 +89,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    jcode-src = {
+      url = "github:1jehuang/jcode";
+      flake = false;
+    };
+
     microvm = {
       url = "github:microvm-nix/microvm.nix";
       inputs.nixpkgs.follows = "nixpkgs";
