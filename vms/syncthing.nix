@@ -1,11 +1,14 @@
 { ... }: {
   systemd.tmpfiles.rules = [
     "d /srv/syncthing 0750 arthur users - -"
+    "d /srv/syncthing/data 0750 arthur users - -"
+    "d /srv/syncthing/data/docs 0755 arthur users - -"
+    "d /srv/syncthing/data/org 0755 arthur users - -"
   ];
 
   microvm = {
     vms.syncthing = {
-      config = { lib, ... }: {
+      config = { lib, pkgs, ... }: {
         imports = [
           ../users/arthur/nixos.nix
         ];
@@ -68,6 +71,24 @@
         };
 
         security.sudo.wheelNeedsPassword = false;
+
+        systemd.services.syncthing-fix-folders = {
+          requiredBy = [ "syncthing.service" ];
+          before = [ "syncthing.service" ];
+          serviceConfig.Type = "oneshot";
+          path = [ pkgs.coreutils pkgs.perl ];
+          script = ''
+            install -d -m 0755 -o arthur -g users /var/lib/syncthing/data/docs /var/lib/syncthing/data/org
+            config=/var/lib/syncthing/.config/syncthing/config.xml
+            [ -e "$config" ] || exit 0
+            perl -0pi -e '
+              s#path="/var/lib/syncthing/docs"#path="/var/lib/syncthing/data/docs"#g;
+              s#path="/var/lib/syncthing/org"#path="/var/lib/syncthing/data/org"#g;
+              s#(<folder id="ggjkx-55sj4"[^>]*rescanIntervalS=")\d+(")#''${1}60$2#g;
+              s#(<folder id="org"[^>]*rescanIntervalS=")\d+(")#''${1}60$2#g;
+            ' "$config"
+          '';
+        };
 
         services = {
           openssh = {
