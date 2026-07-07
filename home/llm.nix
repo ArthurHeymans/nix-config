@@ -27,6 +27,7 @@ let
 in
 {
   home.packages = with pkgs; [
+    entire
     pi
     jj-hunk
     jq # often used for parsing nixos output in AI agents
