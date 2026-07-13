@@ -37,6 +37,36 @@
             --no-default-browser-check \
             about:blank
         '';
+        nixConfigPrSkill = pkgs.writeText "hermes-nix-config-pr-skill.md" ''
+          ---
+          name: nix-config-pr
+          description: Make reviewed changes to Arthur's nix-config repository and open a pull request. Use whenever Arthur asks to change NixOS, Home Manager, a host, a VM, or Hermes itself.
+          ---
+
+          # Contributing to nix-config
+
+          The repository is `ArthurHeymans/nix-config` and its persistent checkout belongs at
+          `/home/arthur/repos/nix-config`.
+
+          When asked to change the Nix configuration:
+
+          1. Check `gh auth status`. If authentication or repository write access is missing,
+             stop and tell Arthur what is required.
+          2. Clone the repository with `gh repo clone ArthurHeymans/nix-config` if the checkout
+             does not exist. Otherwise update it without discarding local work.
+          3. Create a topic branch named `hermes/<short-description>`. Never commit or push
+             directly to the default branch.
+          4. Read `AGENTS.md`, inspect the relevant configuration, and make the smallest change
+             that satisfies the request. Never add secrets to the repository.
+          5. Run `nix fmt` and the narrowest relevant Nix evaluation or build. Run
+             `nix flake check` when practical. Record exactly which checks succeeded or failed.
+          6. Commit, push the topic branch, and open a pull request with `gh pr create`.
+          7. Reply in the originating conversation with the pull-request URL, a short summary,
+             checks run, and any remaining risk or manual follow-up.
+
+          Do not merge the pull request or deploy, switch, or reboot a NixOS host unless Arthur
+          explicitly asks. A pull request is the normal completion point.
+        '';
         githubCiWatch = pkgs.writeShellApplication {
           name = "github-ci-watch";
           runtimeInputs = [
@@ -95,6 +125,7 @@
           hypervisor = "qemu";
           mem = 8192;
           vcpu = 4;
+          writableStoreOverlay = "/nix/.rw-store";
 
           interfaces = [
             {
@@ -168,10 +199,13 @@
         };
         security.sudo.wheelNeedsPassword = false;
 
-        nix.settings.experimental-features = [
-          "nix-command"
-          "flakes"
-        ];
+        nix.settings = {
+          experimental-features = [
+            "nix-command"
+            "flakes"
+          ];
+          trusted-users = [ "arthur" ];
+        };
 
         environment.systemPackages = [
           githubCiWatch
@@ -188,6 +222,7 @@
           pkgs.google-cloud-sdk
           pkgs.jq
           pkgs.jujutsu
+          pkgs.nix
           pkgs.novnc
           pkgs.ripgrep
           pkgs.sway
@@ -222,14 +257,21 @@
         systemd.services.hermes-init = {
           wantedBy = [ "multi-user.target" ];
           before = [ "hermes-gateway.service" ];
+          environment.HOME = "/home/arthur";
           serviceConfig = {
             Type = "oneshot";
             User = "arthur";
             Group = "users";
           };
-          path = [ pkgs.coreutils ]; # install(1) only
+          path = [
+            pkgs.coreutils
+            pkgs.git
+          ];
           script = ''
-            install -d -m 700 /home/arthur/.ssh /home/arthur/.hermes /home/arthur/.hermes/scripts /home/arthur/.hermes/state /home/arthur/repos
+            install -d -m 700 /home/arthur/.ssh /home/arthur/.hermes /home/arthur/.hermes/scripts /home/arthur/.hermes/skills/nix-config-pr /home/arthur/.hermes/state /home/arthur/repos
+            ln -sfn ${nixConfigPrSkill} /home/arthur/.hermes/skills/nix-config-pr/SKILL.md
+            git config --global --get user.name >/dev/null || git config --global user.name "Arthur Heymans"
+            git config --global --get user.email >/dev/null || git config --global user.email "arthur@aheymans.xyz"
             if [ ! -e /home/arthur/.hermes/config.yaml ]; then
               cat > /home/arthur/.hermes/config.yaml <<'EOF'
             toolsets:
