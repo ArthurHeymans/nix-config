@@ -1,6 +1,13 @@
 { pkgs, lib, ... }:
 
 let
+  glasgow = pkgs.glasgow.overridePythonAttrs (old: {
+    postPatch = (old.postPatch or "") + ''
+      substituteInPlace software/pyproject.toml \
+        --replace-fail '"importlib_resources~=6.5.2",' '"importlib_resources>=6.5.2",'
+    '';
+  });
+
   probe-rs-udev-rules = pkgs.stdenv.mkDerivation {
     pname = "probe-rs-udev-rules";
     version = "latest";
@@ -29,6 +36,7 @@ let
 in
 {
   services.udev.packages = [
+    glasgow
     probe-rs-udev-rules
   ]
   ++ (with pkgs; [
@@ -40,7 +48,8 @@ in
   ]);
 
   # tool to figure out jtag
-  hardware.glasgow.enable = true;
+  environment.systemPackages = [ glasgow ];
+  users.groups.plugdev = { };
 
   # WCH Link rules are included in the probe-rs rules file
   # so we don't need the extraRules anymore
