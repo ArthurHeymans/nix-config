@@ -23,6 +23,7 @@
       ".direnv/*"
       ".dir-locals.el"
       ".pi-lens"
+      ".local"
     ];
   };
 
