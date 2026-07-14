@@ -37,6 +37,7 @@ in
     model = "base.en"
     language = "en"
     translate = false
+    initial_prompt = "Caliptra, Caliptra MCU, Caliptra Subsystem, coreboot, oreboot, SeaBIOS, U-Boot, Slim Bootloader, TamaGo, Embassy, RISC-V, ARM Trusted Firmware, ACPI, PCIe, CBFS, flashrom, SPI, I3C, MCTP, SPDM, PLDM, TDISP, DPE, FMC, ROM, SoC, MCU, BMC, FPGA, QEMU, SystemRDL, X.509, root of trust, secure boot, measured boot."
 
     [output]
     mode = "type"
@@ -47,6 +48,20 @@ in
     on_recording_start = false
     on_recording_stop = false
     on_transcription = true
+
+    [text]
+    spoken_punctuation = true
+
+    [text.replacements]
+    "calyptra" = "Caliptra"
+    "calliptra" = "Caliptra"
+    "core boot" = "coreboot"
+    "flash rom" = "flashrom"
+    "ore boot" = "oreboot"
+    "risk five" = "RISC-V"
+    "risk v" = "RISC-V"
+    "sea bios" = "SeaBIOS"
+    "system r d l" = "SystemRDL"
   '';
 
   systemd.user.services.voxtype = {
