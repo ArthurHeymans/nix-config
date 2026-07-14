@@ -1,10 +1,14 @@
-{ ... }:
+{ lib,
+  pkgs,
+  inputs,
+  ... }:
 {
   imports = [
     ../../modules/system.nix
     ../../modules/nix-serve.nix
     ../../modules/nix-auto-update.nix
     ./hardware-configuration.nix
+    inputs.lanzaboote.nixosModules.lanzaboote
   ];
 
   networking.networkmanager = {
@@ -43,4 +47,19 @@
       };
     };
   };
+
+  environment.systemPackages = [
+    pkgs.sbctl
+  ];
+
+  # lanzaboote replaces systemd
+  boot.loader.systemd-boot.enable = lib.mkForce false;
+  boot.loader.custom.bootloader = "none";
+
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/var/lib/sbctl";
+  };
+
+  boot.initrd.systemd.enable = true;
 }

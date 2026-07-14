@@ -56,13 +56,18 @@
 
     ewm = {
       # url = "git+https://codeberg.org/ezemtsov/ewm";
-      url = "git+https://codeberg.org/avph/ewm?ref=typing-latency-logging";
+      url = "git+https://codeberg.org/avph/ewm?ref=HiddenSurface";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     ########################  Some non-flake repositories  #########################################
 
     ########################  My own repositories  #########################################
+
+    rflasher = {
+      url = "github:ArthurHeymans/rflasher";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     doom-config = {
       url = "github:ArthurHeymans/.doom.d";

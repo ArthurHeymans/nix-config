@@ -163,16 +163,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1781799230,
-        "narHash": "sha256-Ikb42CW6SNjeV7o8WEAb9mpLd+8prb3+Qrn7npVZRVM=",
-        "ref": "typing-latency-logging",
-        "rev": "cf72a5cfcf2fe0619f94c1386c565ba568badc74",
-        "revCount": 891,
+        "lastModified": 1784366576,
+        "narHash": "sha256-uX9XAMdeE7OaFwSmXKyyamPXqYOjsviwCRFkCpQtLKc=",
+        "ref": "HiddenSurface",
+        "rev": "48fcfacac4e14640de3481f5628af678c3c2986a",
+        "revCount": 913,
         "type": "git",
         "url": "https://codeberg.org/avph/ewm"
       },
       "original": {
-        "ref": "typing-latency-logging",
+        "ref": "HiddenSurface",
         "type": "git",
         "url": "https://codeberg.org/avph/ewm"
       }
@@ -269,6 +269,24 @@
     "flake-utils_3": {
       "inputs": {
         "systems": "systems_5"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_4": {
+      "inputs": {
+        "systems": "systems_6"
       },
       "locked": {
         "lastModified": 1731533236,
@@ -637,6 +655,28 @@
         "type": "github"
       }
     },
+    "rflasher": {
+      "inputs": {
+        "flake-utils": "flake-utils_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay_2"
+      },
+      "locked": {
+        "lastModified": 1783677528,
+        "narHash": "sha256-a5mKFoIzV/1uKplS+1AshzLDcx6elraGMfQjWTfK2eU=",
+        "owner": "ArthurHeymans",
+        "repo": "rflasher",
+        "rev": "7502c2242dc75904c45308a7c001404d74b0f334",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ArthurHeymans",
+        "repo": "rflasher",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "disko": "disko",
@@ -652,6 +692,7 @@
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_2",
         "pre-commit-hooks": "pre-commit-hooks",
+        "rflasher": "rflasher",
         "sops-nix": "sops-nix",
         "sysc-greet": "sysc-greet",
         "zmx": "zmx"
@@ -670,6 +711,27 @@
         "owner": "oxalica",
         "repo": "rust-overlay",
         "rev": "afacd6819d3765a05814ee8e3de74c77d42ac799",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "rust-overlay_2": {
+      "inputs": {
+        "nixpkgs": [
+          "rflasher",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1768186348,
+        "narHash": "sha256-nkpIe3zkpeoFuOl8xBpexulECsHLQ9Ljg1gW3bPCjSI=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "af69e497567a5945a64057717bc9b17c8478097e",
         "type": "github"
       },
       "original": {
@@ -714,7 +776,7 @@
     },
     "sysc-greet": {
       "inputs": {
-        "flake-utils": "flake-utils_2",
+        "flake-utils": "flake-utils_3",
         "gslapper": "gslapper",
         "nixpkgs": [
           "nixpkgs"
@@ -809,6 +871,21 @@
         "type": "github"
       }
     },
+    "systems_6": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
     "treefmt-nix": {
       "inputs": {
         "nixpkgs": [
@@ -865,7 +942,7 @@
     },
     "zig2nix": {
       "inputs": {
-        "flake-utils": "flake-utils_3",
+        "flake-utils": "flake-utils_4",
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
