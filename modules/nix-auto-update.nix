@@ -20,8 +20,7 @@ let
   build_cmds = lib.concatMapStringsSep "\n" (host: ''
     echo "Building ${host}..."
     set +e
-    nix build "${flake_dir}#nixosConfigurations.${host}.config.system.build.toplevel" \
-      --no-link --print-out-paths 2>&1 | tee -a "$log"
+    nh os build -H ${host} --no-nom "${flake_dir}" 2>&1 | tee -a "$log"
     build_status="''${PIPESTATUS[0]}"
     set -e
     if [ "$build_status" -ne 0 ]; then
@@ -51,6 +50,7 @@ in
               jq
               jujutsu
               msmtp
+              nh
               nix
               openssh
             ]
@@ -78,6 +78,7 @@ in
             send_email() {
               local subject="$1"
               local body="$2"
+              local include_log="''${3:-false}"
               {
                 echo "From: nix-auto-update <${notify_email}>"
                 echo "To: ${notify_email}"
@@ -85,9 +86,11 @@ in
                 echo "Content-Type: text/plain; charset=utf-8"
                 echo ""
                 echo "$body"
-                echo ""
-                echo "--- log output ---"
-                tail -200 "$log"
+                if [ "$include_log" = "true" ]; then
+                  echo ""
+                  echo "--- log output (last 200 lines) ---"
+                  tail -200 "$log"
+                fi
               } | msmtp -a aheymans ${notify_email}
             }
 
@@ -139,7 +142,7 @@ in
               local subject="$1"
               local body="$2"
               abandon_update
-              send_email "$subject" "$body"
+              send_email "$subject" "$body" true
               exit 1
             }
 
