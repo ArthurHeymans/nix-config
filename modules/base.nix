@@ -39,10 +39,19 @@
     trusted-users = [ username ];
   };
 
-  nix.gc = {
-    automatic = lib.mkDefault true;
-    dates = lib.mkDefault "monthly";
-    options = lib.mkDefault "--delete-older-than 7d";
+  # Replace nix.gc with nh clean: keeps the last 5 generations across all
+  # profiles, removes stale gcroots, and runs nix store gc afterwards.
+  nix.gc.automatic = lib.mkDefault false;
+
+  systemd.services.nh-clean = {
+    description = "Clean old Nix generations with nh";
+    startAt = lib.mkDefault "daily";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.nh}/bin/nh clean all --keep 5 --no-ask";
+      Nice = 10;
+      IOSchedulingClass = "idle";
+    };
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -57,6 +66,7 @@
     git
     htop
     jq
+    nh
     lm_sensors
     lsof
     nload
