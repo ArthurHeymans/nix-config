@@ -16,6 +16,17 @@
       let
         system = pkgs.stdenv.hostPlatform.system;
         llmPackages = inputs.llm-agents.packages.${system};
+        # Hermes upstream declares requires-python<3.14 and its
+        # _DaemonThreadPoolExecutor._adjust_thread_count references
+        # self._initializer / self._initargs — attributes removed in
+        # Python 3.14 (replaced by _create_worker_context). On pkgs.python3
+        # == 3.14 the agent crashes on any concurrent work (streaming API
+        # calls, async delegation, memory sync) with
+        #   'DaemonThreadPoolExecutor' object has no attribute '_initializer'
+        # Pin to python313 until upstream adds 3.14 support.
+        hermesAgent = llmPackages.hermes-agent.override {
+          python3 = pkgs.python313;
+        };
         gws = inputs.google-workspace-cli.packages.${system}.gws;
         googleWorkspacePython = pkgs.python3.withPackages (pythonPackages: [
           pythonPackages.google-api-python-client
@@ -212,7 +223,7 @@
           googleWorkspacePython
           gws
           llmPackages.agent-browser
-          llmPackages.hermes-agent
+          hermesAgent
           llmPackages.pi
           pkgs.chromium
           pkgs.dbus
