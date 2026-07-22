@@ -73,6 +73,7 @@ in
     ffmpeg # for encoding sound
     uv # for MCP server fetch
     unzip
+    unar
     socat
     dtach
     abduco
