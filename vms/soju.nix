@@ -98,9 +98,10 @@
             enable = true;
             hostName = "soju.gmktec-g3";
             listen = [ "irc+insecure://:6667" ];
+            # Store messages persistently so soju can provide CHATHISTORY.
             enableMessageLogging = false;
             extraConfig = ''
-              message-store memory
+              message-store db
             '';
           };
         };
