@@ -8,7 +8,7 @@
 let
   inherit (pkgs) lib stdenv;
   system = pkgs.stdenv.hostPlatform.system;
-  pi = llm-agents.packages.${system}.pi;
+  piNode = llm-agents.packages.${system}.pi.override { useBun = false; };
   jj-hunk = pkgs.rustPlatform.buildRustPackage rec {
     pname = "jj-hunk";
     version = "0.3.0";
@@ -28,7 +28,7 @@ in
 {
   home.packages = with pkgs; [
     entire
-    pi
+    piNode
     jj-hunk
     jq # often used for parsing nixos output in AI agents
   ];

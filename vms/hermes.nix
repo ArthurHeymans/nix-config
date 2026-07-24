@@ -353,7 +353,6 @@
             gws
             llmPackages.agent-browser
             llmPackages.hermes-agent
-            llmPackages.pi
             pkgs.bash
             pkgs.chromium
             pkgs.coreutils
