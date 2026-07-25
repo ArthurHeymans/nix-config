@@ -32,15 +32,6 @@
   # VPN
   services.mullvad-vpn.enable = true;
 
-  # Avahi
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    nssmdns6 = true;
-    openFirewall = true;
-    publish.enable = true;
-  };
-
   # systemd-resolved
   services.resolved.enable = true;
 

@@ -17,6 +17,19 @@
     ./zswap.nix
   ];
 
+  # Publish and resolve hostnames using mDNS on every host, including servers.
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    nssmdns6 = true;
+    openFirewall = true;
+    publish = {
+      enable = true;
+      addresses = true;
+      domain = true;
+    };
+  };
+
   # Use the newest kernel by default.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
