@@ -5,10 +5,14 @@
   ...
 }:
 {
+  programs.mpv = {
+    enable = true;
+    scripts = with pkgs.mpvScripts; [ mpris ];
+  };
+
   home.packages = with pkgs; [
     vlc
     spotify
-    mpv
     evince
     nautilus
     mullvad-vpn
