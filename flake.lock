@@ -163,16 +163,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1784366576,
-        "narHash": "sha256-uX9XAMdeE7OaFwSmXKyyamPXqYOjsviwCRFkCpQtLKc=",
-        "ref": "HiddenSurface",
-        "rev": "48fcfacac4e14640de3481f5628af678c3c2986a",
-        "revCount": 913,
+        "lastModified": 1785175153,
+        "narHash": "sha256-nVRDrMK5rF7J1C9GMprScFYwAkXjJEqj4P+QxFTdel4=",
+        "ref": "Everything",
+        "rev": "188af3505874ad3c168306cf18cedd10d0059c0e",
+        "revCount": 917,
         "type": "git",
         "url": "https://codeberg.org/avph/ewm"
       },
       "original": {
-        "ref": "HiddenSurface",
+        "ref": "Everything",
         "type": "git",
         "url": "https://codeberg.org/avph/ewm"
       }

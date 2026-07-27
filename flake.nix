@@ -56,7 +56,7 @@
 
     ewm = {
       # url = "git+https://codeberg.org/ezemtsov/ewm";
-      url = "git+https://codeberg.org/avph/ewm?ref=HiddenSurface";
+      url = "git+https://codeberg.org/avph/ewm?ref=Everything";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
