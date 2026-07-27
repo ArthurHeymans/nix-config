@@ -683,6 +683,10 @@
         "doom-config": "doom-config",
         "ewm": "ewm",
         "google-workspace-cli": "google-workspace-cli",
+        "gslapper": [
+          "sysc-greet",
+          "gslapper"
+        ],
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
         "llm-agents": "llm-agents",

@@ -89,6 +89,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    gslapper.follows = "sysc-greet/gslapper";
+
     llm-agents = {
       url = "github:numtide/llm-agents.nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -156,7 +158,6 @@
           homeModule = ./users/${username}/home.nix;
           extraModules = [
             inputs.niri.nixosModules.niri
-            inputs.sysc-greet.nixosModules.default
             inputs.ewm.nixosModules.default
           ];
         };
