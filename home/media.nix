@@ -7,6 +7,7 @@
 {
   programs.mpv = {
     enable = true;
+    config.hwdec = "auto";
     scripts = with pkgs.mpvScripts; [ mpris ];
   };
 
