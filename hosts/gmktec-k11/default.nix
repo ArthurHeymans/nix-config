@@ -1,7 +1,10 @@
-{ lib,
+{
+  config,
+  lib,
   pkgs,
   inputs,
-  ... }:
+  ...
+}:
 {
   imports = [
     ../../modules/system.nix
@@ -51,6 +54,19 @@
   environment.systemPackages = [
     pkgs.sbctl
   ];
+
+  # RTX 3090 (Ampere). Use NVIDIA's open kernel modules with the
+  # proprietary userspace driver.
+  services.xserver.videoDrivers = [ "nvidia" ];
+
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = true;
+    powerManagement.finegrained = false;
+    open = true;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
 
   # lanzaboote replaces systemd
   boot.loader.systemd-boot.enable = lib.mkForce false;
