@@ -30,6 +30,11 @@
 
     sops-nix.url = "github:Mic92/sops-nix";
 
+    pi-web = {
+      url = "github:ArthurHeymans/pi-web/jj";
+      flake = false;
+    };
+
     # add git hooks to format nix code before commit
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";

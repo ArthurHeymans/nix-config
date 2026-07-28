@@ -2,10 +2,21 @@ keys:
   - &x220-nixos age1vwc6ywc0a2wpg9d80datnsevlepsepl9u628c26ej6cpj2ky8d8sp2ezhe
   - &t14s-g6 age192jvd4me826f75hz254ezh77yqp569y4rmur30w4m5mcve02vapq57ttg7
   - &gmktec-k11 age1649n9a584e79ahpuq752mutvcgphvajrs9hnhrmmv0vsw3cmmy4safmmkv
+  - &gmktec-g3 age1tcjg3d45aphmv2rl9h9vfh8w8uzv2zyscy9ern4lwq008yzhg5vqggd9nv
   - &t480-arthur age1aqaey4gyy9meglslfytm3z2uxadq2nvdkthzvytrl8m8uax6lfxqs4lnr4
   - &x201-arthur age1guhcnvfmwqnng9dvfyzlzrlxrd99jrdycp8j0fhrkxvp6nzecy4qc6gldl
   - &x61-arthur age1hfvqs49qa82w5d4hamqxpze5hpau02jqhzxrfvk4sfkd5p5dzfvqyfv73s
 creation_rules:
+  - path_regex: secrets/caddy\.yaml$
+    key_groups:
+      - age:
+          - *x220-nixos
+          - *t14s-g6
+          - *gmktec-k11
+          - *gmktec-g3
+          - *t480-arthur
+          - *x201-arthur
+          - *x61-arthur
   - path_regex: secrets/nix-serve-key\.yaml$
     key_groups:
       - age:
