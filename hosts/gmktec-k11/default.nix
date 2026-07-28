@@ -11,6 +11,7 @@
     ../../modules/nix-serve.nix
     ../../modules/nix-auto-update.nix
     ../../modules/pi-web.nix
+    ../../modules/openrgb.nix
     ./hardware-configuration.nix
     inputs.lanzaboote.nixosModules.lanzaboote
   ];
@@ -55,6 +56,8 @@
   environment.systemPackages = [
     pkgs.sbctl
   ];
+
+  services.hardware.openrgb.motherboard = "amd";
 
   # RTX 3090 (Ampere). Use NVIDIA's open kernel modules with the
   # proprietary userspace driver.
