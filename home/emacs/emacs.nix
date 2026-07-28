@@ -67,6 +67,8 @@ in
     mcp-proxy
     sshfs
     taplo # toml lsp
+    vscode-langservers-extracted # json lsp
+    yaml-language-server # yaml lsp
     guile
     fd
     nodejs
@@ -80,7 +82,6 @@ in
     poppler-utils
     vips
     tmux
-    yaml-language-server
   ];
 
   programs.doom-emacs = {
