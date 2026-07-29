@@ -3,6 +3,7 @@
   lib,
   pkgs,
   inputs,
+  username,
   ...
 }:
 {
@@ -82,4 +83,7 @@
   };
 
   boot.initrd.systemd.enable = true;
+
+  system.stateVersion = "24.05";
+  home-manager.users.${username}.home.stateVersion = "24.11";
 }

@@ -1,6 +1,5 @@
 {
   config,
-  hostname,
   lib,
   pkgs,
   ...
@@ -135,7 +134,7 @@
           xkb_numlock = "enabled";
         };
         "6127:24814:Lenovo_TrackPoint_Keyboard_II" = {
-          pointer_accel = if hostname == "t480-arthur" then "1" else "0";
+          pointer_accel = toString config.my.pointer.accel;
         };
       };
 

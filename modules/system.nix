@@ -46,15 +46,4 @@
       "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
     ];
   };
-
-  # Auto-upgrade is scheduled after the nightly build on gmktec-k11 (03:00)
-  # so the cache is warm.
-  system.autoUpgrade = {
-    enable = true;
-    dates = "04:00";
-    allowReboot = false;
-  };
-
-  # Default stateVersion for most systems.
-  system.stateVersion = lib.mkDefault "24.05";
 }

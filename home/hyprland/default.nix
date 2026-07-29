@@ -1,7 +1,6 @@
 {
+  config,
   pkgs,
-  hostname,
-  inputs,
   ...
 }:
 {
@@ -283,7 +282,7 @@
           }
           {
             name = "tpps/2-ibm-trackpoint";
-            sensitivity = if hostname == "t480-arthur" then 1 else 0; # -1.0 - 1.0, 0 means no modification.
+            sensitivity = config.my.pointer.accel; # -1.0 - 1.0, 0 means no modification.
           }
         ];
       };

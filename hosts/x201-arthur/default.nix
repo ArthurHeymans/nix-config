@@ -1,4 +1,5 @@
-{ inputs, ... }: {
+{ inputs, username, ... }:
+{
   imports = [
     ../../modules/system.nix
     ./hardware-configuration.nix
@@ -15,4 +16,7 @@
     grubGfxMode = "1280x800";
     grubEfiInstallAsRemovable = false;
   };
+
+  system.stateVersion = "24.05";
+  home-manager.users.${username}.home.stateVersion = "24.11";
 }

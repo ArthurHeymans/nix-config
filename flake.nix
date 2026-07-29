@@ -128,8 +128,47 @@
         src = ./.;
         hooks.nixfmt.enable = true;
       };
+      hosts = {
+        x220-nixos = {
+          kind = "desktop";
+          sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK9XttA9f8RjXTrrhli5lb4y4+uWC7K+uu2yaeLCbWCT arthur@x220-nixos";
+        };
+        t14s-g6 = {
+          kind = "desktop";
+          sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGdvTWjJ4Q/XlCV9ziyFkWxvDsMs+veo9uQQBSPZGZB+ arthur@t14s-g6";
+        };
+        gmktec-k11 = {
+          kind = "desktop";
+          sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAB1w5zIFawrgTrTXzVfpbV9t7d/FBUm/15NZz40McEA arthur@gmktec-k11";
+        };
+        gmktec-g3 = {
+          kind = "server";
+          buildOnUpdate = false;
+        };
+        t480-arthur = {
+          kind = "desktop";
+          sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOIhZlW5JLnPVAWQCKGhPcDhhq0jlQamjI6wCx5UKAXZ arthur@t480-arthur";
+        };
+        x201-arthur = {
+          kind = "desktop";
+          sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIG7kI68/elpmRp017AlpcbWPrWQwjgzcS00VsDdOJhvs arthur@x201-arthur";
+        };
+        x61-arthur = {
+          kind = "desktop";
+          buildOnUpdate = false;
+          sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGLia2BubtMLFw1tDiDdDtIRcG2Pg0Nl8vTS8q0Z1tng arthur@x61-arthur";
+        };
+      };
+      updateHostNames = builtins.attrNames (
+        nixpkgs.lib.filterAttrs (_: host: host.buildOnUpdate or true) hosts
+      );
       specialArgs = {
-        inherit username inputs;
+        inherit
+          username
+          inputs
+          hosts
+          updateHostNames
+          ;
       };
 
       mkNixos =
@@ -149,7 +188,9 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = (specialArgs // { inherit hostname; }) // inputs;
+              home-manager.extraSpecialArgs = {
+                inherit username inputs hostname;
+              };
               home-manager.users.${username} = import homeModule;
             }
           ]
@@ -203,14 +244,8 @@
         '';
       };
 
-      nixosConfigurations = {
-        x220-nixos = mkSystem "x220-nixos";
-        t14s-g6 = mkSystem "t14s-g6";
-        gmktec-k11 = mkSystem "gmktec-k11";
-        gmktec-g3 = mkServer "gmktec-g3";
-        t480-arthur = mkSystem "t480-arthur";
-        x201-arthur = mkSystem "x201-arthur";
-        x61-arthur = mkSystem "x61-arthur";
-      };
+      nixosConfigurations = nixpkgs.lib.mapAttrs (
+        hostname: host: if host.kind == "server" then mkServer hostname else mkSystem hostname
+      ) hosts;
     };
 }

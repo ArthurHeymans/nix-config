@@ -1,8 +1,4 @@
-{
-  nix-doom-emacs-unstraightened,
-  sops-nix,
-  ...
-}:
+{ inputs, ... }:
 {
   ##################################################################################################################
   #
@@ -11,9 +7,10 @@
   ##################################################################################################################
 
   imports = [
-    nix-doom-emacs-unstraightened.hmModule
-    sops-nix.homeManagerModules.sops
+    inputs.nix-doom-emacs-unstraightened.hmModule
+    inputs.sops-nix.homeManagerModules.sops
     # niri.homeModules.niri is injected automatically by niri.nixosModules.niri
+    ../../home/options.nix
     ../../home/core.nix
     ../../home/version-control.nix
 

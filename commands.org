@@ -25,7 +25,11 @@ nixos-rebuild switch --flake .#$(hostname) --option extra-substituters "http://g
 ** remote
 #+name: select-host
 #+begin_src elisp :results value
-(completing-read "Select a host" '("x220-nixos" "gmktec-k11" "gmktec-g3" "t480-arthur" "x201-arthur" "x61-arthur"))
+(let ((hosts (json-parse-string
+              (shell-command-to-string
+               "nix eval --json .#nixosConfigurations --apply builtins.attrNames")
+              :array-type 'list)))
+  (completing-read "Select a host" hosts))
 #+end_src
 
 #+name: rebuild-remote

@@ -19,7 +19,4 @@
   };
 
   services.resolved.enable = true;
-
-  # Default stateVersion for new servers.
-  system.stateVersion = lib.mkDefault "25.05";
 }

@@ -1,0 +1,48 @@
+diff --git a/nix/default.nix b/nix/default.nix
+index 4b6a078fba..72b2099db1 100644
+--- a/nix/default.nix
++++ b/nix/default.nix
+@@ -8,6 +8,17 @@
+   inherit (pkgs) rustPlatform pkg-config;
+   inherit (pkgs) glib libdisplay-info libdrm libgbm libglvnd libinput libxkbcommon pipewire seatd systemd wayland;
+ 
++  # Temporary crates.io patch until libdisplay-info-rs 0.4 is released and
++  # Smithay accepts it. Keep the Cargo package versions at 0.3.0 so this also
++  # satisfies Smithay's current `libdisplay-info = "0.3"` requirement, while
++  # using the updated bindings and wrappers for the native 0.4 ABI.
++  libdisplay-info-rs = pkgs.fetchFromGitHub {
++    owner = "ArthurHeymans";
++    repo = "libdisplay-info-rs";
++    rev = "3911e0344bb2db5839f2c646d25e8c2a8b5223d9";
++    hash = "sha256-kjX8SSjZE5IKCoSklE3AVvv622Bb6Tjwu49AdMTky0U=";
++  };
++
+   gitTrackedFiles = lib.fileset.gitTracked ./..;
+ 
+   # Rust compositor core - only rebuilds when compositor/ changes
+@@ -29,6 +40,25 @@
+ 
+     strictDeps = true;
+ 
++    postPatch = ''
++      cp -r ${libdisplay-info-rs} .nix-libdisplay-info-rs
++      chmod -R u+w .nix-libdisplay-info-rs
++
++      # Cargo patches must satisfy the existing 0.3 requirements. The fork is
++      # source-compatible but was versioned 0.4 for its eventual release.
++      substituteInPlace \
++        .nix-libdisplay-info-rs/libdisplay-info/Cargo.toml \
++        .nix-libdisplay-info-rs/libdisplay-info-sys/Cargo.toml \
++        --replace-fail 'version = "0.4.0"' 'version = "0.3.0"'
++
++      cat >> Cargo.toml <<'EOF'
++
++      [patch.crates-io]
++      libdisplay-info = { path = ".nix-libdisplay-info-rs/libdisplay-info" }
++      libdisplay-info-sys = { path = ".nix-libdisplay-info-rs/libdisplay-info-sys" }
++      EOF
++    '';
++
+     nativeBuildInputs = [
+       pkg-config
+       rustPlatform.bindgenHook

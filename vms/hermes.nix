@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, hosts, ... }:
 {
   systemd.tmpfiles.rules = [
     "d /srv/hermes 0750 arthur users - -"
@@ -117,6 +117,8 @@
         };
       in
       {
+        _module.args.hosts = hosts;
+
         imports = [
           ../users/arthur/nixos.nix
         ];

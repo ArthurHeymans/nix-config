@@ -3,6 +3,7 @@
   inputs,
   lib,
   pkgs,
+  username,
   ...
 }:
 let
@@ -91,6 +92,8 @@ in
     ./disk-config.nix
   ];
 
+  services.sysc-greet.enable = lib.mkForce false;
+
   # Keep a BIOS GRUB install on the disk for SeaBIOS boots, but let UEFI
   # installs update Boot####/BootOrder for CrabEFI instead of relying on the
   # removable fallback path.
@@ -100,8 +103,6 @@ in
     grubGfxMode = "1024x768";
     grubEfiInstallAsRemovable = false;
   };
-
-  services.sysc-greet.enable = lib.mkForce false;
 
   users.users.greeter = {
     isSystemUser = true;
@@ -140,4 +141,7 @@ in
   ];
 
   security.polkit.enable = true;
+
+  system.stateVersion = "24.05";
+  home-manager.users.${username}.home.stateVersion = "24.11";
 }

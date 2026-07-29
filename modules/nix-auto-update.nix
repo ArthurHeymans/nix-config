@@ -3,17 +3,11 @@
   lib,
   pkgs,
   username,
+  updateHostNames,
   ...
 }:
 let
   flake_dir = "/home/${username}/src/nix-config";
-  hosts = [
-    "x220-nixos"
-    "t14s-g6"
-    "gmktec-k11"
-    "t480-arthur"
-    "x201-arthur"
-  ];
   notify_email = "arthur@aheymans.xyz";
   host_name = config.networking.hostName;
 
@@ -26,7 +20,7 @@ let
     if [ "$build_status" -ne 0 ]; then
       failed_hosts="$failed_hosts ${host}"
     fi
-  '') hosts;
+  '') updateHostNames;
 in
 {
   systemd.services.nix-flake-update = {
@@ -209,7 +203,7 @@ in
       Updated inputs:
       $input_summary
 
-      Built hosts: ${lib.concatStringsSep " " hosts}"
+      Built hosts: ${lib.concatStringsSep " " updateHostNames}"
     '';
   };
 

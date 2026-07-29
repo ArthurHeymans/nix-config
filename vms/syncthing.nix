@@ -1,4 +1,5 @@
-{ ... }: {
+{ hosts, ... }:
+{
   systemd.tmpfiles.rules = [
     "d /srv/syncthing 0750 arthur users - -"
     "d /srv/syncthing/data 0750 arthur users - -"
@@ -9,6 +10,8 @@
   microvm = {
     vms.syncthing = {
       config = { lib, pkgs, ... }: {
+        _module.args.hosts = hosts;
+
         imports = [
           ../users/arthur/nixos.nix
         ];
@@ -76,7 +79,10 @@
           requiredBy = [ "syncthing.service" ];
           before = [ "syncthing.service" ];
           serviceConfig.Type = "oneshot";
-          path = [ pkgs.coreutils pkgs.perl ];
+          path = [
+            pkgs.coreutils
+            pkgs.perl
+          ];
           script = ''
             install -d -m 0755 -o arthur -g users /var/lib/syncthing/data/docs /var/lib/syncthing/data/org
             config=/var/lib/syncthing/.config/syncthing/config.xml

@@ -1,4 +1,5 @@
-{ ... }: {
+{ hosts, ... }:
+{
   systemd.tmpfiles.rules = [
     "d /srv/soju 0750 root root - -"
   ];
@@ -6,6 +7,8 @@
   microvm = {
     vms.soju = {
       config = { lib, ... }: {
+        _module.args.hosts = hosts;
+
         imports = [
           ../users/arthur/nixos.nix
         ];

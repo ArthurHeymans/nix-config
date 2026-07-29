@@ -94,10 +94,11 @@
     wget
   ];
 
+  # Upgrade every host from the same flake after the nightly cache build.
   system.autoUpgrade = {
-    enable = lib.mkDefault true;
+    enable = true;
     flake = "github:ArthurHeymans/nix-config";
-    dates = lib.mkDefault "04:00";
-    allowReboot = lib.mkDefault false;
+    dates = "04:00";
+    allowReboot = false;
   };
 }

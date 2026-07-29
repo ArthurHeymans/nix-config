@@ -15,58 +15,7 @@ let
     hash = "sha256-kjX8SSjZE5IKCoSklE3AVvv622Bb6Tjwu49AdMTky0U=";
   };
 
-  ewmPatch = pkgs.writeText "ewm-libdisplay-info-rs-0.4.patch" (
-    builtins.concatStringsSep "\n" [
-      "diff --git a/nix/default.nix b/nix/default.nix"
-      "index 4b6a078fba..72b2099db1 100644"
-      "--- a/nix/default.nix"
-      "+++ b/nix/default.nix"
-      "@@ -8,6 +8,17 @@"
-      "   inherit (pkgs) rustPlatform pkg-config;"
-      "   inherit (pkgs) glib libdisplay-info libdrm libgbm libglvnd libinput libxkbcommon pipewire seatd systemd wayland;"
-      " "
-      "+  # Temporary crates.io patch until libdisplay-info-rs 0.4 is released and"
-      "+  # Smithay accepts it. Keep the Cargo package versions at 0.3.0 so this also"
-      "+  # satisfies Smithay's current `libdisplay-info = \"0.3\"` requirement, while"
-      "+  # using the updated bindings and wrappers for the native 0.4 ABI."
-      "+  libdisplay-info-rs = pkgs.fetchFromGitHub {"
-      "+    owner = \"ArthurHeymans\";"
-      "+    repo = \"libdisplay-info-rs\";"
-      "+    rev = \"3911e0344bb2db5839f2c646d25e8c2a8b5223d9\";"
-      "+    hash = \"sha256-kjX8SSjZE5IKCoSklE3AVvv622Bb6Tjwu49AdMTky0U=\";"
-      "+  };"
-      "+"
-      "   gitTrackedFiles = lib.fileset.gitTracked ./..;"
-      " "
-      "   # Rust compositor core - only rebuilds when compositor/ changes"
-      "@@ -29,6 +40,25 @@"
-      " "
-      "     strictDeps = true;"
-      " "
-      "+    postPatch = ''"
-      "+      cp -r \${libdisplay-info-rs} .nix-libdisplay-info-rs"
-      "+      chmod -R u+w .nix-libdisplay-info-rs"
-      "+"
-      "+      # Cargo patches must satisfy the existing 0.3 requirements. The fork is"
-      "+      # source-compatible but was versioned 0.4 for its eventual release."
-      "+      substituteInPlace \\"
-      "+        .nix-libdisplay-info-rs/libdisplay-info/Cargo.toml \\"
-      "+        .nix-libdisplay-info-rs/libdisplay-info-sys/Cargo.toml \\"
-      "+        --replace-fail 'version = \"0.4.0\"' 'version = \"0.3.0\"'"
-      "+"
-      "+      cat >> Cargo.toml <<'EOF'"
-      "+"
-      "+      [patch.crates-io]"
-      "+      libdisplay-info = { path = \".nix-libdisplay-info-rs/libdisplay-info\" }"
-      "+      libdisplay-info-sys = { path = \".nix-libdisplay-info-rs/libdisplay-info-sys\" }"
-      "+      EOF"
-      "+    '';"
-      "+"
-      "     nativeBuildInputs = ["
-      "       pkg-config"
-      "       rustPlatform.bindgenHook"
-    ]
-  );
+  ewmPatch = ../packages/ewm-libdisplay-info-rs-0.4.patch;
 
   # Patch the online EWM flake source in Nix so its Rust build uses the
   # libdisplay-info-rs fork that supports native libdisplay-info 0.4.
@@ -108,9 +57,7 @@ let
         # packages referenced by the rewritten install script.
         postInstall =
           builtins.unsafeDiscardStringContext (
-            builtins.replaceStrings
-              [ "${pkgs.niri}/bin/niri msg" ]
-              [ "${patchedNiriPackage}/bin/niri msg" ]
+            builtins.replaceStrings [ "${pkgs.niri}/bin/niri msg" ] [ "${patchedNiriPackage}/bin/niri msg" ]
               old.postInstall
           )
           + ''
@@ -231,11 +178,15 @@ in
   environment.pathsToLink = [ "/share/wayland-sessions" ];
   environment.etc = {
     "greetd/kitty.conf".source = "${patchedSyscGreetPackage}/etc/greetd/kitty.conf";
-    "greetd/niri-greeter-config.kdl".source = "${patchedSyscGreetPackage}/etc/greetd/niri-greeter-config.kdl";
-    "greetd/hyprland-greeter-config.conf".source = "${patchedSyscGreetPackage}/etc/greetd/hyprland-greeter-config.conf";
+    "greetd/niri-greeter-config.kdl".source =
+      "${patchedSyscGreetPackage}/etc/greetd/niri-greeter-config.kdl";
+    "greetd/hyprland-greeter-config.conf".source =
+      "${patchedSyscGreetPackage}/etc/greetd/hyprland-greeter-config.conf";
     "greetd/sway-greeter-config".source = "${patchedSyscGreetPackage}/etc/greetd/sway-greeter-config";
-    "greetd/cagebreak-greeter-config".source = "${patchedSyscGreetPackage}/etc/greetd/cagebreak-greeter-config";
-    "polkit-1/rules.d/85-greeter.rules".source = "${patchedSyscGreetPackage}/etc/polkit-1/rules.d/85-greeter.rules";
+    "greetd/cagebreak-greeter-config".source =
+      "${patchedSyscGreetPackage}/etc/greetd/cagebreak-greeter-config";
+    "polkit-1/rules.d/85-greeter.rules".source =
+      "${patchedSyscGreetPackage}/etc/polkit-1/rules.d/85-greeter.rules";
   };
 
   systemd.tmpfiles.rules = [

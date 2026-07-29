@@ -1,4 +1,5 @@
-{ inputs, ... }: {
+{ inputs, username, ... }:
+{
   imports = [
     ../../modules/server.nix
     ../../vms
@@ -14,6 +15,9 @@
     useDHCP = false;
     useNetworkd = true;
   };
+
+  system.stateVersion = "25.05";
+  home-manager.users.${username}.home.stateVersion = "24.11";
 
   systemd.network = {
     enable = true;
