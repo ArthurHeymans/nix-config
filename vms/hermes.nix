@@ -16,6 +16,18 @@
       let
         system = pkgs.stdenv.hostPlatform.system;
         llmPackages = inputs.llm-agents.packages.${system};
+        # Hermes' tools/daemon_pool.py mirrors CPython 3.8–3.13 internals
+        # (self._initializer / self._initargs), which were replaced by a
+        # WorkerContext in Python 3.14. On pkgs.python3 == 3.14 every
+        # concurrent tool batch crashes with:
+        #   'DaemonThreadPoolExecutor' object has no attribute '_initializer'
+        # Patch it to be version-aware (fixes 3.8–3.14+). Supersedes the
+        # earlier pin-to-python313 workaround (PR #4, never merged).
+        hermesAgent = llmPackages.hermes-agent.overrideAttrs (old: {
+          patches = (old.patches or [ ]) ++ [
+            ../patches/hermes-agent-py314-daemon-pool.patch
+          ];
+        });
         gws = inputs.google-workspace-cli.packages.${system}.gws;
         googleWorkspacePython = pkgs.python3.withPackages (pythonPackages: [
           pythonPackages.google-api-python-client
@@ -214,7 +226,7 @@
           googleWorkspacePython
           gws
           llmPackages.agent-browser
-          llmPackages.hermes-agent
+          hermesAgent
           llmPackages.pi
           pkgs.chromium
           pkgs.dbus
@@ -393,7 +405,7 @@
             Group = "users";
             WorkingDirectory = "/home/arthur/repos";
             EnvironmentFile = "-${hermesEnv}";
-            ExecStart = "${llmPackages.hermes-agent}/bin/hermes gateway";
+            ExecStart = "${hermesAgent}/bin/hermes gateway";
             Restart = "on-failure";
             RestartSec = 10;
           };
