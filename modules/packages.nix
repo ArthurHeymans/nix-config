@@ -4,15 +4,8 @@
   ...
 }:
 let
-  # ponytail: compatibility override until flake.lock pins the fixed rflasher package.
+  # Add runtime data and shell completions missing from the upstream package.
   rflasher = inputs.rflasher.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
-    cargoDeps = pkgs.rustPlatform.importCargoLock {
-      lockFile = "${inputs.rflasher}/Cargo.lock";
-      outputHashes = {
-        "ftdi-0.1.0" = "sha256-dRQqF6TOXLGL6+XW+Y+dSeYbbwpvXTocbq7+FVDv3Og=";
-        "nusb-0.2.1" = "sha256-5GrOwak/hiRDNg/CZWcYPYCwxGMZTKEPdIMBJ7D2naI=";
-      };
-    };
     cargoBuildFlags = [ "--package=rflasher" ];
     cargoTestFlags = [ "--package=rflasher" ];
     nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.installShellFiles ];
@@ -24,7 +17,7 @@ let
     '';
 
     postInstall = ''
-      install -Dm644 chips/vendors/*.ron -t $out/share/rflasher/chips
+      install -Dm644 crates/rflasher-chips/data/vendors/*.ron -t $out/share/rflasher/chips
 
       completion_generator=$(find target -type f -name gen-completions -perm -0100 -print -quit)
       if [ -n "$completion_generator" ]; then
