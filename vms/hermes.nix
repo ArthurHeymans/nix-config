@@ -16,6 +16,15 @@
       let
         system = pkgs.stdenv.hostPlatform.system;
         llmPackages = inputs.llm-agents.packages.${system};
+        # Hermes discovers platform adapters through plugin.yaml manifests and
+        # may also need adjacent plugin assets. The Python wheel currently drops
+        # those non-Python files, so restore the complete plugin tree.
+        hermesAgent = llmPackages.hermes-agent.overrideAttrs (old: {
+          postInstall = (old.postInstall or "") + ''
+            rm -rf $out/${pkgs.python3.sitePackages}/plugins
+            cp -r ${old.src}/plugins $out/${pkgs.python3.sitePackages}/plugins
+          '';
+        });
         gws = inputs.google-workspace-cli.packages.${system}.gws;
         googleWorkspacePython = pkgs.python3.withPackages (pythonPackages: [
           pythonPackages.google-api-python-client
@@ -214,7 +223,7 @@
           googleWorkspacePython
           gws
           llmPackages.agent-browser
-          llmPackages.hermes-agent
+          hermesAgent
           llmPackages.pi
           pkgs.chromium
           pkgs.dbus
@@ -354,7 +363,7 @@
             googleWorkspacePython
             gws
             llmPackages.agent-browser
-            llmPackages.hermes-agent
+            hermesAgent
             pkgs.bash
             pkgs.chromium
             pkgs.coreutils
@@ -393,9 +402,10 @@
             Group = "users";
             WorkingDirectory = "/home/arthur/repos";
             EnvironmentFile = "-${hermesEnv}";
-            ExecStart = "${llmPackages.hermes-agent}/bin/hermes gateway";
+            ExecStart = "${hermesAgent}/bin/hermes gateway";
             Restart = "on-failure";
             RestartSec = 10;
+            TimeoutStopSec = 210;
           };
         };
 
