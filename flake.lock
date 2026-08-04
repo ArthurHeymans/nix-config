@@ -156,6 +156,23 @@
         "type": "github"
       }
     },
+    "emacs-wayland": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1785240330,
+        "narHash": "sha256-8+Aw0V+Gz8+pu8WQlDdevDyc2MxW4flrNKi+na5B7YM=",
+        "ref": "wayland",
+        "rev": "f07391de847efbc0abb7587e38c7a428068c20ea",
+        "revCount": 182342,
+        "type": "git",
+        "url": "https://codeberg.org/ezemtsov/emacs"
+      },
+      "original": {
+        "ref": "wayland",
+        "type": "git",
+        "url": "https://codeberg.org/ezemtsov/emacs"
+      }
+    },
     "ewm": {
       "inputs": {
         "nixpkgs": [
@@ -163,18 +180,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1785175153,
-        "narHash": "sha256-nVRDrMK5rF7J1C9GMprScFYwAkXjJEqj4P+QxFTdel4=",
-        "ref": "Everything",
-        "rev": "188af3505874ad3c168306cf18cedd10d0059c0e",
-        "revCount": 917,
+        "lastModified": 1785313543,
+        "narHash": "sha256-LAjLmdzkxEStiMRjKd4Ze4c7eJ/R7whMnfsCrZSLoMc=",
+        "ref": "refs/heads/master",
+        "rev": "dc5eb71642a9def5f2ac19005d3209ae092f45d9",
+        "revCount": 923,
         "type": "git",
-        "url": "https://codeberg.org/avph/ewm"
+        "url": "https://codeberg.org/ezemtsov/ewm"
       },
       "original": {
-        "ref": "Everything",
         "type": "git",
-        "url": "https://codeberg.org/avph/ewm"
+        "url": "https://codeberg.org/ezemtsov/ewm"
       }
     },
     "flake-compat": {
@@ -698,6 +714,7 @@
       "inputs": {
         "disko": "disko",
         "doom-config": "doom-config",
+        "emacs-wayland": "emacs-wayland",
         "ewm": "ewm",
         "google-workspace-cli": "google-workspace-cli",
         "gslapper": [

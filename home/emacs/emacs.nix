@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   inputs,
   osConfig,
@@ -15,7 +16,64 @@ let
         echo '${builtins.toJSON ecaConfig}' | ${pkgs.jq}/bin/jq '.' > $out
       '';
 
-  emacsPackage = pkgs.emacs-pgtk;
+  # EWM supports the author's GTK-based PGTK build and their native Wayland
+  # backend.  Use the latter for both the Doom and plain-Emacs EWM sessions.
+  pwaylEmacsBase = pkgs.emacs31.override {
+    withX = false;
+    withCairo = false;
+    withGTK3 = false;
+    withPgtk = false;
+    withXwidgets = false;
+    withToolkitScrollBars = false;
+  };
+  emacsPackage = pwaylEmacsBase.overrideAttrs (old: {
+    src = inputs.emacs-wayland;
+    configureFlags =
+      lib.filter (
+        flag:
+        !lib.elem flag [
+          "--without-gif"
+          "--without-jpeg"
+          "--without-png"
+          "--without-tiff"
+        ]
+      ) (old.configureFlags or [ ])
+      ++ [
+        "--with-rsvg"
+        "--with-pwayl"
+        "--with-skia"
+        "--with-gif"
+        "--with-jpeg"
+        "--with-png"
+        "--with-tiff"
+      ];
+    buildInputs =
+      (old.buildInputs or [ ])
+      ++ (with pkgs; [
+        fontconfig
+        freetype
+        giflib
+        libjpeg
+        libpng
+        libtiff
+        librsvg
+        skia
+        libepoxy
+        wayland
+        wayland-protocols
+        libxkbcommon
+      ]);
+    nativeBuildInputs =
+      (old.nativeBuildInputs or [ ])
+      ++ (with pkgs; [
+        autoconf
+        automake
+        wayland-scanner
+      ]);
+    preConfigure = (old.preConfigure or "") + ''
+      ./autogen.sh
+    '';
+  });
   # elBeBackForEpkgs =
   #   epkgs:
   #   let

@@ -15,16 +15,8 @@ let
     hash = "sha256-kjX8SSjZE5IKCoSklE3AVvv622Bb6Tjwu49AdMTky0U=";
   };
 
-  ewmPatch = ../packages/ewm-libdisplay-info-rs-0.4.patch;
-
-  # Patch the online EWM flake source in Nix so its Rust build uses the
-  # libdisplay-info-rs fork that supports native libdisplay-info 0.4.
-  patchedEwmSource = pkgs.applyPatches {
-    name = "ewm-patched-source";
+  patchedEwmPackage = pkgs.callPackage ../packages/ewm.nix {
     src = inputs.ewm;
-    patches = [ ewmPatch ];
-  };
-  patchedEwmPackage = pkgs.callPackage "${patchedEwmSource}/nix/default.nix" {
     emacsPackage = ewmEmacsPackage.emacs or ewmEmacsPackage;
   };
 

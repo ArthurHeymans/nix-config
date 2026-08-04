@@ -11,6 +11,8 @@ let
     install -Dm444 ${pkgs.emacsPackages.ghostel.src}/etc/shell/ghostel.fish $out/etc/ghostel.fish
   '';
 
+  emacsClient = config.programs.emacs.finalPackage;
+
   ewm-editor = pkgs.writeShellScriptBin "ewm-editor" ''
     set -euo pipefail
 
@@ -52,7 +54,7 @@ let
     fi
 
     args=(--alternate-editor=false --socket-name "$socket_name")
-    exec ${pkgs.emacs-pgtk}/bin/emacsclient "''${args[@]}" "$@"
+    exec ${emacsClient}/bin/emacsclient "''${args[@]}" "$@"
   '';
 in
 {

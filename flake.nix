@@ -60,9 +60,14 @@
     };
 
     ewm = {
-      # url = "git+https://codeberg.org/ezemtsov/ewm";
-      url = "git+https://codeberg.org/avph/ewm?ref=Everything";
+      url = "git+https://codeberg.org/ezemtsov/ewm";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Native Wayland/Skia Emacs maintained by the EWM author.
+    emacs-wayland = {
+      url = "git+https://codeberg.org/ezemtsov/emacs?ref=wayland";
+      flake = false;
     };
 
     ########################  Some non-flake repositories  #########################################
