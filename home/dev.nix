@@ -6,16 +6,16 @@
 let
   ghidra-cli = pkgs.rustPlatform.buildRustPackage rec {
     pname = "ghidra-cli";
-    version = "0.1.9";
+    version = "0.2.2";
 
     src = pkgs.fetchFromGitHub {
       owner = "akiselev";
       repo = "ghidra-cli";
       rev = "v${version}";
-      hash = "sha256-bX+lT4YeBJkOLPW+db/4CCimnLUjdc6/REk5+5PtBEE=";
+      hash = "sha256-B4bnOOFtEsckT5TOAmjbx5AkrdpjeA248G+BrDUHY88=";
     };
 
-    cargoHash = "sha256-J+XhpIo5T/6kotHH51XEyxYLVsjJ/+p0EXTKqhef/oc=";
+    cargoHash = "sha256-r8AvlTJQ+j5YoLGJe3xIA0q+DPDTMKfhlT+nwFfNsPw=";
 
     nativeBuildInputs = [ pkgs.pkg-config ];
     buildInputs = [ pkgs.openssl ];
