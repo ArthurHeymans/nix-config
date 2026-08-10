@@ -40,7 +40,7 @@ buildNpmPackage rec {
 
   nodejs = nodejs_22;
   npmDepsFetcherVersion = 2;
-  npmDepsHash = "sha256-qj2RT7j94BAbNeAjkgUCcC34J/2U+r107+jj5J2/j5o=";
+  npmDepsHash = "sha256-fMGDqXVySgibDnclng0dXkcj6OUGr3fhZkkBgxQLzVM=";
   npmInstallFlags = [ "--include=peer" ];
   npmPruneFlags = [ "--include=peer" ];
 

@@ -31,7 +31,7 @@
     sops-nix.url = "github:Mic92/sops-nix";
 
     pi-web = {
-      url = "github:ArthurHeymans/pi-web/jj";
+      url = "github:ArthurHeymans/pi-web/feat/jj-plugin";
       flake = false;
     };
 
