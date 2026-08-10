@@ -1,4 +1,5 @@
 {
+  config,
   inputs,
   pkgs,
   ...
@@ -27,6 +28,7 @@ let
     pkgs.git
     pkgs.jq
     pkgs.jujutsu
+    pkgs.nix
     pkgs.openssh
     pkgs.ripgrep
   ];
@@ -38,6 +40,18 @@ let
   };
 in
 {
+  sops.secrets."environmentVariables/OPENROUTER_API_KEY" = {
+    sopsFile = ../secrets/secrets.yaml;
+  };
+  sops.secrets."environmentVariables/OLLAMA_API_KEY" = {
+    sopsFile = ../secrets/secrets.yaml;
+  };
+
+  sops.templates."pi-web-environment".content = ''
+    OPENROUTER_API_KEY=${config.sops.placeholder."environmentVariables/OPENROUTER_API_KEY"}
+    OLLAMA_API_KEY=${config.sops.placeholder."environmentVariables/OLLAMA_API_KEY"}
+  '';
+
   systemd.tmpfiles.rules = [
     "d /home/arthur/src 0750 arthur users - -"
     "d /home/arthur/.pi-web 0700 arthur users - -"
@@ -57,10 +71,11 @@ in
     environment = serviceEnvironment;
     path = servicePackages;
     serviceConfig = {
+      EnvironmentFile = config.sops.templates."pi-web-environment".path;
       User = "arthur";
       Group = "users";
       WorkingDirectory = "/home/arthur/src";
-      ExecStart = "${piWebPackage}/bin/pi-web-sessiond";
+      ExecStart = "${pkgs.bash}/bin/bash -lc 'exec ${piWebPackage}/bin/pi-web-sessiond'";
       Restart = "on-failure";
       RestartSec = 2;
       UMask = "0077";
@@ -78,7 +93,8 @@ in
       User = "arthur";
       Group = "users";
       WorkingDirectory = "/home/arthur/src";
-      ExecStart = "${piWebPackage}/bin/pi-web-server";
+      EnvironmentFile = config.sops.templates."pi-web-environment".path;
+      ExecStart = "${pkgs.bash}/bin/bash -lc 'exec ${piWebPackage}/bin/pi-web-server'";
       Restart = "on-failure";
       RestartSec = 2;
       UMask = "0077";
