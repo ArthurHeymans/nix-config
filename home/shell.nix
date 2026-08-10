@@ -89,6 +89,7 @@ in
         config.sops.secrets."environmentVariables/ANTHROPIC_API_KEY_9E".path
       })
       setenv GOOGLE_API_KEY $(cat ${config.sops.secrets."environmentVariables/GOOGLE_API_KEY".path})
+      setenv OLLAMA_API_KEY $(cat ${config.sops.secrets."environmentVariables/OLLAMA_API_KEY".path})
     '';
     plugins = [
       {

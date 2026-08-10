@@ -23,6 +23,7 @@
       "environmentVariables/ANTHROPIC_API_KEY_9E" = { };
       "environmentVariables/GOOGLE_API_KEY" = { };
       "environmentVariables/OPENCODE_SERVER_PASSWORD" = { };
+      "environmentVariables/OLLAMA_API_KEY" = { };
     };
   };
 }
