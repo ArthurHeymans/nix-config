@@ -121,6 +121,16 @@
           ../users/arthur/nixos.nix
         ];
 
+        # The default root is a tmpfs at 50% of RAM (4G here), which also
+        # backs the writable nix-store overlay. Firmware RE and toolchains
+        # (radare2, decompilers) need more room, so grow it to 75% of RAM.
+        fileSystems."/" = {
+          device = "rootfs";
+          fsType = "tmpfs";
+          options = [ "size=75%,mode=0755" ];
+          neededForBoot = true;
+        };
+
         microvm = {
           hypervisor = "qemu";
           mem = 8192;
