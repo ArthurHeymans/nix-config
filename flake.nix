@@ -89,10 +89,11 @@
     #  inputs.nixpkgs.follows = "nixpkgs";
     #};
 
-    niri = {
-      url = "github:sodiboo/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # Temporarily disabled while niri's current package is incompatible with nixpkgs.
+    # niri = {
+    #   url = "github:sodiboo/niri-flake";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     sysc-greet = {
       url = "github:Nomadcxx/sysc-greet";
@@ -208,7 +209,7 @@
           inherit hostname;
           homeModule = ./users/${username}/home.nix;
           extraModules = [
-            inputs.niri.nixosModules.niri
+            # inputs.niri.nixosModules.niri
             inputs.ewm.nixosModules.default
           ];
         };

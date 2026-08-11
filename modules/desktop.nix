@@ -8,55 +8,12 @@
 let
   ewmEmacsPackage = config.home-manager.users.${username}.programs.doom-emacs.finalEmacsPackage;
 
-  libdisplayInfoRs = pkgs.fetchFromGitHub {
-    owner = "ArthurHeymans";
-    repo = "libdisplay-info-rs";
-    rev = "3911e0344bb2db5839f2c646d25e8c2a8b5223d9";
-    hash = "sha256-kjX8SSjZE5IKCoSklE3AVvv622Bb6Tjwu49AdMTky0U=";
-  };
-
   patchedEwmPackage = pkgs.callPackage ../packages/ewm.nix {
     src = inputs.ewm;
     emacsPackage = ewmEmacsPackage.emacs or ewmEmacsPackage;
   };
 
-  patchedNiriPackage =
-    inputs.niri.packages.${pkgs.stdenv.hostPlatform.system}.niri-unstable.overrideAttrs
-      (old: {
-        postPatch = (old.postPatch or "") + ''
-          cp -r ${libdisplayInfoRs} .nix-libdisplay-info-rs
-          chmod -R u+w .nix-libdisplay-info-rs
-
-          substituteInPlace \
-            .nix-libdisplay-info-rs/libdisplay-info/Cargo.toml \
-            .nix-libdisplay-info-rs/libdisplay-info-sys/Cargo.toml \
-            --replace-fail 'version = "0.4.0"' 'version = "0.3.0"'
-
-          cat >> Cargo.toml <<'EOF'
-
-          [patch.crates-io]
-          libdisplay-info = { path = ".nix-libdisplay-info-rs/libdisplay-info" }
-          libdisplay-info-sys = { path = ".nix-libdisplay-info-rs/libdisplay-info-sys" }
-          EOF
-        '';
-      });
-
-  patchedSyscGreetPackage =
-    inputs.sysc-greet.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs
-      (old: {
-        # Replacing a store path in a Nix string does not remove its dependency
-        # context, so discard the old context and explicitly restore only the
-        # packages referenced by the rewritten install script.
-        postInstall =
-          builtins.unsafeDiscardStringContext (
-            builtins.replaceStrings [ "${pkgs.niri}/bin/niri msg" ] [ "${patchedNiriPackage}/bin/niri msg" ]
-              old.postInstall
-          )
-          + ''
-            # Keep these paths in the derivation closure and build sandbox.
-            : ${patchedNiriPackage} ${pkgs.kitty} ${pkgs.hyprland} ${pkgs.sway} ${pkgs.socat}
-          '';
-      });
+  syscGreetPackage = inputs.sysc-greet.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
   gslapperPackage = inputs.gslapper.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
@@ -146,8 +103,7 @@ in
   programs.dconf.enable = true;
   programs.xwayland.enable = true;
 
-  # greetd with sysc-greet. This is configured directly because the upstream
-  # module closes over an unpatched pkgs.niri in its sysc-greet package.
+  # greetd with sysc-greet.
   users.users.greeter = {
     isSystemUser = true;
     group = "greeter";
@@ -161,7 +117,7 @@ in
     settings = {
       terminal.vt = 1;
       default_session = {
-        command = "${patchedNiriPackage}/bin/niri -c /etc/greetd/niri-greeter-config.kdl";
+        command = "${pkgs.hyprland}/bin/Hyprland -c /etc/greetd/hyprland-greeter-config.conf";
         user = "greeter";
       };
     };
@@ -169,21 +125,19 @@ in
 
   environment.pathsToLink = [ "/share/wayland-sessions" ];
   environment.etc = {
-    "greetd/kitty.conf".source = "${patchedSyscGreetPackage}/etc/greetd/kitty.conf";
-    "greetd/niri-greeter-config.kdl".source =
-      "${patchedSyscGreetPackage}/etc/greetd/niri-greeter-config.kdl";
+    "greetd/kitty.conf".source = "${syscGreetPackage}/etc/greetd/kitty.conf";
     "greetd/hyprland-greeter-config.conf".source =
-      "${patchedSyscGreetPackage}/etc/greetd/hyprland-greeter-config.conf";
-    "greetd/sway-greeter-config".source = "${patchedSyscGreetPackage}/etc/greetd/sway-greeter-config";
+      "${syscGreetPackage}/etc/greetd/hyprland-greeter-config.conf";
+    "greetd/sway-greeter-config".source = "${syscGreetPackage}/etc/greetd/sway-greeter-config";
     "greetd/cagebreak-greeter-config".source =
-      "${patchedSyscGreetPackage}/etc/greetd/cagebreak-greeter-config";
+      "${syscGreetPackage}/etc/greetd/cagebreak-greeter-config";
     "polkit-1/rules.d/85-greeter.rules".source =
-      "${patchedSyscGreetPackage}/etc/polkit-1/rules.d/85-greeter.rules";
+      "${syscGreetPackage}/etc/polkit-1/rules.d/85-greeter.rules";
   };
 
   systemd.tmpfiles.rules = [
     "d /var/cache/sysc-greet 0755 greeter greeter -"
-    "L+ /usr/share/sysc-greet - - - - ${patchedSyscGreetPackage}/share/sysc-greet"
+    "L+ /usr/share/sysc-greet - - - - ${syscGreetPackage}/share/sysc-greet"
   ];
 
   security.polkit.enable = true;
@@ -198,8 +152,8 @@ in
   programs.hyprland.withUWSM = true;
 
   programs.hyprland.enable = true;
-  programs.niri.enable = true;
-  programs.niri.package = patchedNiriPackage; # recent-windows requires 25.11+
+  # Niri is temporarily disabled while its current package is incompatible
+  # with the nixpkgs revision used by this configuration.
 
   # Primary ewm session: doom-emacs.
   programs.ewm = {
@@ -215,7 +169,7 @@ in
   # which is where sysc-greet scans for session desktop files.
   environment.systemPackages = [
     ewmEmacsSystemPackage
-    patchedSyscGreetPackage
+    syscGreetPackage
     pkgs.kitty
     gslapperPackage
     pkgs.xwayland-satellite

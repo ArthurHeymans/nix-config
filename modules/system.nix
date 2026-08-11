@@ -37,13 +37,8 @@
   };
 
   nix.settings = {
-    extra-substituters = [
-      "https://niri.cachix.org"
-    ];
-
     extra-trusted-public-keys = [
       "gmktec-k11:KaYkTTAvAv5cfwrsglqcsnyGKBUU1qzEXWB68BasinA="
-      "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964="
     ];
   };
 }

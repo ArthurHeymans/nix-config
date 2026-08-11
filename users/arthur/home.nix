@@ -9,7 +9,7 @@
   imports = [
     inputs.nix-doom-emacs-unstraightened.hmModule
     inputs.sops-nix.homeManagerModules.sops
-    # niri.homeModules.niri is injected automatically by niri.nixosModules.niri
+    # niri.homeModules.niri is temporarily disabled.
     ../../home/options.nix
     ../../home/core.nix
     ../../home/version-control.nix
@@ -29,7 +29,7 @@
     ../../home/llm.nix
     ../../home/media.nix
     ../../home/mime.nix
-    ../../home/niri
+    # ../../home/niri
     ../../home/pcb.nix
     ../../home/obs-studio.nix
     ../../home/presenterm.nix

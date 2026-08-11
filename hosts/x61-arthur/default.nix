@@ -1,13 +1,10 @@
 {
-  config,
   inputs,
-  lib,
   pkgs,
   username,
   ...
 }:
 let
-  niriPackage = config.programs.niri.package;
   syscGreet = inputs.sysc-greet.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
   footConfig = pkgs.writeText "sysc-greet-foot.ini" ''
@@ -17,59 +14,6 @@ let
 
     [colors-dark]
     alpha=1.0
-  '';
-
-  niriGreeterConfig = pkgs.writeText "x61-niri-greeter-config.kdl" ''
-    hotkey-overlay {
-        skip-at-startup
-    }
-
-    input {
-        keyboard {
-            xkb {
-                layout "us"
-            }
-            repeat-delay 400
-            repeat-rate 40
-        }
-
-        touchpad {
-            tap
-        }
-    }
-
-    gestures {
-        hot-corners {
-            off
-        }
-    }
-
-    layout {
-        gaps 0
-        center-focused-column "never"
-
-        focus-ring {
-            off
-        }
-
-        border {
-            off
-        }
-    }
-
-    animations {
-        off
-    }
-
-    window-rule {
-        match app-id="sysc-greet-foot"
-        opacity 1.0
-    }
-
-    spawn-sh-at-startup "XDG_CACHE_HOME=/tmp/greeter-cache HOME=/var/lib/greeter ${pkgs.foot}/bin/foot --fullscreen --app-id=sysc-greet-foot --config=${footConfig} ${syscGreet}/bin/sysc-greet; ${niriPackage}/bin/niri msg action quit --skip-confirmation"
-
-    binds {
-    }
   '';
 
   greeterPolkitRule = pkgs.writeText "85-greeter.rules" ''
@@ -92,7 +36,7 @@ in
     ./disk-config.nix
   ];
 
-  services.sysc-greet.enable = lib.mkForce false;
+  # services.sysc-greet.enable = lib.mkForce false;
 
   # Keep a BIOS GRUB install on the disk for SeaBIOS boots, but let UEFI
   # installs update Boot####/BootOrder for CrabEFI instead of relying on the
@@ -123,7 +67,7 @@ in
     settings = {
       terminal.vt = 1;
       default_session = {
-        command = "${niriPackage}/bin/niri -c /etc/greetd/niri-greeter-config.kdl";
+        command = "${pkgs.hyprland}/bin/Hyprland -c /etc/greetd/hyprland-greeter-config.conf";
         user = "greeter";
       };
     };
@@ -131,7 +75,8 @@ in
 
   environment.etc = {
     "greetd/foot.ini".source = footConfig;
-    "greetd/niri-greeter-config.kdl".source = niriGreeterConfig;
+    "greetd/hyprland-greeter-config.conf".source =
+      "${syscGreet}/etc/greetd/hyprland-greeter-config.conf";
     "polkit-1/rules.d/85-greeter.rules".source = greeterPolkitRule;
   };
 
