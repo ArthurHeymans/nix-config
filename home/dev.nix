@@ -4,6 +4,8 @@
   ...
 }:
 let
+  jj-stack = pkgs.callPackage ../packages/jj-stack.nix { };
+
   ghidra-cli = pkgs.rustPlatform.buildRustPackage rec {
     pname = "ghidra-cli";
     version = "0.2.2";
@@ -46,6 +48,7 @@ in
     gdb
     lldb
     jujutsu
+    jj-stack
     llvmPackages.bintools
     qemu
 
