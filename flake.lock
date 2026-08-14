@@ -173,6 +173,22 @@
         "url": "https://codeberg.org/ezemtsov/emacs"
       }
     },
+    "ement-e2ee": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784140514,
+        "narHash": "sha256-1ZmbFTR4FnkH1Ops9YPq9DxLxWs4bXGEOZ5vGbTwgGs=",
+        "owner": "bhw-foss",
+        "repo": "ement-e2ee",
+        "rev": "b108a0cb8fb888d2ccc089fc04a54d4b2c5db11b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bhw-foss",
+        "repo": "ement-e2ee",
+        "type": "github"
+      }
+    },
     "ewm": {
       "inputs": {
         "nixpkgs": [

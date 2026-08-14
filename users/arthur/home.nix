@@ -22,6 +22,7 @@
     ../../home/crypto.nix
     ../../home/dev.nix
     ../../home/emacs/emacs.nix
+    ../../home/emacs/ement-e2ee.nix
     ../../home/email.nix
     ../../home/hyprland
     ../../home/keyboard.nix

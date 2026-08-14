@@ -84,6 +84,11 @@
       flake = false;
     };
 
+    ement-e2ee = {
+      url = "github:bhw-foss/ement-e2ee";
+      flake = false;
+    };
+
     #el-be-back = {
     #  url = "github:ArthurHeymans/el-be-back";
     #  inputs.nixpkgs.follows = "nixpkgs";
