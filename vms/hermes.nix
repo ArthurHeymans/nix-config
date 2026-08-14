@@ -8,6 +8,8 @@
     "d /srv/hermes/home/.hermes/state 0700 arthur users - -"
     "d /srv/hermes/home/repos 0750 arthur users - -"
     "d /srv/hermes/ssh 0700 root root - -"
+    "d /srv/hermes/nix-state 0755 root root - -"
+    "d /srv/hermes/tmp 1777 root root 7d -"
   ];
 
   microvm.vms.hermes = {
@@ -138,6 +140,17 @@
           vcpu = 4;
           writableStoreOverlay = "/nix/.rw-store";
 
+          # The default MicroVM root is a small tmpfs.  Keep the writable Nix
+          # overlay and its database on host-backed storage so builds started
+          # from Hermes cannot fill the VM root filesystem.
+          volumes = [
+            {
+              image = "/var/lib/microvms/hermes/nix-store-overlay.img";
+              mountPoint = "/nix/.rw-store";
+              size = 16384;
+            }
+          ];
+
           interfaces = [
             {
               type = "tap";
@@ -165,6 +178,21 @@
               tag = "hermes-ssh";
               source = "/srv/hermes/ssh";
               mountPoint = "/var/lib/ssh";
+            }
+            {
+              proto = "virtiofs";
+              tag = "hermes-nix-state";
+              source = "/srv/hermes/nix-state";
+              mountPoint = "/nix/var/nix";
+            }
+            {
+              # Build trees, downloads, and tool scratch files can be much
+              # larger than the VM's tmpfs root. Keep /tmp host-backed while
+              # retaining normal temporary-file cleanup semantics.
+              proto = "virtiofs";
+              tag = "hermes-tmp";
+              source = "/srv/hermes/tmp";
+              mountPoint = "/tmp";
             }
             {
               proto = "virtiofs";
