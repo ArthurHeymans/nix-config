@@ -9,10 +9,11 @@ let
   });
 in
 {
+  hardware.keyboard.qmk.enable = true;
+
   services.udev.packages = [
     glasgow
     pkgs.probe-rs-tools
-    pkgs.qmk-udev-rules
   ];
 
   # tool to figure out jtag
