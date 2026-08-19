@@ -35,7 +35,9 @@ in
     SUBSYSTEM=="usb", ATTR{idVendor}=="0483", ATTR{idProduct}=="dada", MODE="0660", GROUP="plugdev", TAG+="uaccess"
     # 1f3a:efe8 Allwinner Technology sunxi SoC OTG connector in FEL/flashing mode
     SUBSYSTEM=="usb", ATTR{idVendor}=="1f3a", ATTR{idProduct}=="efe8", MODE="0660", GROUP="plugdev", TAG+="uaccess"
-    # Raiden Debug SPI / Cr50 (Google debug hardware, VID:18d1; product ID varies)
-    SUBSYSTEM=="usb", ATTR{idVendor}=="18d1", MODE="0660", GROUP="plugdev", TAG+="uaccess"
+    # Raiden Debug SPI: Cr50, Ti50, and Servo Micro
+    SUBSYSTEM=="usb", ATTR{idVendor}=="18d1", ATTR{idProduct}=="5014", MODE="0660", GROUP="plugdev", TAG+="uaccess"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="18d1", ATTR{idProduct}=="504a", MODE="0660", GROUP="plugdev", TAG+="uaccess"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="18d1", ATTR{idProduct}=="501a", MODE="0660", GROUP="plugdev", TAG+="uaccess"
   '';
 }
