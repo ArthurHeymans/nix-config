@@ -1,23 +1,11 @@
 { pkgs, ... }:
-
-let
-  glasgow = pkgs.glasgow.overridePythonAttrs (old: {
-    postPatch = (old.postPatch or "") + ''
-      substituteInPlace software/pyproject.toml \
-        --replace-fail '"importlib_resources~=6.5.2",' '"importlib_resources>=6.5.2",'
-    '';
-  });
-in
 {
   hardware.keyboard.qmk.enable = true;
 
   services.udev.packages = [
-    glasgow
+    pkgs.glasgow
     pkgs.probe-rs-tools
   ];
-
-  # tool to figure out jtag
-  environment.systemPackages = [ glasgow ];
 
   # Programmer and flashing hardware without packaged udev rules.
   services.udev.extraRules = ''
