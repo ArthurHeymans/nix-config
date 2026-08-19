@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+_: {
   # Ollama
   services.ollama = {
     enable = true;

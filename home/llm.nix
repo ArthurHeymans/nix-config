@@ -1,11 +1,9 @@
 {
   pkgs,
-  config,
   inputs,
   ...
 }:
 let
-  inherit (pkgs) lib stdenv;
   system = pkgs.stdenv.hostPlatform.system;
   piNode = inputs.llm-agents.packages.${system}.pi.override { useBun = false; };
   jj-hunk = pkgs.rustPlatform.buildRustPackage rec {

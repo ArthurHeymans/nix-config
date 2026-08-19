@@ -1,8 +1,4 @@
-{
-  config,
-  username,
-  ...
-}:
+{ username, ... }:
 {
   sops = {
     age = {
