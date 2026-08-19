@@ -19,10 +19,7 @@ in
   # tool to figure out jtag
   environment.systemPackages = [ glasgow ];
 
-  # WCH Link rules are included in the probe-rs rules file
-  # so we don't need the extraRules anymore
-
-  # EM100 programmer rules + ch341a
+  # Programmer and flashing hardware without packaged udev rules.
   services.udev.extraRules = ''
     # EM100
     SUBSYSTEM=="usb", ATTR{idVendor}=="04b4", ATTR{idProduct}=="1235", MODE="0666", TAG+="uaccess"
