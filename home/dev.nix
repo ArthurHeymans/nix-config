@@ -49,7 +49,6 @@ in
     lldb
     jujutsu
     jj-stack
-    entire
     llvmPackages.bintools
     qemu
 
