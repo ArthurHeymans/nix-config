@@ -17,7 +17,6 @@ in
 
   # tool to figure out jtag
   environment.systemPackages = [ glasgow ];
-  users.groups.plugdev = { };
 
   # WCH Link rules are included in the probe-rs rules file
   # so we don't need the extraRules anymore
