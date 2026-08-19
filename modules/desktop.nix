@@ -144,7 +144,10 @@ in
 
   services.dbus.packages = [ pkgs.gcr ];
 
-  programs.sway.enable = true;
+  programs.sway = {
+    enable = true;
+    wrapperFeatures.gtk = true;
+  };
 
   programs.uwsm = {
     enable = true;
