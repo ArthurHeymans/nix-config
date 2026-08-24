@@ -9,12 +9,20 @@
         from = 1714;
         to = 1764;
       } # KDE Connect
+      {
+        from = 20000;
+        to = 20999;
+      } # Experiments
     ];
     allowedUDPPortRanges = [
       {
         from = 1714;
         to = 1764;
       } # KDE Connect
+      {
+        from = 20000;
+        to = 20999;
+      } # Experiments
     ];
   };
 
