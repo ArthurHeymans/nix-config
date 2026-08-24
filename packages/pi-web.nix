@@ -8,11 +8,26 @@
 }:
 
 let
-  patchedSrc = runCommand "pi-web-source" { nativeBuildInputs = [ jq ]; } ''
+  # Some @earendil-works packages are published without integrity hashes in
+  # package-lock.json; npm-deps refuses those unless they are git deps.
+  # These SRIs were computed from the registry tarballs.
+  missingIntegrities = {
+    "node_modules/@earendil-works/pi-client" = "sha512-/V5hGHE4Zq+jG0GtwIB9PyBUOGd6gBLZ7lkQYFKchKnxYHeH3rmWC5xw4kpnZKKBuBuFTdLVbU9vEjlAGMMb2A==";
+    "node_modules/@earendil-works/pi-protocol" = "sha512-Ox1pciyeSPGEEUcxvR0/dJcrY7C6hrEGA8y71rOsvSIUlXN1Cbp/be/eoL71OGDBk5O97TeQPfWN6Ju/2Ehjww==";
+    "node_modules/@earendil-works/pi-tui" = "sha512-udeXFbgEhJ6JiB0uguwNVNkDy2FENfmtQwPcY+/iJ8GWeq18wkal1tKqa5YyeH0IqtX1vG0cGh8zfSYzyzVuLA==";
+  };
+  patchedSrc = runCommand "pi-web-source"
+    {
+      nativeBuildInputs = [ jq ];
+      passAsFile = [ "integrities" ];
+      integrities = builtins.toJSON missingIntegrities;
+    }
+    ''
     cp -r ${src} "$out"
     chmod -R u+w "$out"
-    jq '
-      .packages as $packages
+    jq --slurpfile integrities "$integritiesPath" '
+      ($integrities[0]) as $sris
+      | .packages as $packages
       | .packages |= with_entries(
           if (.key | startswith("node_modules/"))
             and .value.integrity == null
@@ -21,8 +36,8 @@ let
             (.key | split("/node_modules/") | last | "node_modules/" + .) as $root
             | if $packages[$root].integrity != null then
                 .value.integrity = $packages[$root].integrity
-              elif $root == "node_modules/@earendil-works/pi-tui" then
-                .value.integrity = "sha512-9yN8hALfKaxZq7n54EMxqhFCWnMi6LHkraMJ/1YjHiATq75XrI6XDMVppn9EDtiK7Fks8hUe1SDXUTrIvwRWfQ=="
+              elif $sris[$root] != null then
+                .value.integrity = $sris[$root]
               else .
               end
           else .
@@ -40,7 +55,7 @@ buildNpmPackage rec {
 
   nodejs = nodejs_22;
   npmDepsFetcherVersion = 2;
-  npmDepsHash = "sha256-fMGDqXVySgibDnclng0dXkcj6OUGr3fhZkkBgxQLzVM=";
+  npmDepsHash = "sha256-JCWlPiKeadi9kSc4rMHW5b3zRqmEVoiRFJSU4qrUQE0=";
   npmInstallFlags = [ "--include=peer" ];
   npmPruneFlags = [ "--include=peer" ];
 
