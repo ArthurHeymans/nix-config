@@ -13,6 +13,11 @@
         from = 20000;
         to = 20999;
       } # Experiments
+      # t3 code
+      {
+        from = 13773;
+        to = 13773;
+      }
     ];
     allowedUDPPortRanges = [
       {
@@ -23,6 +28,11 @@
         from = 20000;
         to = 20999;
       } # Experiments
+      # t3 code
+      {
+        from = 13773;
+        to = 13773;
+      }
     ];
   };
 

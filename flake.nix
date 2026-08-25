@@ -35,6 +35,11 @@
       flake = false;
     };
 
+    t3code-src = {
+      url = "github:ArthurHeymans/t3code/PiResume";
+      flake = false;
+    };
+
     # add git hooks to format nix code before commit
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
@@ -60,7 +65,7 @@
     };
 
     ewm = {
-      url = "git+https://codeberg.org/ezemtsov/ewm";
+      url = "git+https://codeberg.org/avph/ewm?ref=Everything";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
