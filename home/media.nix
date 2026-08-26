@@ -19,7 +19,7 @@
     signal-desktop
     telegram-desktop
     calibre
-    libreoffice
+    #libreoffice
     gimp
   ];
 
