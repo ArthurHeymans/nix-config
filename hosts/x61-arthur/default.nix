@@ -16,17 +16,6 @@ let
     alpha=1.0
   '';
 
-  greeterPolkitRule = pkgs.writeText "85-greeter.rules" ''
-    polkit.addRule(function(action, subject) {
-        if ((action.id == "org.freedesktop.login1.power-off" ||
-             action.id == "org.freedesktop.login1.power-off-multiple-sessions" ||
-             action.id == "org.freedesktop.login1.reboot" ||
-             action.id == "org.freedesktop.login1.reboot-multiple-sessions") &&
-            subject.user == "greeter") {
-            return polkit.Result.YES;
-        }
-    });
-  '';
 in
 {
   imports = [
@@ -35,8 +24,6 @@ in
     inputs.disko.nixosModules.disko
     ./disk-config.nix
   ];
-
-  # services.sysc-greet.enable = lib.mkForce false;
 
   # Keep a BIOS GRUB install on the disk for SeaBIOS boots, but let UEFI
   # installs update Boot####/BootOrder for CrabEFI instead of relying on the
@@ -77,7 +64,6 @@ in
     "greetd/foot.ini".source = footConfig;
     "greetd/hyprland-greeter-config.conf".source =
       "${syscGreet}/etc/greetd/hyprland-greeter-config.conf";
-    "polkit-1/rules.d/85-greeter.rules".source = greeterPolkitRule;
   };
 
   systemd.tmpfiles.rules = [

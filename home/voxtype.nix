@@ -16,9 +16,7 @@ in
 
   # Disable built-in hotkey (compositor keybindings are used instead)
   # and enable state_file for start/stop control via `voxtype record`.
-  # Run `voxtype setup --download` after first deploy to fetch a model.
-  # Based on upstream DEFAULT_CONFIG from config.rs with hotkey disabled
-  # for compositor keybinding control.
+  # Based on upstream DEFAULT_CONFIG from config.rs with the hotkey disabled.
   # Run `voxtype setup --download` after first deploy to fetch a model.
   xdg.configFile."voxtype/config.toml".text = ''
     state_file = "auto"

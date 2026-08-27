@@ -1,5 +1,4 @@
 {
-  lib,
   pkgs,
   inputs,
   username,
@@ -20,7 +19,6 @@
   ];
 
   # lanzaboote replaces systemd
-  boot.loader.systemd-boot.enable = lib.mkForce false;
   boot.loader.custom.bootloader = "none";
 
   boot.lanzaboote = {

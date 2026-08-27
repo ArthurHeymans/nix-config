@@ -18,15 +18,9 @@
       let
         system = pkgs.stdenv.hostPlatform.system;
         llmPackages = inputs.llm-agents.packages.${system};
-        # Hermes discovers platform adapters through plugin.yaml manifests and
-        # may also need adjacent plugin assets. The Python wheel currently drops
-        # those non-Python files, so restore the complete plugin tree.
-        hermesAgent = llmPackages.hermes-agent.overrideAttrs (old: {
-          postInstall = (old.postInstall or "") + ''
-            rm -rf $out/${pkgs.python3.sitePackages}/plugins
-            cp -r ${old.src}/plugins $out/${pkgs.python3.sitePackages}/plugins
-          '';
-        });
+        # The llm-agents package installs the plugins to $out/share/hermes/plugins
+        # itself and points HERMES_BUNDLED_PLUGINS at them.
+        hermesAgent = llmPackages.hermes-agent;
         gws = inputs.google-workspace-cli.packages.${system}.gws;
         googleWorkspacePython = pkgs.python3.withPackages (pythonPackages: [
           pythonPackages.google-api-python-client

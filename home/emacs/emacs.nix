@@ -149,11 +149,7 @@ in
     tangleArgs = ".";
     provideEmacs = false;
     extraPackages = epkgs: [
-      # Use with-grammars to skip tree-sitter-quint: upstream pins rev="release"
-      # (a branch, not a commit), so the hash breaks whenever they push.
-      (epkgs.treesit-grammars.with-grammars (
-        gs: builtins.attrValues (builtins.removeAttrs gs [ "tree-sitter-quint" ])
-      ))
+      epkgs.treesit-grammars.with-all-grammars
       epkgs.mu4e
       epkgs.vterm
       epkgs.ghostel
@@ -246,11 +242,7 @@ in
     enable = true;
     package = emacsPackage;
     extraPackages = epkgs: [
-      # Use with-grammars to skip tree-sitter-quint: upstream pins rev="release"
-      # (a branch, not a commit), so the hash breaks whenever they push.
-      (epkgs.treesit-grammars.with-grammars (
-        gs: builtins.attrValues (builtins.removeAttrs gs [ "tree-sitter-quint" ])
-      ))
+      epkgs.treesit-grammars.with-all-grammars
       epkgs.mu4e
       epkgs.vterm
       epkgs.ghostel
