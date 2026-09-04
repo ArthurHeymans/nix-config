@@ -7,7 +7,7 @@
 let
   system = pkgs.stdenv.hostPlatform.system;
   piNode = inputs.llm-agents.packages.${system}.pi.override { useBun = false; };
-  t3codeVersion = "0.0.33-piresume.0f0ca90d";
+  t3codeVersion = "0.0.33-piresume.681d3c0f";
   t3codeUnwrapped = pkgs.t3code.unwrapped.overrideAttrs (
     finalAttrs: _previousAttrs: {
       version = t3codeVersion;
@@ -21,7 +21,7 @@ let
           ;
         pnpm = pkgs.pnpm_11;
         fetcherVersion = 4;
-        hash = "sha256-LQtztr5uy9FhbtTtD5YV+Za6OSVNtoC3Dw9ygaucrXU=";
+        hash = "sha256-im8qyr8K0NqWuOaI5LA8atYA9juqce6HWkt6Q8//3rQ=";
       };
     }
   );
