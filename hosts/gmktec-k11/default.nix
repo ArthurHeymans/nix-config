@@ -10,7 +10,6 @@
     ../../modules/system.nix
     ../../modules/nix-serve.nix
     ../../modules/nix-auto-update.nix
-    ../../modules/pi-web.nix
     ../../modules/openrgb.nix
     ./hardware-configuration.nix
     inputs.lanzaboote.nixosModules.lanzaboote

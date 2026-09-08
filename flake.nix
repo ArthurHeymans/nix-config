@@ -30,11 +30,6 @@
 
     sops-nix.url = "github:Mic92/sops-nix";
 
-    pi-web = {
-      url = "github:ArthurHeymans/pi-web/feat/jj-plugin";
-      flake = false;
-    };
-
     t3code-src = {
       url = "github:ArthurHeymans/t3code/PiResume";
       flake = false;

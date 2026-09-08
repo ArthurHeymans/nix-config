@@ -142,7 +142,7 @@ in
 
   security.polkit.enable = true;
 
-  services.dbus.packages = [ pkgs.gcr ];
+  services.dbus.packages = [ pkgs.gcr_3 ];
 
   programs.sway = {
     enable = true;

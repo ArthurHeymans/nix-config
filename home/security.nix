@@ -17,6 +17,6 @@
   };
   home.packages = with pkgs; [
     sops
-    gcr
+    gcr_3
   ];
 }
