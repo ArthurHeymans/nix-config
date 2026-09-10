@@ -93,12 +93,4 @@
     vim
     wget
   ];
-
-  # Upgrade every host from the same flake after the nightly cache build.
-  system.autoUpgrade = {
-    enable = true;
-    flake = "github:ArthurHeymans/nix-config";
-    dates = "04:00";
-    allowReboot = false;
-  };
 }
