@@ -54,7 +54,7 @@ in
     settings = {
       terminal.vt = 1;
       default_session = {
-        command = "${pkgs.hyprland}/bin/Hyprland -c /etc/greetd/hyprland-greeter-config.conf";
+        command = "${pkgs.hyprland}/bin/Hyprland -c /etc/greetd/hyprland-greeter-config.lua";
         user = "greeter";
       };
     };
@@ -62,8 +62,6 @@ in
 
   environment.etc = {
     "greetd/foot.ini".source = footConfig;
-    "greetd/hyprland-greeter-config.conf".source =
-      "${syscGreet}/etc/greetd/hyprland-greeter-config.conf";
   };
 
   systemd.tmpfiles.rules = [

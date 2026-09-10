@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }:
 {
@@ -36,17 +37,42 @@
   wayland.windowManager.hyprland = {
     enable = true;
     package = null;
-    configType = "hyprlang";
+    configType = "lua";
     systemd.enable = false;
 
+    # Every attribute below maps to an `hl.<name>(...)` call in
+    # ~/.config/hypr/hyprland.lua. See `src/config/lua/bindings/` in the
+    # Hyprland source for the exact API of Hyprland 0.56.
     settings =
       let
         grim = "${pkgs.grim}/bin/grim";
         slurp = "${pkgs.slurp}/bin/slurp";
         screenshotLocation = "~/Pictures/Screenshots/scrn-$(date +'%Y-%m-%d-%H-%M-%S.png')";
-      in
-      {
-        exec-once = [
+
+        lua = lib.generators.mkLuaInline;
+        luaStr = lib.generators.toLua { };
+
+        # "mod + <suffix>" as a Lua expression (mod is a Lua local, see below).
+        modKey = suffix: lua ''mod .. " + ${suffix}"'';
+        # Dispatcher that runs a shell command, with Lua string escaping.
+        execDsp = cmd: ''hl.dsp.exec_cmd(${luaStr cmd})'';
+
+        bind = key: dsp: {
+          _args = [
+            key
+            (lua dsp)
+          ];
+        };
+        bindOpts = key: dsp: opts: {
+          _args = [
+            key
+            (lua dsp)
+            opts
+          ];
+        };
+
+        # Old `exec-once`: runs a single `hl.on("hyprland.start", ...)` hook.
+        startupCommands = [
           "waybar"
           "awww-daemon"
           "wl-paste --type text --watch cliphist store"
@@ -55,230 +81,332 @@
           "nm-applet"
           "kdeconnect-indicator"
         ];
-        exec = [
+      in
+      {
+        mod = {
+          _var = "SUPER";
+        };
+        terminal = {
+          _var = "kitty";
+        };
+        menu = {
+          _var = "rofi -show drun -show-icons";
+        };
+
+        # `hl.config({...})`: nested tables map to dotted category keys.
+        # https://wiki.hypr.land/Configuring/Basics/Variables/
+        config = {
+          # https://wiki.hypr.land/Configuring/Basics/Variables/#general
+          general = {
+            gaps_in = 5;
+            gaps_out = 10;
+
+            border_size = 2;
+
+            # https://wiki.hypr.land/Configuring/Basics/Variables/#variable-types for info about colors
+            col = {
+              active_border = "rgba(33ccffee) rgba(00ff99ee) 45deg";
+              inactive_border = "rgba(595959aa)";
+            };
+
+            # Set to true enable resizing windows by clicking and dragging on borders and gaps
+            resize_on_border = false;
+
+            # Please see https://wiki.hypr.land/Configuring/Tearing/ before you turn this on
+            allow_tearing = false;
+
+            layout = "dwindle";
+          };
+          # https://wiki.hypr.land/Configuring/Basics/Variables/#decoration
+          decoration = {
+            rounding = 10;
+
+            # Change transparency of focused and unfocused windows
+            active_opacity = 1.0;
+            inactive_opacity = 1.0;
+
+            # https://wiki.hypr.land/Configuring/Basics/Variables/#blur
+            blur = {
+              enabled = true;
+              size = 3;
+              passes = 1;
+
+              vibrancy = 0.1696;
+            };
+          };
+
+          # https://wiki.hypr.land/Configuring/Animations/
+          animations = {
+            enabled = true;
+
+            # first_launch_animation = true;
+          };
+          # See https://wiki.hypr.land/Configuring/Dwindle-Layout/ for more
+          dwindle = {
+            preserve_split = true; # You probably want this
+          };
+          # See https://wiki.hypr.land/Configuring/Master-Layout/ for more
+          master = {
+            new_status = "master";
+          };
+          # https://wiki.hypr.land/Configuring/Basics/Variables/#misc
+          misc = {
+            force_default_wallpaper = -1; # Set to 0 or 1 to disable the anime mascot wallpapers
+            disable_hyprland_logo = false; # If true disables the random hyprland logo / anime girl background. :(
+          };
+          #############
+          ### INPUT ###
+          #############
+
+          # https://wiki.hypr.land/Configuring/Basics/Variables/#input
+          input = {
+            kb_layout = "us";
+            kb_options = "caps:ctrl_modifier";
+
+            follow_mouse = 1;
+
+            touchpad = {
+              natural_scroll = false;
+            };
+          };
+        };
+
+        # https://wiki.hypr.land/Configuring/Basics/Monitors/
+        monitor = [
+          {
+            output = "";
+            mode = "preferred";
+            position = "auto";
+            scale = "1";
+          }
+          {
+            output = "desc:Dell Inc. DELL U2312HM KF87Y31VC5AL";
+            mode = "preferred";
+            position = "1920x0";
+            scale = "1";
+            transform = 1;
+          }
+          {
+            output = "desc:Dell Inc. DELL P3424WE 7DJF6T3";
+            mode = "preferred";
+            position = "3000x0";
+            scale = "1";
+          }
+        ];
+
+        env = [
+          { _args = [ "XCURSOR_SIZE" "24" ]; }
+          { _args = [ "HYPRCURSOR_SIZE" "24" ]; }
+        ];
+
+        # Old `exec`: runs on every config (re)load via top-level hl.exec_cmd.
+        exec_cmd = [
           "bash -c 'if grep -q closed /proc/acpi/button/lid/*/state; then hyprctl keyword monitor \"LVDS-1, disable\"; hyprctl keyword monitor \"eDP-1, disable\"; fi'"
         ];
-        monitor = [
-          ",preferred,auto,1"
-          "desc:Dell Inc. DELL U2312HM KF87Y31VC5AL, preferred, 1920x0, 1, transform, 1"
-          "desc:Dell Inc. DELL P3424WE 7DJF6T3, preferred, 3000x0, 1"
-        ];
-        env = [
-          "XCURSOR_SIZE,24"
-          "HYPRCURSOR_SIZE,24"
-        ];
-        # https://wiki.hyprland.org/Configuring/Variables/#general
-        general = {
-          gaps_in = 5;
-          gaps_out = 10;
 
-          border_size = 2;
-
-          # https://wiki.hyprland.org/Configuring/Variables/#variable-types for info about colors
-          "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-          "col.inactive_border" = "rgba(595959aa)";
-
-          # Set to true enable resizing windows by clicking and dragging on borders and gaps
-          resize_on_border = false;
-
-          # Please see https://wiki.hyprland.org/Configuring/Tearing/ before you turn this on
-          allow_tearing = false;
-
-          layout = "dwindle";
-        };
-        # https://wiki.hyprland.org/Configuring/Variables/#decoration
-        decoration = {
-          rounding = 10;
-
-          # Change transparency of focused and unfocused windows
-          active_opacity = 1.0;
-          inactive_opacity = 1.0;
-
-          # shadow {
-          #     enabled = true
-          #     range = 4
-          #     render_power = 3
-          #     color = rgba(1a1a1aee)
-          # }
-
-          # https://wiki.hyprland.org/Configuring/Variables/#blur
-          blur = {
-            enabled = true;
-            size = 3;
-            passes = 1;
-
-            vibrancy = 0.1696;
-          };
-        };
-
-        # https://wiki.hyprland.org/Configuring/Variables/#animations
-        animations = {
-          enabled = true;
-
-          # first_launch_animation = true;
-
-          # Default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
-
-          animation = [
-            "global, 1, 10, default"
-            "border, 1, 5, default"
-            "windows, 1, 3, default, popin 80%"
-            "fade, 1, 10, default"
-            "workspaces, 1, 3, default, slide"
+        on = {
+          _args = [
+            "hyprland.start"
+            (lua ''
+              function()
+              ${lib.concatMapStringsSep "\n" (cmd: "  hl.exec_cmd(${luaStr cmd})") startupCommands}
+              end'')
           ];
         };
-        # See https://wiki.hyprland.org/Configuring/Dwindle-Layout/ for more
-        dwindle = {
-          pseudotile = true; # Master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
-          preserve_split = true; # You probably want this
-        };
-        # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
-        master = {
-          new_status = "master";
-        };
-        # https://wiki.hyprland.org/Configuring/Variables/#misc
-        misc = {
-          force_default_wallpaper = "-1"; # Set to 0 or 1 to disable the anime mascot wallpapers
-          disable_hyprland_logo = false; # If true disables the random hyprland logo / anime girl background. :(
-        };
-        #############
-        ### INPUT ###
-        #############
 
-        # https://wiki.hyprland.org/Configuring/Variables/#input
-        input = {
-          kb_layout = "us";
-          #    kb_variant =
-          #    kb_model =
-          kb_options = "caps:ctrl_modifier";
-          #kb_rules =
+        # Default animations, see https://wiki.hypr.land/Configuring/Animations/ for more.
+        # Old format was "leaf, enabled, speed, bezier[, style]".
+        animation = [
+          {
+            leaf = "global";
+            enabled = true;
+            speed = 10;
+            bezier = "default";
+          }
+          {
+            leaf = "border";
+            enabled = true;
+            speed = 5;
+            bezier = "default";
+          }
+          {
+            leaf = "windows";
+            enabled = true;
+            speed = 3;
+            bezier = "default";
+            style = "popin 80%";
+          }
+          {
+            leaf = "fade";
+            enabled = true;
+            speed = 10;
+            bezier = "default";
+          }
+          {
+            leaf = "workspaces";
+            enabled = true;
+            speed = 3;
+            bezier = "default";
+            style = "slide";
+          }
+        ];
 
-          follow_mouse = 1;
+        bind =
+          [
+            (bind (modKey "Return") "hl.dsp.exec_cmd(terminal)")
+            (bind (modKey "SHIFT + Q") "hl.dsp.window.kill()")
+            (bind (modKey "SHIFT + E") "hl.dsp.exit()")
+            (bind (modKey "V") ''hl.dsp.window.float({ action = "toggle" })'')
+            (bind (modKey "D") "hl.dsp.exec_cmd(menu)")
+            (bind (modKey "Y") (execDsp "cliphist list | rofi -dmenu | cliphist decode | wl-copy"))
+            (bind (modKey "P") "hl.dsp.window.pseudo()") # dwindle
+            (bind (modKey "J") ''hl.dsp.layout("togglesplit")'') # dwindle
+            (bind (modKey "F") "hl.dsp.window.fullscreen()")
 
-          touchpad = {
-            natural_scroll = false;
-          };
-        };
+            # Move focus with mainMod + arrow keys
+            (bind (modKey "left") ''hl.dsp.focus({ direction = "left" })'')
+            (bind (modKey "right") ''hl.dsp.focus({ direction = "right" })'')
+            (bind (modKey "up") ''hl.dsp.focus({ direction = "up" })'')
+            (bind (modKey "down") ''hl.dsp.focus({ direction = "down" })'')
 
-        # https://wiki.hyprland.org/Configuring/Variables/#gestures
-        gestures = {
-          #workspace_swipe = false;
-        };
-        "$mod" = "SUPER";
-        "$terminal" = "kitty";
-        "$menu" = "rofi -show drun -show-icons";
+            # Move windows with mainMod + SHIFT + arrow keys
+            (bind (modKey "SHIFT + left") ''hl.dsp.window.move({ direction = "left" })'')
+            (bind (modKey "SHIFT + right") ''hl.dsp.window.move({ direction = "right" })'')
+            (bind (modKey "SHIFT + up") ''hl.dsp.window.move({ direction = "up" })'')
+            (bind (modKey "SHIFT + down") ''hl.dsp.window.move({ direction = "down" })'')
 
-        bind = [
-          "$mod, Return, exec, $terminal"
-          "$mod SHIFT, q, killactive"
-          "$mod SHIFT, e, exit"
-          "$mod, V, togglefloating"
-          "$mod, d, exec, $menu"
-          "$mod, Y, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
-          "$mod, P, pseudo" # dwindle
-          "$mod, J, togglesplit" # dwindle
-          "$mod, F, fullscreen, 0"
+            # Move the focused workspace
+            (bind (modKey "SHIFT + CTRL + left") ''hl.dsp.workspace.move({ monitor = "l" })'')
+            (bind (modKey "SHIFT + CTRL + right") ''hl.dsp.workspace.move({ monitor = "r" })'')
 
-          # Move focus with mainMod + arrow keys
-          "$mod, left, movefocus, l"
-          "$mod, right, movefocus, r"
-          "$mod, up, movefocus, u"
-          "$mod, down, movefocus, d"
+            # Notifications
+            (bind (lua ''"CTRL + SHIFT + Space"'') (execDsp "makoctl dismiss --all"))
 
-          # Move focus with mainMod + arrow keys
-          "$mod SHIFT, left, movewindow, l"
-          "$mod SHIFT, right, movewindow, r"
-          "$mod SHIFT, up, movewindow, u"
-          "$mod SHIFT, down, movewindow, d"
+            # Voxtype push-to-talk (hold to record, release to stop)
+            (bind (modKey "semicolon") (execDsp "voxtype record start"))
 
-          # Move the focused workspace
-          "$mod SHIFT CTRL, left,  movecurrentworkspacetomonitor, l"
-          "$mod SHIFT CTRL, right,  movecurrentworkspacetomonitor, r"
+            # Screenshots
+            (bind (modKey "Print") (execDsp "${grim} ${screenshotLocation}"))
+            (bind (modKey "SHIFT + Print") (execDsp "${slurp} | ${grim} -g - ${screenshotLocation}"))
 
-          # Notifications
-          "CTRL SHIFT, Space, exec, makoctl dismiss --all"
+            # Old `bindr`: release to stop voxtype recording.
+            (bindOpts (modKey "semicolon") (execDsp "voxtype record stop") { release = true; })
 
-          # Voxtype push-to-talk (hold to record, release to stop)
-          "$mod, semicolon, exec, voxtype record start"
+            # Old `bindm`: mouse drag to move/resize windows.
+            (bind (modKey "mouse:272") "hl.dsp.window.drag()")
+            (bind (modKey "mouse:273") "hl.dsp.window.resize()")
 
-          # Screenshots
-          "$mod, Print, exec, ${grim} ${screenshotLocation}"
-          "$mod SHIFT, Print, exec, ${slurp} | ${grim} -g - ${screenshotLocation}"
-        ]
-        ++ (
-          # workspaces
-          # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
-          builtins.concatLists (
-            builtins.genList (
-              i:
-              let
-                ws = i + 1;
-              in
-              [
-                "$mod, code:1${toString i}, workspace, ${toString ws}"
-                "$mod SHIFT, code:1${toString i}, movetoworkspacesilent, ${toString ws}"
-              ]
-            ) 9
+            # Old `bindel`: repeat while held + works on lockscreen.
+            (bindOpts "XF86AudioRaiseVolume"
+              (execDsp "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+")
+              {
+                repeating = true;
+                locked = true;
+              })
+            (bindOpts "XF86AudioLowerVolume"
+              (execDsp "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-")
+              {
+                repeating = true;
+                locked = true;
+              })
+            (bindOpts "XF86AudioMute"
+              (execDsp "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")
+              {
+                repeating = true;
+                locked = true;
+              })
+            (bindOpts "XF86AudioMicMute"
+              (execDsp "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle")
+              {
+                repeating = true;
+                locked = true;
+              })
+            (bindOpts "XF86MonBrightnessUp"
+              (execDsp "brightnessctl s 10%+")
+              {
+                repeating = true;
+                locked = true;
+              })
+            (bindOpts "XF86MonBrightnessDown"
+              (execDsp "brightnessctl s 10%-")
+              {
+                repeating = true;
+                locked = true;
+              })
+
+            # Old `bindl`: works on lockscreen. Requires playerctl.
+            (bindOpts "XF86AudioNext" (execDsp "playerctl next") { locked = true; })
+            (bindOpts "XF86AudioPause" (execDsp "playerctl play-pause") { locked = true; })
+            (bindOpts "XF86AudioPlay" (execDsp "playerctl play-pause") { locked = true; })
+            (bindOpts "XF86AudioPrev" (execDsp "playerctl previous") { locked = true; })
+
+            (bindOpts "switch:on:Lid Switch"
+              (execDsp ''hyprctl keyword monitor "LVDS-1, disable"; hyprctl keyword monitor "eDP-1, disable"'')
+              { locked = true; })
+            (bindOpts "switch:off:Lid Switch"
+              (execDsp ''hyprctl keyword monitor "LVDS-1, enable"; hyprctl keyword monitor "eDP-1, enable"'')
+              { locked = true; })
+          ]
+          ++ (
+            # workspaces
+            # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
+            builtins.concatLists (
+              builtins.genList (
+                i:
+                let
+                  ws = i + 1;
+                in
+                [
+                  (bind (modKey "code:1${toString i}")
+                    ''hl.dsp.focus({ workspace = "${toString ws}" })'')
+                  (bind (modKey "SHIFT + code:1${toString i}")
+                    ''hl.dsp.window.move({ workspace = "${toString ws}", follow = false })'')
+                ]
+              ) 9
+            )
           )
-        )
-        ++ [
-          "$mod, code:19, workspace, 10"
-          "$mod SHIFT, code:19, movetoworkspacesilent, 10"
-        ];
-        # 'r' release — voxtype push-to-talk stop on key release
-        bindr = [
-          "$mod, semicolon, exec, voxtype record stop"
-        ];
+          ++ [
+            (bind (modKey "code:19") ''hl.dsp.focus({ workspace = "10" })'')
+            (bind (modKey "SHIFT + code:19")
+              ''hl.dsp.window.move({ workspace = "10", follow = false })'')
+          ];
 
-        # 'm' Mouse
-        bindm = [
-          # Move/resize windows with mainMod + LMB/RMB and dragging
-          "$mod, mouse:272, movewindow"
-          "$mod, mouse:273, resizewindow"
-        ];
-
-        # e -> repeat, will repeat when held.
-        # l -> locked, will also work when an input inhibitor (e.g. a lockscreen) is active.
-        bindel = [
-          # Laptop multimedia keys for volume and LCD brightness
-          ",XF86AudioRaiseVolume, exec, wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"
-          ",XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-          ",XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-          ",XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-          ",XF86MonBrightnessUp, exec, brightnessctl s 10%+"
-          ",XF86MonBrightnessDown, exec, brightnessctl s 10%-"
-        ];
-
-        bindl = [
-          # Requires playerctl
-          ", XF86AudioNext, exec, playerctl next"
-          ", XF86AudioPause, exec, playerctl play-pause"
-          ", XF86AudioPlay, exec, playerctl play-pause"
-          ", XF86AudioPrev, exec, playerctl previous"
-
-          ",switch:on:Lid Switch, exec, hyprctl keyword monitor \"LVDS-1, disable\"; hyprctl keyword monitor \"eDP-1, disable\""
-          ",switch:off:Lid Switch, exec, hyprctl keyword monitor \"LVDS-1, enable\"; hyprctl keyword monitor \"eDP-1, enable\""
-        ];
-
-        windowrule = [
+        window_rule = [
           # Ignore maximize requests from apps. You'll probably like this.
-          "suppress_event maximize, match:class .*"
+          {
+            suppress_event = "maximize";
+            match.class = ".*";
+          }
           # Fix some dragging issues with XWayland
-          "no_focus on, match:class ^$, match:title ^$, match:xwayland 1, match:float 1, match:fullscreen 0, match:pin 0"
+          {
+            no_focus = true;
+            match = {
+              class = "^$";
+              title = "^$";
+              xwayland = 1;
+              float = 1;
+              fullscreen = 0;
+              pin = 0;
+            };
+          }
           # Make other-frame work
-          "workspace unset, focus_on_activate on, match:class ^(emacs)$"
+          {
+            workspace = "unset";
+            focus_on_activate = true;
+            match.class = "^(emacs)$";
+          }
         ];
 
         # device specific settings
         device = [
           {
             name = "synps/2-synaptics-touchpad";
-            enabled = "false";
+            enabled = false;
           }
           {
             name = "ergo-k860-keyboard";
             kb_options = "ctrl:swap_lwin_lctl,caps:ctrl_modifier";
-            numlock_by_default = "true";
+            numlock_by_default = true;
           }
           {
             name = "tpps/2-ibm-trackpoint";

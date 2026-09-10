@@ -17,6 +17,16 @@ let
 
   gslapperPackage = inputs.gslapper.packages.${pkgs.stdenv.hostPlatform.system}.default;
 
+  # Pure-Lua greeter config: no hyprlang fallback anywhere in the repo.
+  greeterHyprlandConfig = pkgs.writeText "hyprland-greeter-config.lua" (
+    pkgs.callPackage ./hyprland-greeter-config.nix {
+      inherit syscGreetPackage;
+      kittyPackage = pkgs.kitty;
+      hyprlandPackage = pkgs.hyprland;
+      kittyConf = "${syscGreetPackage}/etc/greetd/kitty.conf";
+    }
+  );
+
   # Second ewm session using plain emacs (programs.emacs from home/emacs/emacs.nix).
   # That package already includes ewmPackage via extraPackages.
   emacsPlainPackage = config.home-manager.users.${username}.programs.emacs.finalPackage;
@@ -117,7 +127,7 @@ in
     settings = {
       terminal.vt = 1;
       default_session = {
-        command = "${pkgs.hyprland}/bin/Hyprland -c /etc/greetd/hyprland-greeter-config.conf";
+        command = "${pkgs.hyprland}/bin/Hyprland -c /etc/greetd/hyprland-greeter-config.lua";
         user = "greeter";
       };
     };
@@ -126,8 +136,7 @@ in
   environment.pathsToLink = [ "/share/wayland-sessions" ];
   environment.etc = {
     "greetd/kitty.conf".source = "${syscGreetPackage}/etc/greetd/kitty.conf";
-    "greetd/hyprland-greeter-config.conf".source =
-      "${syscGreetPackage}/etc/greetd/hyprland-greeter-config.conf";
+    "greetd/hyprland-greeter-config.lua".source = greeterHyprlandConfig;
     "greetd/sway-greeter-config".source = "${syscGreetPackage}/etc/greetd/sway-greeter-config";
     "greetd/cagebreak-greeter-config".source =
       "${syscGreetPackage}/etc/greetd/cagebreak-greeter-config";
