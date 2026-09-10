@@ -66,7 +66,7 @@
 
     # Native Wayland/Skia Emacs maintained by the EWM author.
     emacs-wayland = {
-      url = "git+https://codeberg.org/ezemtsov/emacs?ref=wayland";
+      url = "git+https://codeberg.org/ezemtsov/emacs?ref=wayland-31";
       flake = false;
     };
 
