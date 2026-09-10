@@ -74,21 +74,6 @@ let
       ./autogen.sh
     '';
   });
-  # elBeBackForEpkgs =
-  #   epkgs:
-  #   let
-  #     ebb-module = inputs.el-be-back.packages.${pkgs.stdenv.hostPlatform.system}.default;
-  #   in
-  #   epkgs.trivialBuild {
-  #     pname = "el-be-back";
-  #     version = "0.1.0";
-  #     src = inputs.el-be-back;
-  #     postInstall = ''
-  #       local ext="${if pkgs.stdenv.isDarwin then "dylib" else "so"}"
-  #       install -m444 ${ebb-module}/lib/ebb-module.$ext \
-  #         $out/share/emacs/site-lisp/
-  #     '';
-  #   };
 in
 {
   home.file.".config/eca/config.json".source = ecaConfigJson;
@@ -153,7 +138,6 @@ in
       epkgs.mu4e
       epkgs.vterm
       epkgs.ghostel
-      # (elBeBackForEpkgs epkgs)
       osConfig.programs.ewm.ewmPackage
       epkgs.pdf-tools
     ];
@@ -246,7 +230,6 @@ in
       epkgs.mu4e
       epkgs.vterm
       epkgs.ghostel
-      # (elBeBackForEpkgs epkgs)
       osConfig.programs.ewm.ewmPackage
       epkgs.pdf-tools
     ];

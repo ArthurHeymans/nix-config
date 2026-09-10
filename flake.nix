@@ -89,11 +89,6 @@
       flake = false;
     };
 
-    #el-be-back = {
-    #  url = "github:ArthurHeymans/el-be-back";
-    #  inputs.nixpkgs.follows = "nixpkgs";
-    #};
-
     # Temporarily disabled while niri's current package is incompatible with nixpkgs.
     # niri = {
     #   url = "github:sodiboo/niri-flake";
