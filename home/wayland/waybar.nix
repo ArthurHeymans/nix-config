@@ -1,39 +1,4 @@
-{ pkgs, ... }:
-let
-  # Python environment with waybar-ai-usage dependencies
-  claude-usage-py = pkgs.python3.withPackages (
-    ps: with ps; [
-      browser-cookie3
-      curl-cffi
-    ]
-  );
-
-  claude-usage-script = pkgs.writeShellApplication {
-    name = "claude-usage";
-    runtimeInputs = [ claude-usage-py ];
-    text = ''
-      exec python3 ${./claude-usage.py} --waybar "$@"
-    '';
-  };
-
-  claude-usage-refresh = pkgs.writeShellApplication {
-    name = "claude-usage-refresh";
-    runtimeInputs = [
-      claude-usage-py
-      pkgs.libnotify
-    ];
-    text = ''
-      # Force refresh and show notification
-      OUTPUT=$(python3 ${./claude-usage.py} --waybar 2>&1)
-      if echo "$OUTPUT" | grep -q '"class"'; then
-        TOOLTIP=$(echo "$OUTPUT" | ${pkgs.jq}/bin/jq -r '.tooltip // "Usage refreshed"')
-        notify-send "Claude Usage" "$TOOLTIP"
-      else
-        notify-send "Claude Usage" "Error: $OUTPUT"
-      fi
-    '';
-  };
-in
+{ ... }:
 {
   programs.waybar = {
     enable = true;
@@ -58,7 +23,6 @@ in
         ];
         modules-right = [
           "idle_inhibitor"
-          "custom/claude"
           "pulseaudio"
           "bluetooth"
           "network"
@@ -163,14 +127,6 @@ in
           on-click = "activate";
           sort-by-name = true;
         };
-        "custom/claude" = {
-          exec = "${claude-usage-script}/bin/claude-usage";
-          return-type = "json";
-          interval = 60;
-          tooltip = true;
-          on-click = "${claude-usage-refresh}/bin/claude-usage-refresh";
-          format = " {}";
-        };
       };
     };
     style = ''
@@ -263,7 +219,6 @@ in
       #clock,
       #battery,
       #custom-power,
-      #custom-claude,
       #cpu,
       #memory,
       #disk,
@@ -316,31 +271,6 @@ in
       #custom-power {
           background-color: #FF0000;
           font-size: 15px;
-      }
-
-      #custom-claude {
-          background-color: #D97757;
-          color: #ffffff;
-      }
-
-      #custom-claude.low {
-          background-color: #27ae60;
-          color: #ffffff;
-      }
-
-      #custom-claude.mid {
-          background-color: #f39c12;
-          color: #000000;
-      }
-
-      #custom-claude.high {
-          background-color: #e74c3c;
-          color: #ffffff;
-      }
-
-      #custom-claude.error {
-          background-color: #7f8c8d;
-          color: #ffffff;
       }
 
       @keyframes blink {
