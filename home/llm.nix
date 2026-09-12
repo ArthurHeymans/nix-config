@@ -7,11 +7,29 @@
 let
   system = pkgs.stdenv.hostPlatform.system;
   piNode = inputs.llm-agents.packages.${system}.pi.override { useBun = false; };
-  t3codeVersion = "0.0.33-piresume.681d3c0f";
+  t3codeVersion = "0.0.40-piresume.db4155c4";
   t3codeUnwrapped = pkgs.t3code.unwrapped.overrideAttrs (
-    finalAttrs: _previousAttrs: {
+    finalAttrs: previousAttrs: {
       version = t3codeVersion;
       src = inputs.t3code-src;
+
+      # t3code 0.0.40 compiles a native browser-import helper (and the desktop
+      # keyring addon) against libsecret, which the nixpkgs 0.0.38 expression
+      # does not pass build inputs for yet. Mirrors current nixpkgs master.
+      nativeBuildInputs =
+        previousAttrs.nativeBuildInputs
+        ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [ pkgs.pkg-config ];
+      buildInputs =
+        (previousAttrs.buildInputs or [ ])
+        ++ lib.optionals pkgs.stdenv.hostPlatform.isLinux [ pkgs.libsecret ];
+      postInstall =
+        (previousAttrs.postInstall or "")
+        + lib.optionalString pkgs.stdenv.hostPlatform.isLinux ''
+          install -Dm755 \
+            native/browser-secret/build/${pkgs.stdenv.hostPlatform.node.arch}/t3-browser-secret \
+            "$out"/libexec/t3code/apps/desktop/prod-resources/browser-secret/t3-browser-secret
+        '';
+
       pnpmDeps = pkgs.fetchPnpmDeps {
         inherit (finalAttrs)
           pname
@@ -21,7 +39,7 @@ let
           ;
         pnpm = pkgs.pnpm_11;
         fetcherVersion = 4;
-        hash = "sha256-im8qyr8K0NqWuOaI5LA8atYA9juqce6HWkt6Q8//3rQ=";
+        hash = "sha256-FsEMNkabp2Nn3DWazt/a3CH0A5iwimKTb/L0cnaExVM=";
       };
     }
   );
