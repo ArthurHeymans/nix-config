@@ -863,11 +863,11 @@
     "t3code-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1789212366,
-        "narHash": "sha256-OZmU6bcKW75wiwUJ1w0yjtn3m0rHW0szFHjhY4yyc3w=",
+        "lastModified": 1789741454,
+        "narHash": "sha256-WPZSV6nsSPkoMBu62IaDEG48G8frsBhGPtVMijstqXs=",
         "owner": "ArthurHeymans",
         "repo": "t3code",
-        "rev": "db4155c49fd7633a573978b203438a4f1b80c7a3",
+        "rev": "d1f8f4446bf28049e50b2dd76e5b4960ac418942",
         "type": "github"
       },
       "original": {
