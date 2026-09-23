@@ -64,6 +64,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    neomacs.url = "github:eval-exec/neomacs";
+
     # Native Wayland/Skia Emacs maintained by the EWM author.
     emacs-wayland = {
       url = "git+https://codeberg.org/ezemtsov/emacs?ref=wayland-31";
@@ -250,8 +252,27 @@
         '';
       };
 
-      nixosConfigurations = nixpkgs.lib.mapAttrs (
-        hostname: host: if host.kind == "server" then mkServer hostname else mkSystem hostname
-      ) hosts;
+      nixosConfigurations =
+        nixpkgs.lib.mapAttrs (
+          hostname: host: if host.kind == "server" then mkServer hostname else mkSystem hostname
+        ) hosts
+        // {
+          # Build-only EWM/Neomacs experiment; the normal desktop keeps its
+          # working pwayl Emacs. Neomacs cannot yet *run* EWM as its own
+          # compositor: winit needs a Wayland server before Lisp startup.
+          # Use local checkout overrides until the integration is published.
+          x220-nixos-neomacs = mkNixos {
+            hostname = "x220-nixos";
+            homeModule = ./users/${username}/home.nix;
+            extraModules = [
+              inputs.ewm.nixosModules.default
+              {
+                home-manager.users.${username}.programs.doom-emacs.emacs =
+                  nixpkgs.lib.mkForce
+                    inputs.neomacs.packages.${system}.default;
+              }
+            ];
+          };
+        };
     };
 }

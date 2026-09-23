@@ -37,6 +37,7 @@ let
     cargoLock = {
       lockFile = "${src}/compositor/Cargo.lock";
       outputHashes = {
+        "elisp-0.0.1" = "sha256-b1rAcltoVtGWjoQYRmIZjgJ3rX8fZiVxAncEQXBP96A=";
         "smithay-0.7.0" = "sha256-TV/GTfSvgfVwIFUGoASU7xm38opIBLjLMf1HeNTW07U=";
       };
     };
@@ -102,7 +103,7 @@ let
     doCheck = false;
   };
 in
-emacsPackage.pkgs.trivialBuild {
+(pkgs.emacsPackagesFor emacsPackage).trivialBuild {
   pname = "ewm";
   version = "0.1.0";
   src = "${src}/lisp";
