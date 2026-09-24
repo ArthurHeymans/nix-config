@@ -32,6 +32,7 @@
   programs.jujutsu = {
     enable = true;
     settings = {
+      snapshot.auto-update-stale = true;
       signing = {
         behavior = "own";
         backend = "gpg";
