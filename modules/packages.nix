@@ -4,21 +4,13 @@
   ...
 }:
 let
-  # Add runtime data and shell completions missing from the upstream package.
+  # Build only the CLI package and install completions when available.
   rflasher = inputs.rflasher.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
     cargoBuildFlags = [ "--package=rflasher" ];
     cargoTestFlags = [ "--package=rflasher" ];
     nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ pkgs.installShellFiles ];
 
-    postPatch = ''
-      substituteInPlace src/main.rs \
-        --replace-fail 'PathBuf::from("/usr/share/rflasher/chips"),' \
-          "PathBuf::from(\"$out/share/rflasher/chips\"),"
-    '';
-
     postInstall = ''
-      install -Dm644 crates/rflasher-chips/data/vendors/*.ron -t $out/share/rflasher/chips
-
       completion_generator=$(find target -type f -name gen-completions -perm -0100 -print -quit)
       if [ -n "$completion_generator" ]; then
         completion_dir=$(mktemp -d)
