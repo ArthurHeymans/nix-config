@@ -17,7 +17,7 @@ in
   # Disable built-in hotkey (compositor keybindings are used instead)
   # and enable state_file for start/stop control via `voxtype record`.
   # Based on upstream DEFAULT_CONFIG from config.rs with the hotkey disabled.
-  # Run `voxtype setup --download` after first deploy to fetch a model.
+  # Run `voxtype setup --download --model large-v3-turbo` after deploy to fetch the model.
   xdg.configFile."voxtype/config.toml".text = ''
     state_file = "auto"
 
@@ -32,10 +32,10 @@ in
     max_duration_secs = 60
 
     [whisper]
-    model = "base.en"
+    model = "large-v3-turbo"
     language = "en"
     translate = false
-    initial_prompt = "Caliptra, Caliptra MCU, Caliptra Subsystem, coreboot, oreboot, SeaBIOS, U-Boot, Slim Bootloader, TamaGo, Embassy, RISC-V, ARM Trusted Firmware, ACPI, PCIe, CBFS, flashrom, SPI, I3C, MCTP, SPDM, PLDM, TDISP, DPE, FMC, ROM, SoC, MCU, BMC, FPGA, QEMU, SystemRDL, X.509, root of trust, secure boot, measured boot."
+    initial_prompt = "Firmware and hardware engineering discussion. Terms include Caliptra, Caliptra MCU, Caliptra Subsystem, coreboot, oreboot, SeaBIOS, U-Boot, Slim Bootloader, TamaGo, Embassy, RISC-V, ARM Trusted Firmware, ACPI, PCIe, CBFS, flashrom, SPI, I2C, I3C, UART, GPIO, JTAG, SWD, MMIO, DMA, MCTP, SPDM, PLDM, TDISP, DPE, FMC, devicetree, bootloader, baud rate, ROM, SoC, MCU, BMC, FPGA, QEMU, SystemRDL, X.509, root of trust, secure boot, measured boot."
 
     [output]
     mode = "type"
