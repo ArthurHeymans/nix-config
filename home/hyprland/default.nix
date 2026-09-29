@@ -55,7 +55,7 @@
         # "mod + <suffix>" as a Lua expression (mod is a Lua local, see below).
         modKey = suffix: lua ''mod .. " + ${suffix}"'';
         # Dispatcher that runs a shell command, with Lua string escaping.
-        execDsp = cmd: ''hl.dsp.exec_cmd(${luaStr cmd})'';
+        execDsp = cmd: "hl.dsp.exec_cmd(${luaStr cmd})";
 
         bind = key: dsp: {
           _args = [
@@ -195,8 +195,18 @@
         ];
 
         env = [
-          { _args = [ "XCURSOR_SIZE" "24" ]; }
-          { _args = [ "HYPRCURSOR_SIZE" "24" ]; }
+          {
+            _args = [
+              "XCURSOR_SIZE"
+              "24"
+            ];
+          }
+          {
+            _args = [
+              "HYPRCURSOR_SIZE"
+              "24"
+            ];
+          }
         ];
 
         # Old `exec`: runs on every config (re)load via top-level hl.exec_cmd.
@@ -251,125 +261,111 @@
           }
         ];
 
-        bind =
-          [
-            (bind (modKey "Return") "hl.dsp.exec_cmd(terminal)")
-            (bind (modKey "SHIFT + Q") "hl.dsp.window.kill()")
-            (bind (modKey "SHIFT + E") "hl.dsp.exit()")
-            (bind (modKey "V") ''hl.dsp.window.float({ action = "toggle" })'')
-            (bind (modKey "D") "hl.dsp.exec_cmd(menu)")
-            (bind (modKey "Y") (execDsp "cliphist list | rofi -dmenu | cliphist decode | wl-copy"))
-            (bind (modKey "P") "hl.dsp.window.pseudo()") # dwindle
-            (bind (modKey "J") ''hl.dsp.layout("togglesplit")'') # dwindle
-            (bind (modKey "F") "hl.dsp.window.fullscreen()")
+        bind = [
+          (bind (modKey "Return") "hl.dsp.exec_cmd(terminal)")
+          (bind (modKey "SHIFT + Q") "hl.dsp.window.kill()")
+          (bind (modKey "SHIFT + E") "hl.dsp.exit()")
+          (bind (modKey "V") ''hl.dsp.window.float({ action = "toggle" })'')
+          (bind (modKey "D") "hl.dsp.exec_cmd(menu)")
+          (bind (modKey "Y") (execDsp "cliphist list | rofi -dmenu | cliphist decode | wl-copy"))
+          (bind (modKey "P") "hl.dsp.window.pseudo()") # dwindle
+          (bind (modKey "J") ''hl.dsp.layout("togglesplit")'') # dwindle
+          (bind (modKey "F") "hl.dsp.window.fullscreen()")
 
-            # Move focus with mainMod + arrow keys
-            (bind (modKey "left") ''hl.dsp.focus({ direction = "left" })'')
-            (bind (modKey "right") ''hl.dsp.focus({ direction = "right" })'')
-            (bind (modKey "up") ''hl.dsp.focus({ direction = "up" })'')
-            (bind (modKey "down") ''hl.dsp.focus({ direction = "down" })'')
+          # Move focus with mainMod + arrow keys
+          (bind (modKey "left") ''hl.dsp.focus({ direction = "left" })'')
+          (bind (modKey "right") ''hl.dsp.focus({ direction = "right" })'')
+          (bind (modKey "up") ''hl.dsp.focus({ direction = "up" })'')
+          (bind (modKey "down") ''hl.dsp.focus({ direction = "down" })'')
 
-            # Move windows with mainMod + SHIFT + arrow keys
-            (bind (modKey "SHIFT + left") ''hl.dsp.window.move({ direction = "left" })'')
-            (bind (modKey "SHIFT + right") ''hl.dsp.window.move({ direction = "right" })'')
-            (bind (modKey "SHIFT + up") ''hl.dsp.window.move({ direction = "up" })'')
-            (bind (modKey "SHIFT + down") ''hl.dsp.window.move({ direction = "down" })'')
+          # Move windows with mainMod + SHIFT + arrow keys
+          (bind (modKey "SHIFT + left") ''hl.dsp.window.move({ direction = "left" })'')
+          (bind (modKey "SHIFT + right") ''hl.dsp.window.move({ direction = "right" })'')
+          (bind (modKey "SHIFT + up") ''hl.dsp.window.move({ direction = "up" })'')
+          (bind (modKey "SHIFT + down") ''hl.dsp.window.move({ direction = "down" })'')
 
-            # Move the focused workspace
-            (bind (modKey "SHIFT + CTRL + left") ''hl.dsp.workspace.move({ monitor = "l" })'')
-            (bind (modKey "SHIFT + CTRL + right") ''hl.dsp.workspace.move({ monitor = "r" })'')
+          # Move the focused workspace
+          (bind (modKey "SHIFT + CTRL + left") ''hl.dsp.workspace.move({ monitor = "l" })'')
+          (bind (modKey "SHIFT + CTRL + right") ''hl.dsp.workspace.move({ monitor = "r" })'')
 
-            # Notifications
-            (bind (lua ''"CTRL + SHIFT + Space"'') (execDsp "makoctl dismiss --all"))
+          # Notifications
+          (bind (lua ''"CTRL + SHIFT + Space"'') (execDsp "makoctl dismiss --all"))
 
-            # Voxtype push-to-talk (hold to record, release to stop)
-            (bind (modKey "semicolon") (execDsp "voxtype record start"))
+          # Voxtype push-to-talk (hold to record, release to stop)
+          (bind (modKey "semicolon") (execDsp "voxtype record start"))
 
-            # Screenshots
-            (bind (modKey "Print") (execDsp "${grim} ${screenshotLocation}"))
-            (bind (modKey "SHIFT + Print") (execDsp "${slurp} | ${grim} -g - ${screenshotLocation}"))
+          # Screenshots
+          (bind (modKey "Print") (execDsp "${grim} ${screenshotLocation}"))
+          (bind (modKey "SHIFT + Print") (execDsp "${slurp} | ${grim} -g - ${screenshotLocation}"))
 
-            # Old `bindr`: release to stop voxtype recording.
-            (bindOpts (modKey "semicolon") (execDsp "voxtype record stop") { release = true; })
+          # Old `bindr`: release to stop voxtype recording.
+          (bindOpts (modKey "semicolon") (execDsp "voxtype record stop") { release = true; })
 
-            # Old `bindm`: mouse drag to move/resize windows.
-            (bind (modKey "mouse:272") "hl.dsp.window.drag()")
-            (bind (modKey "mouse:273") "hl.dsp.window.resize()")
+          # Old `bindm`: mouse drag to move/resize windows.
+          (bind (modKey "mouse:272") "hl.dsp.window.drag()")
+          (bind (modKey "mouse:273") "hl.dsp.window.resize()")
 
-            # Old `bindel`: repeat while held + works on lockscreen.
-            (bindOpts "XF86AudioRaiseVolume"
-              (execDsp "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+")
-              {
-                repeating = true;
-                locked = true;
-              })
-            (bindOpts "XF86AudioLowerVolume"
-              (execDsp "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-")
-              {
-                repeating = true;
-                locked = true;
-              })
-            (bindOpts "XF86AudioMute"
-              (execDsp "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle")
-              {
-                repeating = true;
-                locked = true;
-              })
-            (bindOpts "XF86AudioMicMute"
-              (execDsp "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle")
-              {
-                repeating = true;
-                locked = true;
-              })
-            (bindOpts "XF86MonBrightnessUp"
-              (execDsp "brightnessctl s 10%+")
-              {
-                repeating = true;
-                locked = true;
-              })
-            (bindOpts "XF86MonBrightnessDown"
-              (execDsp "brightnessctl s 10%-")
-              {
-                repeating = true;
-                locked = true;
-              })
+          # Old `bindel`: repeat while held + works on lockscreen.
+          (bindOpts "XF86AudioRaiseVolume" (execDsp "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+") {
+            repeating = true;
+            locked = true;
+          })
+          (bindOpts "XF86AudioLowerVolume" (execDsp "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-") {
+            repeating = true;
+            locked = true;
+          })
+          (bindOpts "XF86AudioMute" (execDsp "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle") {
+            repeating = true;
+            locked = true;
+          })
+          (bindOpts "XF86AudioMicMute" (execDsp "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle") {
+            repeating = true;
+            locked = true;
+          })
+          (bindOpts "XF86MonBrightnessUp" (execDsp "brightnessctl s 10%+") {
+            repeating = true;
+            locked = true;
+          })
+          (bindOpts "XF86MonBrightnessDown" (execDsp "brightnessctl s 10%-") {
+            repeating = true;
+            locked = true;
+          })
 
-            # Old `bindl`: works on lockscreen. Requires playerctl.
-            (bindOpts "XF86AudioNext" (execDsp "playerctl next") { locked = true; })
-            (bindOpts "XF86AudioPause" (execDsp "playerctl play-pause") { locked = true; })
-            (bindOpts "XF86AudioPlay" (execDsp "playerctl play-pause") { locked = true; })
-            (bindOpts "XF86AudioPrev" (execDsp "playerctl previous") { locked = true; })
+          # Old `bindl`: works on lockscreen. Requires playerctl.
+          (bindOpts "XF86AudioNext" (execDsp "playerctl next") { locked = true; })
+          (bindOpts "XF86AudioPause" (execDsp "playerctl play-pause") { locked = true; })
+          (bindOpts "XF86AudioPlay" (execDsp "playerctl play-pause") { locked = true; })
+          (bindOpts "XF86AudioPrev" (execDsp "playerctl previous") { locked = true; })
 
-            (bindOpts "switch:on:Lid Switch"
-              (execDsp ''hyprctl keyword monitor "LVDS-1, disable"; hyprctl keyword monitor "eDP-1, disable"'')
-              { locked = true; })
-            (bindOpts "switch:off:Lid Switch"
-              (execDsp ''hyprctl keyword monitor "LVDS-1, enable"; hyprctl keyword monitor "eDP-1, enable"'')
-              { locked = true; })
-          ]
-          ++ (
-            # workspaces
-            # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
-            builtins.concatLists (
-              builtins.genList (
-                i:
-                let
-                  ws = i + 1;
-                in
-                [
-                  (bind (modKey "code:1${toString i}")
-                    ''hl.dsp.focus({ workspace = "${toString ws}" })'')
-                  (bind (modKey "SHIFT + code:1${toString i}")
-                    ''hl.dsp.window.move({ workspace = "${toString ws}", follow = false })'')
-                ]
-              ) 9
-            )
+          (bindOpts "switch:on:Lid Switch"
+            (execDsp ''hyprctl keyword monitor "LVDS-1, disable"; hyprctl keyword monitor "eDP-1, disable"'')
+            { locked = true; }
           )
-          ++ [
-            (bind (modKey "code:19") ''hl.dsp.focus({ workspace = "10" })'')
-            (bind (modKey "SHIFT + code:19")
-              ''hl.dsp.window.move({ workspace = "10", follow = false })'')
-          ];
+          (bindOpts "switch:off:Lid Switch"
+            (execDsp ''hyprctl keyword monitor "LVDS-1, enable"; hyprctl keyword monitor "eDP-1, enable"'')
+            { locked = true; }
+          )
+        ]
+        ++ (
+          # workspaces
+          # binds $mod + [shift +] {1..9} to [move to] workspace {1..9}
+          builtins.concatLists (
+            builtins.genList (
+              i:
+              let
+                ws = i + 1;
+              in
+              [
+                (bind (modKey "code:1${toString i}") ''hl.dsp.focus({ workspace = "${toString ws}" })'')
+                (bind (modKey "SHIFT + code:1${toString i}") ''hl.dsp.window.move({ workspace = "${toString ws}", follow = false })'')
+              ]
+            ) 9
+          )
+        )
+        ++ [
+          (bind (modKey "code:19") ''hl.dsp.focus({ workspace = "10" })'')
+          (bind (modKey "SHIFT + code:19") ''hl.dsp.window.move({ workspace = "10", follow = false })'')
+        ];
 
         window_rule = [
           # Ignore maximize requests from apps. You'll probably like this.

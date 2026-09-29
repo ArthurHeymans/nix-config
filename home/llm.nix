@@ -57,13 +57,11 @@ let
             "$out"/libexec/t3code/apps/desktop/prod-resources/browser-secret/t3-browser-secret
         '';
 
-      postPatch =
-        (previousAttrs.postPatch or "")
-        + ''
-          mkdir -p .generated/third-party-licenses/spdx/v3.28.0
-          cp ${spdxLicenseCache}/*.json .generated/third-party-licenses/spdx/v3.28.0/
-          chmod -R u+w .generated
-        '';
+      postPatch = (previousAttrs.postPatch or "") + ''
+        mkdir -p .generated/third-party-licenses/spdx/v3.28.0
+        chmod -R u+w .generated
+        cp ${spdxLicenseCache}/*.json .generated/third-party-licenses/spdx/v3.28.0/
+      '';
 
       pnpmDeps = pkgs.fetchPnpmDeps {
         inherit (finalAttrs)
