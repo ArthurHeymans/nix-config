@@ -7,8 +7,8 @@
 let
   system = pkgs.stdenv.hostPlatform.system;
   piNode = inputs.llm-agents.packages.${system}.pi.override { useBun = false; };
-  t3codeVersion = "0.0.40-piresume.db4155c4";
-  # The PiResume fork's vite `t3code:third-party-licenses` plugin downloads
+  t3codeVersion = "0.0.44-everythingarthur.b2100b49";
+  # The EverythingArthur fork's vite `t3code:third-party-licenses` plugin downloads
   # SPDX license texts from raw.githubusercontent.com during the production
   # build, but the Nix sandbox has no network and `/.generated/` (its cache
   # directory) is gitignored. Pre-seed that cache with pinned fetchers so
@@ -72,7 +72,7 @@ let
           ;
         pnpm = pkgs.pnpm_11;
         fetcherVersion = 4;
-        hash = "sha256-15NvJR5kRBR3NMafvcTWF36jg93dQtCXoIA+rdPldtU=";
+        hash = "sha256-IvBYaCbOYy/5Sf5hziU9bCkrcm5SZJHwTQsXiYW7dMo=";
       };
     }
   );

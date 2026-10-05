@@ -31,7 +31,7 @@
     sops-nix.url = "github:Mic92/sops-nix";
 
     t3code-src = {
-      url = "github:ArthurHeymans/t3code/PiResume";
+      url = "github:ArthurHeymans/t3code/EverythingArthur";
       flake = false;
     };
 

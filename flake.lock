@@ -863,16 +863,16 @@
     "t3code-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1790239397,
-        "narHash": "sha256-lBCuN39bwlYz7CjLmWrojCBEo7LiYkTZqJy/cBCLSoI=",
+        "lastModified": 1791215182,
+        "narHash": "sha256-J2wbio3/q1mtX+fbUGWRgaLx8UwWgaQgAHAu3us94ic=",
         "owner": "ArthurHeymans",
         "repo": "t3code",
-        "rev": "c83cbc218e362f492f71ac5c7a39dbad32afefab",
+        "rev": "b2100b498db753e27b4eaceea81b80f695ff371c",
         "type": "github"
       },
       "original": {
         "owner": "ArthurHeymans",
-        "ref": "PiResume",
+        "ref": "EverythingArthur",
         "repo": "t3code",
         "type": "github"
       }
