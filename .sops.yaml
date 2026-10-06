@@ -7,6 +7,12 @@ keys:
   - &x201-arthur age1guhcnvfmwqnng9dvfyzlzrlxrd99jrdycp8j0fhrkxvp6nzecy4qc6gldl
   - &x61-arthur age1hfvqs49qa82w5d4hamqxpze5hpau02jqhzxrfvk4sfkd5p5dzfvqyfv73s
 creation_rules:
+  - path_regex: secrets/hermes-ssh-key\.yaml$
+    key_groups:
+      - age:
+          - *gmktec-g3
+          - *gmktec-k11
+          - *t14s-g6
   - path_regex: secrets/nix-serve-key\.yaml$
     key_groups:
       - age:

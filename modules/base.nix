@@ -10,6 +10,7 @@
     ./bash.nix
     ./boot.nix
     ./firmware.nix
+    ./hermes-diagnostics.nix
     ./locale.nix
     ./oom.nix
     ./tailscale.nix
