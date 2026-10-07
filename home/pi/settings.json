@@ -1,0 +1,25 @@
+{
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-6.1-sol",
+  "defaultThinkingLevel": "medium",
+  "hideThinkingBlock": false,
+  "showCacheMissNotices": true,
+  "packages": [
+    "npm:pi-web-access",
+    "npm:pi-lens",
+    "npm:@aliou/pi-processes",
+    "npm:pi-subagents",
+    "npm:@arter/deep-pi@1.0.0",
+    {
+      "source": "npm:pi-meta-oauth",
+      "extensions": [
+        "extensions/meta.ts"
+      ]
+    },
+    "npm:@gotgenes/pi-anthropic-auth"
+  ],
+  "theme": "dark",
+  "warnings": {
+    "anthropicExtraUsage": false
+  }
+}

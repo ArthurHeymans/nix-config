@@ -1,0 +1,5 @@
+{
+  "provider": "openai",
+  "workflow": "auto-summary",
+  "autoOpenBrowser": false
+}
