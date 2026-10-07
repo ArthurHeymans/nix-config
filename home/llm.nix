@@ -7,7 +7,7 @@
 let
   system = pkgs.stdenv.hostPlatform.system;
   piNode = inputs.llm-agents.packages.${system}.pi.override { useBun = false; };
-  t3codeVersion = "0.0.44-everythingarthur.a361a06b";
+  t3codeVersion = "0.0.44-everythingarthur.3d85ad61";
   # The EverythingArthur fork's vite `t3code:third-party-licenses` plugin downloads
   # SPDX license texts from raw.githubusercontent.com during the production
   # build, but the Nix sandbox has no network and `/.generated/` (its cache
