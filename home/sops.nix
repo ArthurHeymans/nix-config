@@ -20,6 +20,7 @@
       "environmentVariables/GOOGLE_API_KEY" = { };
       "environmentVariables/OPENCODE_SERVER_PASSWORD" = { };
       "environmentVariables/OLLAMA_API_KEY" = { };
+      "environmentVariables/GANDI_API_KEY" = { };
     };
   };
 }
