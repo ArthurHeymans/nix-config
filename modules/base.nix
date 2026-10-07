@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   hostname,
@@ -60,6 +61,7 @@
   systemd.services.nh-clean = {
     description = "Clean old Nix generations with nh";
     startAt = lib.mkDefault "daily";
+    path = [ config.nix.package ];
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${pkgs.nh}/bin/nh clean all --keep 5";
