@@ -1,6 +1,5 @@
 {
   pkgs,
-  hostname,
   ...
 }:
 {
@@ -26,12 +25,4 @@
   xdg.userDirs.enable = true;
   xdg.userDirs.createDirectories = true;
   xdg.userDirs.setSessionVariables = false;
-
-  services.librespot = {
-    enable = true;
-    settings = {
-      device-type = "computer";
-      name = "${hostname}-librespot";
-    };
-  };
 }
