@@ -62,7 +62,7 @@
     startAt = lib.mkDefault "daily";
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.nh}/bin/nh clean all --keep 5 --no-ask";
+      ExecStart = "${pkgs.nh}/bin/nh clean all --keep 5";
       Nice = 10;
       IOSchedulingClass = "idle";
     };
