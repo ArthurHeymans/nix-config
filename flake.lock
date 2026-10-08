@@ -72,11 +72,11 @@
     "doom-config": {
       "flake": false,
       "locked": {
-        "lastModified": 1791374044,
-        "narHash": "sha256-eseqd2mR+apEa0M0rXJ8fYOqh0atpaY8mTXoJhBvZT4=",
+        "lastModified": 1791458988,
+        "narHash": "sha256-oZ62oangM5Dcuge83yFNPxaroYb+k3BkdkyEXqbcbPE=",
         "owner": "ArthurHeymans",
         "repo": ".doom.d",
-        "rev": "5da217382fe68993e7d5de6929da3169fb2bc43b",
+        "rev": "bbe18d7687e37bdc420b3b064107985d2594cb56",
         "type": "github"
       },
       "original": {
@@ -880,11 +880,11 @@
     "t3code-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1791366754,
-        "narHash": "sha256-wnsW/8xk593EWdMxiETnp8U9HRdnxv0ZkYUHyzhmgYY=",
+        "lastModified": 1791458560,
+        "narHash": "sha256-g7M0V+3/Ng/5qDYygSAunpKu1FwJV6PqQc1/BGYDIkI=",
         "owner": "ArthurHeymans",
         "repo": "t3code",
-        "rev": "3d85ad6178e6d27affc4541407db63fd113291cd",
+        "rev": "2591c1f52c1d798b180eac23dfeeefebbcfbbede",
         "type": "github"
       },
       "original": {
