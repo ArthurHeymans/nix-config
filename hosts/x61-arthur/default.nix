@@ -5,7 +5,7 @@
   ...
 }:
 let
-  syscGreet = inputs.sysc-greet.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  syscGreet = pkgs.callPackage ../../packages/sysc-greet.nix { inherit inputs; };
 
   footConfig = pkgs.writeText "sysc-greet-foot.ini" ''
     [main]

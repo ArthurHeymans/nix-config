@@ -13,7 +13,7 @@ let
     emacsPackage = ewmEmacsPackage.emacs or ewmEmacsPackage;
   };
 
-  syscGreetPackage = inputs.sysc-greet.packages.${pkgs.stdenv.hostPlatform.system}.default;
+  syscGreetPackage = pkgs.callPackage ../packages/sysc-greet.nix { inherit inputs; };
 
   gslapperPackage = inputs.gslapper.packages.${pkgs.stdenv.hostPlatform.system}.default;
 

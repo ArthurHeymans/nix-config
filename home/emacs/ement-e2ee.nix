@@ -7,21 +7,18 @@
 let
   ement-e2ee = pkgs.rustPlatform.buildRustPackage {
     pname = "ement-e2ee";
-    version = "0.1.0";
+    version = "0.19.1";
     src = inputs.ement-e2ee;
 
-    cargoLock = {
-      lockFile = "${inputs.ement-e2ee}/Cargo.lock";
-      outputHashes = {
-        "matrix-sdk-crypto-0.18.0" = "sha256-1+M5H5eoGLQXglHSp0rP1QioNJDRa6AiM0koWdvp5Do=";
-        "ruma-0.16.0" = "sha256-Ce1A7NHaYlSm2B0IF1YX2ZgLkNWhyigMFOdO9Ho6U1I=";
-      };
-    };
+    cargoLock.lockFile = "${inputs.ement-e2ee}/Cargo.lock";
+
+    # reqwest's native certificate loader also runs in the sandboxed tests.
+    env.SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
 
     meta = {
       description = "Transparent E2EE proxy for ement.el";
       homepage = "https://github.com/bhw-foss/ement-e2ee";
-      license = lib.licenses.asl20;
+      license = lib.licenses.gpl3Plus;
       mainProgram = "ement-e2ee";
     };
   };

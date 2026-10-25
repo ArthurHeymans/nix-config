@@ -7,7 +7,7 @@
 #
 # Called with `pkgs.callPackage`, e.g.:
 #   pkgs.callPackage ./hyprland-greeter-config.nix {
-#     syscGreetPackage = inputs.sysc-greet.packages.${system}.default;
+#     syscGreetPackage = pkgs.callPackage ../packages/sysc-greet.nix { inherit inputs; };
 #     kittyPackage = pkgs.kitty;
 #     kittyConf = "${syscGreetPackage}/etc/greetd/kitty.conf";
 #   }

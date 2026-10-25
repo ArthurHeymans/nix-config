@@ -3,7 +3,10 @@
   hardware.keyboard.qmk.enable = true;
 
   services.udev.packages = [
-    pkgs.glasgow
+    # Device permissions only need the rules, not Glasgow's Python/FPGA toolchain.
+    (pkgs.runCommand "glasgow-udev-rules" { } ''
+      install -Dm644 ${pkgs.glasgow.src}/config/*.rules -t "$out/etc/udev/rules.d"
+    '')
     pkgs.probe-rs-tools
   ];
 

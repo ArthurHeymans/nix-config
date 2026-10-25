@@ -28,6 +28,14 @@ let
   };
   emacsPackage = pwaylEmacsBase.overrideAttrs (old: {
     src = inputs.emacs-wayland;
+    # The Wayland branch already includes these Tramp and Flymake security fixes.
+    patches = lib.filter (
+      patch:
+      !(lib.any (name: lib.hasSuffix "-${name}.patch" (toString patch)) [
+        "CVE-2026-108976"
+        "CVE-2024-53920"
+      ])
+    ) (old.patches or [ ]);
     configureFlags =
       lib.filter (
         flag:
@@ -105,7 +113,12 @@ in
     clang-tools
     emacs-all-the-icons-fonts
     emacs-lsp-booster
-    mcp-proxy
+    # mcp-proxy 0.13 requires the MCP 1.x API.
+    (mcp-proxy.override {
+      python3Packages = pkgs.python3Packages // {
+        mcp = pkgs.python3Packages.mcp_1;
+      };
+    })
     sshfs
     taplo # toml lsp
     vscode-langservers-extracted # json lsp
