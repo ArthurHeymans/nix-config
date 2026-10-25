@@ -110,8 +110,6 @@ let
   };
 in
 {
-  imports = [ ./pi.nix ];
-
   home.packages = with pkgs; [
     entire
     piNode

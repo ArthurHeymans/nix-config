@@ -35,11 +35,6 @@
       flake = false;
     };
 
-    slop-statistics-src = {
-      url = "github:ArthurHeymans/slop-statistics";
-      flake = false;
-    };
-
     # add git hooks to format nix code before commit
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
