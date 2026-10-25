@@ -197,11 +197,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790675694,
-        "narHash": "sha256-QDHVjVPnS8H87cSGulFuE/YFMTAFEm5xmJGhEjF1leI=",
+        "lastModified": 1792943450,
+        "narHash": "sha256-htRLjqk3zH/gsVDCiV2QlYGqBjXk/5I9lpR1xS3Y2WQ=",
         "ref": "Everything",
-        "rev": "3ace4ed8a9558f6644e43f9f36d1daa2b2d583be",
-        "revCount": 999,
+        "rev": "45677f81c664935eae5ec2332d2a73f58f6e2766",
+        "revCount": 1185,
         "type": "git",
         "url": "https://codeberg.org/avph/ewm"
       },
