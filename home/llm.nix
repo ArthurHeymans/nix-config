@@ -58,6 +58,8 @@ let
         '';
 
       postPatch = (previousAttrs.postPatch or "") + ''
+        # Embed the public production Connect settings in the CLI and desktop builds.
+        cp .env.example .env
         mkdir -p .generated/third-party-licenses/spdx/v3.28.0
         chmod -R u+w .generated
         cp ${spdxLicenseCache}/*.json .generated/third-party-licenses/spdx/v3.28.0/
