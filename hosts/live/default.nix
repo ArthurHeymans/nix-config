@@ -14,6 +14,12 @@
 
   nixpkgs.hostPlatform = "x86_64-linux";
 
+  boot.kernelParams = [
+    "console=ttyS0,115200"
+    "console=tty0"
+    "ignore_loglevel"
+  ];
+
   # A portable USB install must find its root disk on different machines.
   boot.initrd.availableKernelModules = [
     "xhci_pci"
