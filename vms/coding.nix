@@ -129,6 +129,13 @@
         pi
         t3code
       ];
+      environment.extraInit = ''
+        if [ -r "$HOME/.config/coding/api-keys.env" ]; then
+          set -a
+          . "$HOME/.config/coding/api-keys.env"
+          set +a
+        fi
+      '';
 
       systemd.services.coding-init = {
         wantedBy = [ "multi-user.target" ];
@@ -169,6 +176,7 @@
           User = "arthur";
           Group = "users";
           WorkingDirectory = "/home/arthur/repos";
+          EnvironmentFile = "-/home/arthur/.config/coding/api-keys.env";
           ExecStart = "${lib.getExe' t3code "t3"} start --no-browser --host 127.0.0.1 --port 13773";
           Restart = "on-failure";
           RestartSec = 5;

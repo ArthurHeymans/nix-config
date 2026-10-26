@@ -17,8 +17,11 @@ remotely through T3 Connect. To authorize it, SSH into the guest and run
 `t3 connect link --headless`, approve in a browser, then
 `sudo systemctl restart t3code`.
 
-Pi is enabled in T3's initial settings. Run `pi`, then `/login`, in the guest to
-authorize a model provider. Credentials are not copied from another VM.
+Pi is enabled in T3's initial settings. API keys are provisioned separately in
+`/home/arthur/.config/coding/api-keys.env` (mode 0600). T3 and new login shells
+load this file; key values never enter the Nix store or repository. Restart
+`t3code` after changing it, and reopen existing Pi sessions to inherit new keys.
+For OAuth-based providers, run `pi`, then `/login`, in the guest.
 
 The initial deployment uses the host's existing MicroVM service templates and
 `/etc/systemd/system.control/microvms.target.d/50-coding.conf` for autostart,
