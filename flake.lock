@@ -197,18 +197,18 @@
         ]
       },
       "locked": {
-        "lastModified": 1792943450,
-        "narHash": "sha256-htRLjqk3zH/gsVDCiV2QlYGqBjXk/5I9lpR1xS3Y2WQ=",
-        "ref": "Everything",
-        "rev": "45677f81c664935eae5ec2332d2a73f58f6e2766",
-        "revCount": 1185,
+        "lastModified": 1793011773,
+        "narHash": "sha256-9i8WdhABLAkZae5xearTJ4tHXpDtf67m8cDO56/luVo=",
+        "ref": "ewm-server-repeat",
+        "rev": "176ba65b57cfdbcab1d152289b35e05723852c5d",
+        "revCount": 1188,
         "type": "git",
-        "url": "https://codeberg.org/avph/ewm"
+        "url": "file:///home/arthur/src/ewm"
       },
       "original": {
-        "ref": "Everything",
+        "ref": "ewm-server-repeat",
         "type": "git",
-        "url": "https://codeberg.org/avph/ewm"
+        "url": "file:///home/arthur/src/ewm"
       }
     },
     "flake-compat": {

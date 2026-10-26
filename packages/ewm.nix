@@ -21,6 +21,8 @@ let
     wayland
     ;
 
+  patchedSmithay = import "${src}/nix/smithay-repeat.nix" { inherit pkgs; };
+
   libdisplayInfoRs = pkgs.fetchFromGitHub {
     owner = "ArthurHeymans";
     repo = "libdisplay-info-rs";
@@ -38,7 +40,7 @@ let
       lockFile = "${src}/compositor/Cargo.lock";
       outputHashes = {
         "elisp-0.0.1" = "sha256-b1rAcltoVtGWjoQYRmIZjgJ3rX8fZiVxAncEQXBP96A=";
-        "smithay-0.7.0" = "sha256-UuA5hK8vJfn4cO5m4C7RuUF9H6uvi6MTrFpBBGbAJuk=";
+        "smithay-drm-extras-0.1.0" = "sha256-UuA5hK8vJfn4cO5m4C7RuUF9H6uvi6MTrFpBBGbAJuk=";
       };
     };
 
@@ -79,6 +81,7 @@ let
     # supplies libdisplay-info 0.4.  Vendor compatible 0.4 bindings under
     # the 0.3 Cargo version until the upstream crate catches up.
     postPatch = ''
+      ln -s ${patchedSmithay} .patched-smithay
       cp -r ${libdisplayInfoRs} .nix-libdisplay-info-rs
       chmod -R u+w .nix-libdisplay-info-rs
 

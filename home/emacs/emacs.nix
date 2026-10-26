@@ -29,13 +29,20 @@ let
   emacsPackage = pwaylEmacsBase.overrideAttrs (old: {
     src = inputs.emacs-wayland;
     # The Wayland branch already includes these Tramp and Flymake security fixes.
-    patches = lib.filter (
-      patch:
-      !(lib.any (name: lib.hasSuffix "-${name}.patch" (toString patch)) [
-        "CVE-2026-108976"
-        "CVE-2024-53920"
-      ])
-    ) (old.patches or [ ]);
+    patches =
+      lib.filter (
+        patch:
+        !(lib.any (name: lib.hasSuffix "-${name}.patch" (toString patch)) [
+          "CVE-2026-108976"
+          "CVE-2024-53920"
+        ])
+      ) (old.patches or [ ])
+      ++ [
+        (builtins.path {
+          path = "${inputs.ewm}/emacs/pwayl-server-repeat.patch";
+          name = "pwayl-server-repeat.patch";
+        })
+      ];
     configureFlags =
       lib.filter (
         flag:

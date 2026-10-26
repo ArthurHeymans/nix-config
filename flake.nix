@@ -60,7 +60,7 @@
     };
 
     ewm = {
-      url = "git+https://codeberg.org/avph/ewm?ref=Everything";
+      url = "git+file:///home/arthur/src/ewm?ref=ewm-server-repeat";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
