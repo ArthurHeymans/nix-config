@@ -135,6 +135,10 @@
         hooks.nixfmt.enable = true;
       };
       hosts = {
+        live = {
+          kind = "desktop";
+          buildOnUpdate = false;
+        };
         x220-nixos = {
           kind = "desktop";
           sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK9XttA9f8RjXTrrhli5lb4y4+uWC7K+uu2yaeLCbWCT arthur@x220-nixos";
