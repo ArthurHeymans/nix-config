@@ -58,10 +58,10 @@ in
         useNetworkd = true;
         firewall = {
           enable = true;
-          allowedTCPPorts = [
-            8123
-            8080
-          ];
+          # Only Caddy can reach the HTTP backends, including over public IPv6.
+          extraCommands = ''
+            iptables -I nixos-fw 1 -s 192.168.0.11 -p tcp -m multiport --dports 8123,8080 -j nixos-fw-accept
+          '';
         };
       };
       systemd.network = {
@@ -116,7 +116,10 @@ in
         ];
         config = {
           default_config = { };
-          homeassistant.unit_system = "metric";
+          homeassistant = {
+            unit_system = "metric";
+            external_url = "https://home.aheymans.xyz";
+          };
           "automation ui" = "!include automations.yaml";
           "scene ui" = "!include scenes.yaml";
           "script ui" = "!include scripts.yaml";
@@ -160,6 +163,8 @@ in
             enabled = true;
             host = "0.0.0.0";
             port = 8080;
+            base_url = "/zigbee2mqtt";
+            url = "https://home.aheymans.xyz/zigbee2mqtt";
           };
           permit_join = false;
         };

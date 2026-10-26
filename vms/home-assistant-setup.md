@@ -3,14 +3,17 @@
 `home-assistant.nix` declares a QEMU MicroVM with 2 vCPUs, 4 GiB RAM,
 and a sparse 32 GiB disk mounted at `/var`:
 
-- Home Assistant: <http://192.168.0.10:8123>
-- Zigbee2MQTT: <http://192.168.0.10:8080>
+- Home Assistant: <https://home.aheymans.xyz>
+- Zigbee2MQTT: <https://home.aheymans.xyz/zigbee2mqtt/> (LAN/VPN only)
 - Mosquitto: `127.0.0.1:1883` inside the VM only, without authentication.
 - SSH: `ssh arthur@192.168.0.10` using the usual authorized keys.
 
 Keep `192.168.0.10` outside the router's DHCP pool, or reserve it for
-`02:00:00:00:00:14`. The web interfaces are for a trusted LAN; do not forward
-their ports from the internet. The Zigbee2MQTT frontend has no authentication.
+`02:00:00:00:00:14`. Only Caddy at `192.168.0.11` can reach backend ports
+8123 and 8080. Home Assistant trusts forwarded headers only from that IP.
+Do not forward backend ports from the internet. The Zigbee2MQTT frontend has
+no authentication, so Caddy restricts its route to private LAN/VPN addresses.
+See [Caddy setup](caddy-setup.md) for TLS, public DNS and DDNS.
 
 ## First use
 
@@ -48,8 +51,9 @@ already present. Adding devices through MQTT needs no rebuild.
 Zigbee2MQTT keeps device and group configuration in separate writable files.
 Its network key, PAN ID and extended PAN ID are randomly generated once in
 `/var/lib/zigbee2mqtt/network.env` and loaded through a systemd environment
-file. They are not stored in Nix or regenerated on each service start. Main Zigbee2MQTT settings edited through its frontend
-are replaced by Nix settings at the next service start; change those in Nix.
+file. They are not stored in Nix or regenerated on each service start. Main
+Zigbee2MQTT settings edited through its frontend are replaced by Nix settings
+at the next service start; change those in Nix.
 
 ## Operations and backups
 
