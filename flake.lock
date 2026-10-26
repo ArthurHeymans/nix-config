@@ -459,11 +459,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1792919129,
-        "narHash": "sha256-GVmq5Rp1ZhmKcHnVn54tzDNedRmHE7mmADbkaybQ0zA=",
+        "lastModified": 1792971270,
+        "narHash": "sha256-pvkekz4R2bbObsKIKQlTkhSw7iEdDXtrfhILxBKLQaQ=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "1c4de828694897c1f6c991f5511dcbd1f3bbd3f1",
+        "rev": "0784674971b3ee4681aea5b5e9641c75faf7e846",
         "type": "github"
       },
       "original": {
@@ -772,11 +772,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792904810,
-        "narHash": "sha256-JBIeuZ/A88YF40KsRvFeI2Wj7W7+Yd6bgrsm4mP9eeM=",
+        "lastModified": 1792973793,
+        "narHash": "sha256-nTNOP3MIU1LrMNqr3fDf0sGA5K2oehRLtB6oir4vPOk=",
         "owner": "Nomadcxx",
         "repo": "sysc-greet",
-        "rev": "f9eba05d06852c07e9f2de909099fc99aef8bab1",
+        "rev": "5808443203539065bc237979b98e6a0bfc385711",
         "type": "github"
       },
       "original": {
@@ -922,11 +922,11 @@
         "zig2nix": "zig2nix"
       },
       "locked": {
-        "lastModified": 1792860411,
-        "narHash": "sha256-+tU4bkprCnH6bstLIgEDxB6OIbcyNBv2i6XQyptcYUY=",
+        "lastModified": 1792946997,
+        "narHash": "sha256-oZKNlBQG2XDBDF2LEuqpREUTlzEmSrUAt7SyGi/4yZc=",
         "owner": "neurosnap",
         "repo": "zmx",
-        "rev": "df21d8ecac5b41c23df5b096f2560590316da40f",
+        "rev": "1a6ce3c74ab227daff2f1b0b6cdbe0d1ffc12a8b",
         "type": "github"
       },
       "original": {
