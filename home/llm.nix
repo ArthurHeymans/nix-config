@@ -39,6 +39,14 @@ in
     t3code
   ];
 
+  xdg.desktopEntries.t3code-native = {
+    name = "T3 Code Desktop";
+    comment = "Open the native T3 Code desktop client with T3 Connect support";
+    exec = "t3code-desktop";
+    icon = "t3code";
+    categories = [ "Development" ];
+  };
+
   systemd.user.services.t3code = {
     Unit = {
       Description = "T3 Code server";
