@@ -17,8 +17,16 @@ For initial Tailscale enrollment, run `sudo tailscale up` inside the guest and
 approve the displayed login URL. Once enrolled, use its Tailscale name `coding`
 (subject to your tailnet's MagicDNS and access policies).
 
-T3 Code runs as the guest's `t3code.service`, listening on loopback and reachable
-remotely through T3 Connect. To authorize it, SSH into the guest and run
+T3 Code runs as the guest's `t3code.service`, listening on `0.0.0.0:13773`, like
+`t480-arthur` and `gmktec-k11`. The firewall permits that port. Open
+`http://coding:13773` over Tailscale, or `http://192.168.0.9:13773` on the LAN.
+Neither Tailscale Serve nor HTTPS is needed. For browser login, mint a one-time
+pairing link in the guest with
+`t3 auth pairing create --ttl 10m --base-url http://coding:13773`.
+Treat that link as a password.
+
+The server is also reachable through T3 Connect. To authorize it, SSH into the
+guest and run
 `t3 connect link --headless`, approve in a browser, then
 `sudo systemctl restart t3code`.
 

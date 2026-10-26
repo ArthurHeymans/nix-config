@@ -84,7 +84,10 @@
         hostName = "coding";
         useDHCP = false;
         useNetworkd = true;
-        firewall.enable = true;
+        firewall = {
+          enable = true;
+          allowedTCPPorts = [ 13773 ];
+        };
       };
       systemd.network = {
         enable = true;
@@ -181,7 +184,7 @@
           Group = "users";
           WorkingDirectory = "/home/arthur/repos";
           EnvironmentFile = "-/home/arthur/.config/coding/api-keys.env";
-          ExecStart = "${lib.getExe' t3code "t3"} start --no-browser --host 127.0.0.1 --port 13773";
+          ExecStart = "${lib.getExe' t3code "t3"} start --no-browser --host 0.0.0.0 --port 13773";
           Restart = "on-failure";
           RestartSec = 5;
           UMask = "0077";
