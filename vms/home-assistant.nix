@@ -111,8 +111,10 @@ in
           "isal"
           "met"
           "mqtt"
+          "niko_home_control"
           "radio_browser"
           "shopping_list"
+          "wled"
         ];
         config = {
           default_config = { };
