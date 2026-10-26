@@ -117,6 +117,10 @@
         };
       };
       services.resolved.enable = true;
+      services.tailscale = {
+        enable = true;
+        openFirewall = true;
+      };
       programs.nix-ld.enable = true;
       nix.settings = {
         experimental-features = [

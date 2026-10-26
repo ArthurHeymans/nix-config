@@ -5,12 +5,17 @@
 - 16 GiB RAM, four shared vCPUs
 - 100 GiB persistent ext4 root disk at `/var/lib/microvms/coding/root.img`
 - LAN address `192.168.0.9`, SSH user `arthur`
+- Tailscale for private remote access; its identity persists in `/var/lib/tailscale`
 - T3 Code and Node-based Pi, plus common build tools
 
 The disk is sparse: it grows as data is written, rather than reserving 100 GiB
 on the host. Repositories, credentials, temporary build files, and the writable
 Nix store/database all live on this disk. Only the host's read-only Nix store is
 shared; Hermes's home and credentials are not mounted.
+
+For initial Tailscale enrollment, run `sudo tailscale up` inside the guest and
+approve the displayed login URL. Once enrolled, use its Tailscale name `coding`
+(subject to your tailnet's MagicDNS and access policies).
 
 T3 Code runs as the guest's `t3code.service`, listening on loopback and reachable
 remotely through T3 Connect. To authorize it, SSH into the guest and run
