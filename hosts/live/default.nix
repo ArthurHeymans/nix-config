@@ -32,6 +32,9 @@
     "ahci"
     "nvme"
   ];
+  # This portable install has no generated hardware configuration to enable
+  # linux-firmware; include redistributable Wi-Fi/GPU firmware (e.g. rtw88).
+  hardware.enableRedistributableFirmware = true;
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 

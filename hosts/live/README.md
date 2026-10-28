@@ -6,6 +6,10 @@ reboots. Zstd compression helps the desktop closure fit on the 32 GB USB.
 GRUB supports legacy BIOS and UEFI removable-media boot without changing
 firmware boot entries. Secure Boot must be disabled.
 
+Redistributable Linux firmware (including Realtek `rtw88` Wi-Fi firmware)
+and Intel/AMD CPU microcode are enabled explicitly: this portable installation
+has no generated hardware configuration to enable them.
+
 The disk configuration targets only `/dev/disk/by-id/usb-PHILIPS_USB-0:0`.
 Running its Disko script **erases that drive**. Check the device before
 reinstalling; change both device references in this directory for a different
