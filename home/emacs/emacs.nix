@@ -185,6 +185,23 @@ in
           });
       in
       {
+        # Straight's :build (:not autoloads) is unsupported by Unstraightened.
+        # Build vc-jj without autoloads; config.org loads it explicitly after vc.
+        vc-jj = esuper.trivialBuild {
+          pname = "vc-jj";
+          version = "9999snapshot1";
+          src = builtins.path {
+            name = "vc-jj.el";
+            path = "${
+              builtins.fetchGit {
+                url = "https://codeberg.org/avph/vc-jj.el.git";
+                rev = "5a0c11cfc13d97cc8fdf23f9c6e0d9b483211a87";
+                ref = "HEAD";
+                allRefs = true;
+              }
+            }/vc-jj.el";
+          };
+        };
         gptel-forge-prs = esuper.gptel-forge-prs.overrideAttrs (attrs: {
           nativeBuildInputs = (attrs.nativeBuildInputs or [ ]) ++ [ pkgs.git ];
         });
