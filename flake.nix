@@ -155,6 +155,10 @@
           kind = "server";
           buildOnUpdate = false;
         };
+        mj11 = {
+          kind = "server";
+          buildOnUpdate = false;
+        };
         t480-arthur = {
           kind = "desktop";
           sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOIhZlW5JLnPVAWQCKGhPcDhhq0jlQamjI6wCx5UKAXZ arthur@t480-arthur";
