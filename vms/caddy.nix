@@ -80,7 +80,10 @@
         hostName = "caddy";
         useDHCP = false;
         useNetworkd = true;
-        firewall.enable = true;
+        firewall = {
+          enable = true;
+          interfaces.enp0s5.allowedUDPPorts = [ 5353 ];
+        };
       };
       systemd.network = {
         enable = true;
@@ -94,6 +97,7 @@
               "1.1.1.1"
             ];
             DHCP = "no";
+            MulticastDNS = "resolve";
           };
         };
       };
@@ -117,12 +121,19 @@
           PermitRootLogin = "no";
         };
       };
-      services.resolved.enable = true;
+      services.resolved = {
+        enable = true;
+        settings.Resolve.MulticastDNS = "resolve";
+      };
 
       security.acme = {
         acceptTerms = true;
         defaults.email = "arthur@aheymans.xyz";
         certs."home.aheymans.xyz" = {
+          extraDomainNames = [
+            "m900.home.aheymans.xyz"
+            "mj11.home.aheymans.xyz"
+          ];
           dnsProvider = "gandiv5";
           dnsResolver = "1.1.1.1:53";
           credentialFiles.GANDIV5_PERSONAL_ACCESS_TOKEN_FILE = "/run/caddy-credentials/gandi-token";
@@ -131,31 +142,46 @@
       services.caddy = {
         enable = true;
         openFirewall = true;
-        virtualHosts."home.aheymans.xyz" = {
+        virtualHosts = {
+          "home.aheymans.xyz" = {
+            useACMEHost = "home.aheymans.xyz";
+            extraConfig = ''
+              @zigbee path /zigbee2mqtt /zigbee2mqtt/*
+              handle @zigbee {
+                # The unauthenticated Zigbee admin UI is not public.
+                @external not remote_ip private_ranges 100.64.0.0/10
+                respond @external "Zigbee2MQTT is only available on the LAN or VPN." 403
+                redir /zigbee2mqtt /zigbee2mqtt/ 308
+                reverse_proxy 192.168.0.10:8080
+              }
+              handle {
+                reverse_proxy 192.168.0.10:8123
+              }
+            '';
+          };
+        }
+        // lib.genAttrs [ "m900.home.aheymans.xyz" "mj11.home.aheymans.xyz" ] (domain: {
           useACMEHost = "home.aheymans.xyz";
           extraConfig = ''
-            @zigbee path /zigbee2mqtt /zigbee2mqtt/*
-            handle @zigbee {
-              # The unauthenticated Zigbee admin UI is not public.
-              @external not remote_ip private_ranges 100.64.0.0/10
-              respond @external "Zigbee2MQTT is only available on the LAN or VPN." 403
-              redir /zigbee2mqtt /zigbee2mqtt/ 308
-              reverse_proxy 192.168.0.10:8080
-            }
-            handle {
-              reverse_proxy 192.168.0.10:8123
+            reverse_proxy {
+              # Use resolved's mDNS-capable stub, not Go/NSS .local resolution.
+              dynamic a ${lib.head (lib.splitString "." domain)}.local 13773 {
+                resolvers 127.0.0.53
+                versions ipv4
+              }
+              stream_close_delay 5m
             }
           '';
-        };
+        });
       };
 
       systemd.services.gandi-ddns = {
-        description = "Update home.aheymans.xyz with the current public IPv4";
+        description = "Update home and T3 Code DNS records with the current public IPv4";
         wants = [ "network-online.target" ];
         after = [ "network-online.target" ];
         environment = {
           GANDI_DDNS_DOMAIN = "aheymans.xyz";
-          GANDI_DDNS_NAME = "home";
+          GANDI_DDNS_NAMES = "home m900.home mj11.home";
           GANDI_DDNS_TTL = "300";
         };
         serviceConfig = {
@@ -163,7 +189,7 @@
           DynamicUser = true;
           LoadCredential = [ "gandi-token:/run/caddy-credentials/gandi-token" ];
           ExecStart = "${pkgs.python3}/bin/python3 ${./gandi_ddns.py}";
-          TimeoutStartSec = "2min";
+          TimeoutStartSec = "5min";
           NoNewPrivileges = true;
           PrivateTmp = true;
           PrivateDevices = true;

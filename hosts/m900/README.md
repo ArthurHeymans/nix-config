@@ -6,10 +6,12 @@ is not an installation target.
 
 - SSH: `ssh arthur@m900.local` (authorized keys only; passwordless sudo).
 - Pi: `pi`; authenticate with `/login` on this host.
-- T3 Code: lingering `arthur` user service, listening only on `127.0.0.1:13773`.
-  Access with T3 Connect or
-  `ssh -N -L 13774:127.0.0.1:13773 arthur@m900.local`, then open
-  `http://127.0.0.1:13774`.
+- T3 Code: lingering `arthur` user service on `0.0.0.0:13773`, with TCP 13773
+  open in the firewall, matching the other hosts. Open
+  `http://m900.local:13773` on the LAN or `http://<tailscale-ip>:13773` after
+  enrolling the host in Tailscale. For phone access, use Caddy at
+  `https://m900.home.aheymans.xyz` with a fresh pairing link; see
+  [Caddy setup](../../vms/caddy-setup.md#t3-code-from-a-phone).
 - Service: `systemctl --user status t3code` and
   `journalctl --user -u t3code`.
 - Disk: 1 GiB EFI partition and Btrfs root/home/nix subvolumes; zram swap.

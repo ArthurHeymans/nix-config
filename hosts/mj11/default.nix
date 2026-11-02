@@ -5,9 +5,6 @@
   username,
   ...
 }:
-let
-  t3code = import ../../packages/t3code.nix { inherit pkgs inputs lib; };
-in
 {
   imports = [
     ../../modules/server.nix
@@ -40,6 +37,8 @@ in
   services.openssh.settings.KbdInteractiveAuthentication = false;
   security.sudo.wheelNeedsPassword = false;
   users.users.${username}.initialPassword = lib.mkForce null;
+  # Match the other hosts: direct HTTP on LAN and Tailscale, without Serve.
+  networking.firewall.allowedTCPPorts = [ 13773 ];
 
   environment.systemPackages = with pkgs; [
     ast-grep
@@ -99,11 +98,7 @@ in
 
   home-manager.users.${username} = {
     imports = [ ../../home/llm.nix ];
-    # Pair through T3 Connect or an SSH tunnel; don't expose the server on LAN.
-    systemd.user.services.t3code.Service = {
-      ExecStart = lib.mkForce "${lib.getExe' t3code "t3"} serve --host 127.0.0.1 --port 13773";
-      WorkingDirectory = "/home/${username}";
-    };
+    systemd.user.services.t3code.Service.WorkingDirectory = "/home/${username}";
     # This machine intentionally has no copy of the workstation's GPG key.
     programs.git.signing.signByDefault = lib.mkForce false;
     programs.jujutsu.settings.signing.behavior = lib.mkForce "keep";

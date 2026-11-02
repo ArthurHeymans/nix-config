@@ -1,13 +1,43 @@
 import io
 import json
+import os
 import unittest
 import urllib.error
-from unittest.mock import patch
+from unittest.mock import call, patch
 
 import gandi_ddns
 
 
 class GandiDDNSTest(unittest.TestCase):
+    @patch.dict(
+        os.environ,
+        {
+            "CREDENTIALS_DIRECTORY": "/run/credentials/gandi-ddns.service",
+            "GANDI_DDNS_DOMAIN": "aheymans.xyz",
+            "GANDI_DDNS_NAMES": "home m900.home mj11.home",
+            "GANDI_DDNS_TTL": "300",
+        },
+        clear=True,
+    )
+    @patch("pathlib.Path.read_text", return_value="test-token\n")
+    @patch("gandi_ddns.public_ipv4", return_value="84.192.12.139")
+    @patch("gandi_ddns.update_record", side_effect=[False, True, True])
+    def test_main_updates_all_configured_names(self, update_record, public_ipv4, read_text):
+        with patch("sys.stdout", new_callable=io.StringIO) as output:
+            gandi_ddns.main()
+        self.assertEqual(
+            update_record.call_args_list,
+            [
+                call("84.192.12.139", "test-token", "aheymans.xyz", name, 300)
+                for name in ("home", "m900.home", "mj11.home")
+            ],
+        )
+        public_ipv4.assert_called_once_with()
+        read_text.assert_called_once_with()
+        self.assertIn("home.aheymans.xyz: 84.192.12.139 (unchanged)", output.getvalue())
+        self.assertIn("m900.home.aheymans.xyz: 84.192.12.139 (updated)", output.getvalue())
+        self.assertIn("mj11.home.aheymans.xyz: 84.192.12.139 (updated)", output.getvalue())
+
     @patch("urllib.request.urlopen")
     def test_unchanged_record_is_not_written(self, urlopen):
         urlopen.return_value = io.BytesIO(

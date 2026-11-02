@@ -12,7 +12,10 @@ for HTTP/3. There is no published AAAA record; public DNS uses the WAN IPv4.
 ## Routes and TLS
 
 - `https://home.aheymans.xyz` proxies Home Assistant at `192.168.0.10:8123`.
-- `/zigbee2mqtt/` proxies `192.168.0.10:8080`, preserving the path. Zigbee2MQTT
+- `https://m900.home.aheymans.xyz` proxies T3 Code at `m900.local:13773`.
+- `https://mj11.home.aheymans.xyz` proxies T3 Code at `mj11.local:13773`.
+- `https://home.aheymans.xyz/zigbee2mqtt/` proxies `192.168.0.10:8080`, preserving
+  the path. Zigbee2MQTT
   is configured with the corresponding base URL. This route rejects clients
   outside private LAN/VPN address ranges because its UI is unauthenticated.
   Its access rule uses the actual peer address, not caller-supplied headers.
@@ -37,10 +40,45 @@ dashboard API. It works on the LAN/VPN, not from a public internet client.
 Access via the public hostname from the LAN requires router NAT loopback,
 or split DNS resolving the hostname to `192.168.0.11`.
 
+## T3 Code from a phone
+
+Each environment gets its own HTTPS origin, not a URL subpath. Caddy preserves
+T3 Code's HTTP routes, authentication and WebSocket upgrades. No extra proxy
+login is added: T3 Code requires a one-time pairing link, then remembers the
+paired device. These two endpoints are public, including from cellular networks.
+Only Caddy's existing ports 80/443 need forwarding; do not forward port 13773.
+
+On each host, create a fresh link for your phone:
+
+```sh
+# Run on m900:
+t3 auth pairing create --ttl 10m --base-url https://m900.home.aheymans.xyz
+# Run on mj11:
+t3 auth pairing create --ttl 10m --base-url https://mj11.home.aheymans.xyz
+```
+
+Paste each resulting pairing URL into **Add environment** in the T3 Code mobile
+app, or open it in your phone's browser. Pairing URLs are passwords; do not
+publish them. Both environments can be saved in the same mobile app. Public
+HTTPS also allows access from `app.t3.codes`; mDNS alone would not work away
+from home or provide a publicly trusted certificate.
+
+The Caddy VM resolves the upstream `.local` names through systemd-resolved's
+mDNS-capable DNS stub (`127.0.0.53`). mDNS resolution and UDP 5353 are enabled
+on its LAN interface only. Caddy queries IPv4 records and refreshes its upstream
+cache every minute, so DHCP address changes require no configuration edit.
+M900 and MJ11 publish their addresses through the shared Avahi configuration.
+If a backend is asleep or offline its route returns a gateway error; the other
+routes remain independent.
+
+On home Wi-Fi the public hostnames need NAT loopback, or split DNS pointing
+both T3 names to `192.168.0.11`, just like the Home Assistant hostname.
+
 ## Dynamic DNS
 
 `gandi-ddns.service` discovers the public IPv4 over HTTPS and reconciles only
-the `home` A record in `aheymans.xyz`. Other records are left untouched.
+the `home`, `m900.home`, and `mj11.home` A records in `aheymans.xyz`.
+Other records are left untouched.
 The timer runs about one minute after boot and every five minutes afterward,
 with up to 30 seconds of jitter. The record TTL is 300 seconds, so a WAN address
 change can take roughly ten minutes to propagate through caches. Previously

@@ -1,4 +1,4 @@
-"""Keep one Gandi LiveDNS A record aligned with this network's public IPv4."""
+"""Keep configured Gandi LiveDNS A records aligned with this network's public IPv4."""
 
 import ipaddress
 import json
@@ -53,11 +53,12 @@ def update_record(address, token, domain, name, ttl):
 def main():
     token = (Path(os.environ["CREDENTIALS_DIRECTORY"]) / "gandi-token").read_text().strip()
     domain = os.environ["GANDI_DDNS_DOMAIN"]
-    name = os.environ["GANDI_DDNS_NAME"]
+    names = os.environ["GANDI_DDNS_NAMES"].split()
     ttl = int(os.environ["GANDI_DDNS_TTL"])
     address = public_ipv4()
-    changed = update_record(address, token, domain, name, ttl)
-    print(f"{name}.{domain}: {address} ({'updated' if changed else 'unchanged'})")
+    for name in names:
+        changed = update_record(address, token, domain, name, ttl)
+        print(f"{name}.{domain}: {address} ({'updated' if changed else 'unchanged'})")
 
 
 if __name__ == "__main__":
