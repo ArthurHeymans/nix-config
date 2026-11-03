@@ -136,6 +136,22 @@ done
 [ "$up" = true ] || fail 'Office interface did not come up; inspect netifd logs.'
 wg show office >/dev/null
 
+# netifd can flush tailscale0's addresses and table 52 during network restart.
+# Without these return routes, requests reach the office but replies leak to
+# the LAN default gateway. Reconcile them before claiming subnet-router health.
+/etc/init.d/tailscale restart
+ready=false
+for _attempt in 1 2 3 4 5 6 7 8 9 10; do
+    state="$(tailscale status --json 2>/dev/null | jsonfilter -e '@.BackendState' 2>/dev/null || :)"
+    if [ "$state" = Running ] &&
+        ip -4 route get 100.100.100.100 | grep -q 'dev tailscale0'; then
+        ready=true
+        break
+    fi
+    sleep 1
+done
+[ "$ready" = true ] || fail 'Tailscale return routes are missing after restart.'
+
 # fw4 masquerading on the office egress is deliberate: the office must see
 # 10.0.5.23 even if Tailscale's own netfilter/SNAT implementation changes.
 tailscale set --snat-subnet-routes=true --advertise-routes="$advertise_routes"

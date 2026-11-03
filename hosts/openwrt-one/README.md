@@ -61,7 +61,11 @@ changes before configuring anything. It waits for the interface to come up
 before advertising routes; an asynchronous `ifup` exit status alone is insufficient.
 It prints a root-only backup directory containing the previous network,
 firewall, and Tailscale preferences. Rerunning replaces only its own sections.
-It reloads services without restarting the whole LAN network.
+It reloads services without restarting the whole LAN network. It then restarts
+Tailscale and checks its return route via `tailscale0`: netifd can flush the
+interface's addresses and table 52 during a network restart. Without restoring
+those routes, office requests succeed but their replies take the LAN default
+route. Use LAN SSH for deployment because Tailscale briefly reconnects.
 
 The WireGuard interface is `office`, address `10.0.5.23/32`, with a 25-second
 keepalive to `vpn.office.9e.network:51820`. The office firewall zone masquerades
@@ -116,39 +120,47 @@ A client-side `ip route get` should use `tailscale0`. Recheck after a router
 reboot. Only then delete the disabled `/etc/wireguard/9elements-wg.conf` copies
 on m900 and coding, and the `9elements-wg` NetworkManager connections on
 t480-arthur and gmktec-k11. Check for and remove any stale per-client office DNS
-settings as well. No live connection cleanup is performed by this commit.
+settings as well. The deployment status below records completed cleanup.
 
 ## Live deployment (2026-11-03)
 
 - Installed matching WireGuard packages from the rc4 feeds, restarted netifd
-  once to register the protocol, and applied this script successfully twice.
-- Verified an active handshake and both routes via `office`, office DNS lookup
-  of `stroh80-bmc.lab.9e.network` (`10.93.130.205`), and three 1200-byte ICMP
-  payloads to that BMC with no loss. SSH through the router reached
-  `caliptra-pi` (`worker122`) and `caliptra-fpga` (`versal`). These SSH tests used
-  a LAN SSH proxy through the router, **not yet the unapproved subnet routes**.
+  once to register the protocol, and successfully reapplied the hardened script.
+  The return-route recovery fix was deployed and retested.
+- Approved only `10.0.5.1/32` and `10.93.130.0/24` through the Tailscale API and
+  added restricted DNS `9e.network -> 10.0.5.1`. API readback confirms both.
+  Other advertised routes remain unapproved; other DNS settings and ACLs were
+  not changed.
+- Verified both client routes use `tailscale0` (table 52), split-DNS resolution
+  of `stroh80-bmc.lab.9e.network` (`10.93.130.205`), and successful lab pings
+  from gmktec-k11, coding, m900, and mj11. The k11 test passed 1252-byte ICMP
+  payloads with DF set (1280-byte IP packets) without loss. TCP and UDP DNS
+  both passed. An off-site client was not available for testing.
+- SSH from k11 through the subnet routes reached `caliptra-pi` (`worker122`)
+  and `caliptra-fpga` (`versal`). Both reported SSH client source `10.0.5.23`,
+  proving office egress NAT. Each completed a checksum-verified 1 MiB transfer.
+  DNS and SSH passed again after rerunning the updated setup script.
 - Native `fw4 check` passes; the scoped forwarding/rejection rules and egress
   masquerade chain are installed. Removed the temporary router key file.
 - Applied persistent Tailscale route acceptance and loose reverse-path filtering
   on gmktec-k11, coding, m900, and mj11. The preferences survive restart; an
   additional `/etc/sysctl.d/90-office-tailscale-client.conf` persists filtering
   until the declarative module is rebuilt. No full OS rebuild was performed.
-- Stopped m900's manually created `9elements-wg` interface and disabled k11's
-  NetworkManager connection autoconnect. Original configurations are retained
-  for rollback pending end-to-end verification. t480-arthur is unreachable, so
-  its old connection still needs disabling before it can reclaim the shared key.
-- **Pending:** approve the two office routes and add the restricted DNS entry in
-  Tailscale's admin console. The API credential request was declined; clients
-  still receive only the One's own Tailscale IP, not its office routes. Do not
-  claim off-site/tailnet connectivity until approved and tested. gmktec-g3's live
-  client settings also require sudo access; its declarative module is updated.
+- Stopped m900's manually created `9elements-wg` interface. After end-to-end
+  verification, deleted the old `/etc/wireguard/9elements-wg.conf` files from
+  coding and m900 and removed k11's `9elements-wg` NetworkManager profile.
+- **Pending:** t480-arthur is unreachable; its old connection still needs
+  disabling/removing before it can reclaim the shared key. gmktec-g3's live
+  client settings require sudo access; its declarative module is updated.
 - Office DNS itself returns NXDOMAIN for `spyral.lab.9e.network`; this is not a
   tunnel failure. Use the verified BMC record for DNS tests and ask office IT to
   correct the missing record if that name is still needed.
 
 The original pre-deployment network/firewall/Tailscale backup on the router is
 `/root/office-vpn-backup.BdMHGm`. Later reruns also created backups, but those
-already contain the office configuration.
+already contain the office configuration. The pre-change API route/DNS state is
+saved privately on k11 at
+`~/.local/state/office-router/tailnet-routing-dns-before-20261103T090430Z.json`.
 
 ## Rollback
 
@@ -161,5 +173,8 @@ from `tailscale-prefs.json` (the checked router previously advertised
 `192.168.1.0/24` and was an exit node). Restore `--snat-subnet-routes` according
 to the saved `NoSNAT` preference if it differed, and restore `--accept-dns`
 according to the saved `CorpDNS` preference. Do not disable other routes or
-the exit-node setting inadvertently. Once the router tunnel is down, one old
-client connection can be re-enabled if needed.
+the exit-node setting inadvertently. Restart Tailscale after reloading networking
+to restore its return routes. Using the API backup, restore the device's prior
+enabled-route list and remove only the added `9e.network` split-DNS entry (PATCH
+its value to `null`); preserve any unrelated later changes. Once the router
+tunnel is down, one old client connection can be recreated if needed.
