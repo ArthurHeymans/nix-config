@@ -95,5 +95,6 @@
     usbutils
     vim
     wget
+    zmx
   ];
 }

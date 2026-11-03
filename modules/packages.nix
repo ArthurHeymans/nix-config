@@ -47,7 +47,6 @@ in
     wavemon
     wifi-qr
     zellij
-    zmx
   ];
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
