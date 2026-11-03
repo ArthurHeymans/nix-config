@@ -8,6 +8,7 @@
 {
   imports = [
     ../../modules/server.nix
+    ../../modules/flashing.nix
     inputs.disko.nixosModules.disko
     ./disk-config.nix
     ./hardware-configuration.nix
