@@ -30,7 +30,10 @@ old configurations disabled until the router is verified, for rollback.
 On the One, install `kmod-wireguard` and `wireguard-tools` using `apk`. Neither
 was installed when checked. The kernel module must match the running firmware;
 if the release-candidate feeds no longer provide it, upgrade to a supported
-firmware first. Do not force-install a mismatched kernel module. Tailscale,
+firmware first. Do not force-install a mismatched kernel module. After the first
+installation, restart networking once (`/etc/init.d/network restart`) so netifd
+loads the new WireGuard protocol. This briefly interrupts LAN connectivity;
+reconnect over LAN SSH before running the setup script. Tailscale,
 firewall4, `jsonfilter`, the `network.tailscale` interface, and a `tailscale`
 firewall zone already exist and are required by the script.
 
@@ -53,7 +56,9 @@ ssh root@192.168.0.151 'sh /root/setup-office-vpn.sh /root/office-wg.key'
 ```
 
 Do not run the script with shell tracing. It validates the board, key, existing
-Tailscale setup, and absence of pending UCI changes before configuring anything.
+Tailscale setup, registered WireGuard protocol, and absence of pending UCI
+changes before configuring anything. It waits for the interface to come up
+before advertising routes; an asynchronous `ifup` exit status alone is insufficient.
 It prints a root-only backup directory containing the previous network,
 firewall, and Tailscale preferences. Rerunning replaces only its own sections.
 It reloads services without restarting the whole LAN network.
@@ -66,9 +71,9 @@ rule rejects fallback through other zones if the tunnel route disappears
 (the router already permits Tailscale-to-LAN forwarding). MTU 1280 plus fw4 MSS
 clamping is conservative for nested tunnels; retain the SSH `socat` workaround.
 
-Network/firewall UCI and Tailscale preferences persist across reboot. Include
-`/etc/sysctl.d/90-office-router.conf` in `/etc/sysupgrade.conf` to preserve the
-explicit forwarding setting across upgrades, and retain the WireGuard packages
+Network/firewall UCI and Tailscale preferences persist across reboot. The script
+adds `/etc/sysctl.d/90-office-router.conf` to `/etc/sysupgrade.conf` to preserve
+the explicit forwarding setting across upgrades. Retain the WireGuard packages
 in the upgraded image. Remove the temporary `/root/office-wg.key` after success;
 the active copy remains in `/etc/config/network`.
 
@@ -102,9 +107,9 @@ including one away from home, verify `tailscale debug prefs` has `RouteAll: true
 then check office DNS and actual lab access:
 
 ```sh
-dig @10.0.5.1 spyral.lab.9e.network
-resolvectl query spyral.lab.9e.network
-ssh spyral.lab.9e.network
+dig @10.0.5.1 stroh80-bmc.lab.9e.network
+resolvectl query stroh80-bmc.lab.9e.network
+ping -c 3 10.93.130.205
 ```
 
 A client-side `ip route get` should use `tailscale0`. Recheck after a router
@@ -113,11 +118,44 @@ on m900 and coding, and the `9elements-wg` NetworkManager connections on
 t480-arthur and gmktec-k11. Check for and remove any stale per-client office DNS
 settings as well. No live connection cleanup is performed by this commit.
 
+## Live deployment (2026-11-03)
+
+- Installed matching WireGuard packages from the rc4 feeds, restarted netifd
+  once to register the protocol, and applied this script successfully twice.
+- Verified an active handshake and both routes via `office`, office DNS lookup
+  of `stroh80-bmc.lab.9e.network` (`10.93.130.205`), and three 1200-byte ICMP
+  payloads to that BMC with no loss. SSH through the router reached
+  `caliptra-pi` (`worker122`) and `caliptra-fpga` (`versal`). These SSH tests used
+  a LAN SSH proxy through the router, **not yet the unapproved subnet routes**.
+- Native `fw4 check` passes; the scoped forwarding/rejection rules and egress
+  masquerade chain are installed. Removed the temporary router key file.
+- Applied persistent Tailscale route acceptance and loose reverse-path filtering
+  on gmktec-k11, coding, m900, and mj11. The preferences survive restart; an
+  additional `/etc/sysctl.d/90-office-tailscale-client.conf` persists filtering
+  until the declarative module is rebuilt. No full OS rebuild was performed.
+- Stopped m900's manually created `9elements-wg` interface and disabled k11's
+  NetworkManager connection autoconnect. Original configurations are retained
+  for rollback pending end-to-end verification. t480-arthur is unreachable, so
+  its old connection still needs disabling before it can reclaim the shared key.
+- **Pending:** approve the two office routes and add the restricted DNS entry in
+  Tailscale's admin console. The API credential request was declined; clients
+  still receive only the One's own Tailscale IP, not its office routes. Do not
+  claim off-site/tailnet connectivity until approved and tested. gmktec-g3's live
+  client settings also require sudo access; its declarative module is updated.
+- Office DNS itself returns NXDOMAIN for `spyral.lab.9e.network`; this is not a
+  tunnel failure. Use the verified BMC record for DNS tests and ask office IT to
+  correct the missing record if that name is still needed.
+
+The original pre-deployment network/firewall/Tailscale backup on the router is
+`/root/office-vpn-backup.BdMHGm`. Later reruns also created backups, but those
+already contain the office configuration.
+
 ## Rollback
 
 Use LAN SSH, stop `office` with `ifdown office`, and restore `network` and
 `firewall` from the printed backup directory to `/etc/config/`. Remove
-`/etc/sysctl.d/90-office-router.conf`, reload network and firewall, and restore
+`/etc/sysctl.d/90-office-router.conf` and its `/etc/sysupgrade.conf` entry,
+reload network and firewall, and restore
 the old non-default advertised routes with `tailscale set --advertise-routes=...`
 from `tailscale-prefs.json` (the checked router previously advertised
 `192.168.1.0/24` and was an exit node). Restore `--snat-subnet-routes` according

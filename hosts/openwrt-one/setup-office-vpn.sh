@@ -16,6 +16,8 @@ fail() {
     fail 'This setup is only for the OpenWrt One (not the GL-BE9300).'
 [ -f /lib/netifd/proto/wireguard.sh ] && command -v wg >/dev/null ||
     fail 'Install matching kmod-wireguard and wireguard-tools packages first.'
+[ -n "$(ubus call network get_proto_handlers | jsonfilter -e '@.wireguard')" ] ||
+    fail 'Restart networking once after installing WireGuard, then rerun this script.'
 [ "$(uci -q get network.tailscale.device)" = tailscale0 ] ||
     fail 'Expected the existing network.tailscale interface on tailscale0.'
 uci show firewall | grep -q "\.name='tailscale'$" ||
@@ -117,9 +119,22 @@ tailscale set --accept-dns=false
 # Forwarding is already enabled on this router; persist it explicitly as well.
 printf 'net.ipv4.ip_forward=1\n' > /etc/sysctl.d/90-office-router.conf
 sysctl -p /etc/sysctl.d/90-office-router.conf
+grep -qxF /etc/sysctl.d/90-office-router.conf /etc/sysupgrade.conf ||
+    printf '/etc/sysctl.d/90-office-router.conf\n' >> /etc/sysupgrade.conf
 /etc/init.d/firewall reload
 /etc/init.d/network reload
 ifup office
+
+# ifup queues an asynchronous netifd operation; a zero exit status does not
+# mean the interface actually came up. Never advertise an absent tunnel.
+up=false
+for _attempt in 1 2 3 4 5 6 7 8 9 10; do
+    up="$(ubus call network.interface.office status | jsonfilter -e '@.up')"
+    [ "$up" = true ] && break
+    sleep 1
+done
+[ "$up" = true ] || fail 'Office interface did not come up; inspect netifd logs.'
+wg show office >/dev/null
 
 # fw4 masquerading on the office egress is deliberate: the office must see
 # 10.0.5.23 even if Tailscale's own netfilter/SNAT implementation changes.
