@@ -35,7 +35,10 @@
     in
     {
       _module.args.hosts = hosts;
-      imports = [ ../users/arthur/nixos.nix ];
+      imports = [
+        ../users/arthur/nixos.nix
+        ../modules/tailscale.nix
+      ];
 
       microvm = {
         hypervisor = "qemu";
@@ -120,10 +123,7 @@
         };
       };
       services.resolved.enable = true;
-      services.tailscale = {
-        enable = true;
-        openFirewall = true;
-      };
+      services.tailscale.openFirewall = true;
       programs.nix-ld.enable = true;
       nix.settings = {
         experimental-features = [
