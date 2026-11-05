@@ -8,6 +8,7 @@ let
   system = pkgs.stdenv.hostPlatform.system;
   piNode = inputs.llm-agents.packages.${system}.pi.override { useBun = false; };
   t3code = import ../packages/t3code.nix { inherit pkgs inputs lib; };
+  playwriter = pkgs.callPackage ../packages/playwriter.nix { };
   t3codeServer = pkgs.writeShellScript "t3code-server" ''
     while ${lib.getExe pkgs.netcat-openbsd} -z 127.0.0.1 13773 >/dev/null 2>&1; do
       ${pkgs.coreutils}/bin/sleep 5
@@ -34,10 +35,13 @@ in
   home.packages = with pkgs; [
     entire
     piNode
+    playwriter
     jj-hunk
     jq # often used for parsing nixos output in AI agents
     t3code
   ];
+
+  home.file.".agents/skills/playwriter/SKILL.md".source = ./pi-skills/playwriter/SKILL.md;
 
   xdg.desktopEntries.t3code-native = {
     name = "T3 Code Desktop";
