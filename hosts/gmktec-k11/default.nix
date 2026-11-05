@@ -5,6 +5,9 @@
   username,
   ...
 }:
+let
+  gpuUnlock = config.boot.kernelPackages.callPackage ../../packages/gpu-unlock.nix { };
+in
 {
   imports = [
     ../../modules/system.nix
@@ -68,6 +71,28 @@
     open = true;
     nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
+
+  # Unlock the RTX 3090 before NVIDIA claims it, including early initrd loads.
+  boot.extraModulePackages = [ gpuUnlock ];
+  hardware.firmware = [ gpuUnlock.firmware ];
+  boot.initrd.kernelModules = [ "gpu_unlock" ];
+  boot.kernelParams = [ "gpu_unlock.targets=all" ];
+  # Order before both explicit module loading and PCI coldplug, so NVIDIA
+  # cannot race the unlock. NVIDIA also defines its own modprobe softdeps.
+  boot.initrd.systemd.services.gpu-unlock = {
+    description = "Unlock GeForce tensor cores before loading NVIDIA";
+    wantedBy = [ "sysinit.target" ];
+    before = [
+      "systemd-modules-load.service"
+      "systemd-udevd.service"
+    ];
+    unitConfig.DefaultDependencies = false;
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.kmod}/bin/modprobe gpu_unlock";
+      RemainAfterExit = true;
+    };
   };
 
   # lanzaboote replaces systemd
