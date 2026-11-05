@@ -9,7 +9,6 @@
   imports = [
     ../../modules/system.nix
     ../../modules/nix-serve.nix
-    ../../modules/nix-auto-update.nix
     ../../modules/openrgb.nix
     ./hardware-configuration.nix
     inputs.lanzaboote.nixosModules.lanzaboote

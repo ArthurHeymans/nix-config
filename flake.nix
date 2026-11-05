@@ -137,7 +137,6 @@
       hosts = {
         live = {
           kind = "desktop";
-          buildOnUpdate = false;
         };
         x220-nixos = {
           kind = "desktop";
@@ -153,16 +152,13 @@
         };
         gmktec-g3 = {
           kind = "server";
-          buildOnUpdate = false;
         };
         mj11 = {
           kind = "server";
-          buildOnUpdate = false;
           sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKriv7/KNUcg2++jhcfi2YaMf50i4JMzcurCN28P0iiZ arthur@mj11";
         };
         m900 = {
           kind = "server";
-          buildOnUpdate = false;
           sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPeY0EdIx+rLhsy/6YkHo6/6vv1AWXeySL8+NmiW2ex2 arthur@m900";
         };
         t480-arthur = {
@@ -175,19 +171,14 @@
         };
         x61-arthur = {
           kind = "desktop";
-          buildOnUpdate = false;
           sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGLia2BubtMLFw1tDiDdDtIRcG2Pg0Nl8vTS8q0Z1tng arthur@x61-arthur";
         };
       };
-      updateHostNames = builtins.attrNames (
-        nixpkgs.lib.filterAttrs (_: host: host.buildOnUpdate or true) hosts
-      );
       specialArgs = {
         inherit
           username
           inputs
           hosts
-          updateHostNames
           ;
       };
 

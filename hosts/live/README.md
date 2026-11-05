@@ -28,5 +28,4 @@ sudo nixos-rebuild switch --flake /home/arthur/src/nix-config#live
 ```
 
 Watch free space when rebuilding: the drive is small, and previous
-generations keep their store paths alive. `live` is excluded from the
-nightly multi-host build list.
+generations keep their store paths alive.
