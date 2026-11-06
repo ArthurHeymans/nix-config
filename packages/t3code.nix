@@ -4,7 +4,9 @@
   lib,
 }:
 let
-  t3codeVersion = "0.0.44-everythingarthur.2591c1f5";
+  sourceVersion =
+    (builtins.fromJSON (builtins.readFile (inputs.t3code-src + "/apps/server/package.json"))).version;
+  t3codeVersion = "${sourceVersion}-everythingarthur.${builtins.substring 0 8 inputs.t3code-src.rev}";
   # The EverythingArthur fork's vite `t3code:third-party-licenses` plugin downloads
   # SPDX license texts from raw.githubusercontent.com during the production
   # build, but the Nix sandbox has no network and `/.generated/` (its cache
@@ -69,9 +71,9 @@ let
           src
           pnpmWorkspaces
           ;
-        pnpm = pkgs.pnpm_11;
-        fetcherVersion = 4;
-        hash = "sha256-yMHoqvIpfLnROuEgts+Q6ZVisJZbzPiBzceg9XKz/Jo=";
+        pnpm = pkgs.pnpm_12;
+        fetcherVersion = 5;
+        hash = "sha256-mnk//lvHJbON8MRoOAIA5dXX1r7pHJvW5q+/Lqk5MRk=";
       };
     }
   );
