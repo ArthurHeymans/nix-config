@@ -2,6 +2,7 @@
 let
   # The upstream x86-64-v3 RUSTFLAGS require AVX2; older hosts need v2.
   voxtype = pkgs.voxtype.overrideAttrs (old: {
+    buildInputs = (old.buildInputs or [ ]) ++ [ pkgs.sqlite ];
     env = (old.env or { }) // {
       RUSTFLAGS = "-C target-cpu=x86-64-v2";
     };

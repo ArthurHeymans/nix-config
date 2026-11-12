@@ -12,6 +12,12 @@ let
 
     cargoLock.lockFile = "${inputs.ement-e2ee}/Cargo.lock";
 
+    nativeBuildInputs = [ pkgs.pkg-config ];
+    buildInputs = [
+      pkgs.aws-lc
+      pkgs.sqlite
+    ];
+
     # reqwest's native certificate loader also runs in the sandboxed tests.
     env.SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
 

@@ -20,7 +20,10 @@ let
     cargoHash = "sha256-r8AvlTJQ+j5YoLGJe3xIA0q+DPDTMKfhlT+nwFfNsPw=";
 
     nativeBuildInputs = [ pkgs.pkg-config ];
-    buildInputs = [ pkgs.openssl ];
+    buildInputs = [
+      pkgs.openssl
+      pkgs.zstd
+    ];
 
     # tests require a ghidra installation at build time
     doCheck = false;
