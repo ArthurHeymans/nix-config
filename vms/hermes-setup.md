@@ -1,24 +1,9 @@
 # Hermes diagnostics setup
 
-Hermes keeps its graphical Chromium session for browser automation, but no
-longer exposes VNC or a web desktop.
-
-## SSH identity
-
-`secrets/hermes-ssh-key.yaml` contains the dedicated SOPS-encrypted private key.
-Only gmktec-g3 (the VM host), gmktec-k11 and t14s-g6 (for recovery/rotation)
-are recipients.
-The host decrypts it using `/etc/ssh/ssh_host_ed25519_key`, then copies it into a
-single-credential directory in `/run`, shared read-only with Hermes. Neither
-plaintext key material nor a decryption key enters the Nix store. The matching
-public key is in `secrets/hermes-ssh-key.pub`.
-
-Deploy the host configuration to gmktec-g3 and the diagnostic-account module to
-the machines you want Hermes to inspect. The account is `hermes-diagnostics`,
-with journal access but no wheel membership, sudo rules, or Nix trust. The SSH
-key disables forwarding, PTYs and user SSH rc files, and only accepts connections
-from Tailscale addresses. It still permits an ordinary unprivileged shell:
-**this is not a strictly read-only account**. Journal access can expose secrets.
+Deploy [`hermes.nix`](hermes.nix) on gmktec-g3 and the
+[diagnostic account](../modules/hermes-diagnostics.nix) on the target hosts.
+The SSH restrictions still allow an ordinary unprivileged shell: this is not
+strictly read-only access. The journal may contain secrets.
 
 ## Tailscale enrollment and policy
 
@@ -47,15 +32,13 @@ ssh arthur@192.168.0.8 \
   'sudo tailscale up --advertise-tags=tag:hermes --accept-routes=false --ssh=false'
 ```
 
-Complete the interactive login as the tailnet administrator. No reusable
-Tailscale enrollment secret is stored in this repository. The node state is
-persisted in `/srv/hermes/tailscale`, mounted at `/var/lib/tailscale` in the VM.
-Enable MagicDNS so the host names listed in Hermes's diagnostic skill resolve.
+Complete the interactive login as the tailnet administrator. Enable MagicDNS
+so the host names listed in Hermes's diagnostic skill resolve.
 
 ## Host-key verification
 
-SSH uses strict host-key checking and batch mode. Provision trusted host keys
-in Hermes's persistent `/home/arthur/.ssh/known_hosts` before asking it to connect.
+Provision trusted host keys in Hermes's `/home/arthur/.ssh/known_hosts`
+before asking it to connect.
 For each machine, obtain its public host key through an existing trusted SSH
 connection or its local console:
 
@@ -71,11 +54,9 @@ smoke-test from Hermes:
 ssh hermes-diagnostics@HOSTNAME 'id; systemctl --failed; journalctl -b -n 30 --no-pager'
 ```
 
-The diagnostic skill asks Hermes to report evidence and propose fixes, and to
-request approval before mutations. Remote privilege limits are enforced by the
-account; conversational approval is not a security boundary. Verify the chat
-gateway only accepts your intended sender identities (its credentials and
-allowlist are runtime configuration, not managed here).
+Conversational approval is not a security boundary. Verify that the chat
+gateway only accepts your intended sender identities; its credentials and
+allowlist are runtime configuration.
 
 ## Revocation and rotation
 
