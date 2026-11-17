@@ -12,6 +12,7 @@
       pi = llmAgents.pi.override { useBun = false; };
       claudeCode = llmAgents.claude-code;
       t3code = import ../packages/t3code.nix { inherit pkgs inputs lib; };
+      router = import ../packages/t3-router.nix { inherit pkgs; };
       tools = with pkgs; [
         bash
         cargo
@@ -46,6 +47,14 @@
         ../modules/tailscale.nix
       ];
       services.qshFleet.enable = true;
+      users.groups.t3-router = { };
+      users.users.t3-router = {
+        isSystemUser = true;
+        group = "t3-router";
+      };
+      systemd.services.t3-router = router.services.t3-router;
+      systemd.services.t3-router-ingress = router.services.t3-router-ingress;
+      systemd.services.t3-router-usage = router.services.t3-router-usage;
 
       microvm = {
         hypervisor = "qemu";
@@ -143,6 +152,7 @@
         pi
         claudeCode
         t3code
+        router.packages.proxy
       ];
       environment.extraInit = ''
         if [ -r "$HOME/.config/coding/api-keys.env" ]; then
