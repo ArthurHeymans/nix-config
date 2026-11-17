@@ -18,6 +18,9 @@
     pkgs.sbctl
   ];
 
+  # Enable the Bluetooth radio when thinkpad_acpi loads.
+  boot.kernelParams = [ "thinkpad_acpi.bluetooth=enable" ];
+
   # lanzaboote replaces systemd
   boot.loader.custom.bootloader = "none";
 
