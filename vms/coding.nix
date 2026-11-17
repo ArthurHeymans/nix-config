@@ -8,9 +8,9 @@
   microvm.vms.coding.config =
     { lib, pkgs, ... }:
     let
-      pi = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.pi.override {
-        useBun = false;
-      };
+      llmAgents = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
+      pi = llmAgents.pi.override { useBun = false; };
+      claudeCode = llmAgents.claude-code;
       t3code = import ../packages/t3code.nix { inherit pkgs inputs lib; };
       tools = with pkgs; [
         bash
@@ -141,6 +141,7 @@
       };
       environment.systemPackages = tools ++ [
         pi
+        claudeCode
         t3code
       ];
       environment.extraInit = ''
@@ -168,7 +169,7 @@
         script = ''
           install -d -m 700 "$HOME/repos" "$HOME/.t3" "$HOME/.t3/userdata"
           if [ ! -e "$HOME/.t3/userdata/settings.json" ]; then
-            printf '%s\n' '{"providerInstances":{"pi":{"driver":"pi","enabled":true,"config":{}}}}' \
+            printf '%s\n' '{"providerInstances":{"pi":{"driver":"pi","enabled":true,"config":{}},"claude":{"driver":"claudeAgent","enabled":true,"config":{}}}}' \
               > "$HOME/.t3/userdata/settings.json"
             chmod 600 "$HOME/.t3/userdata/settings.json"
           fi
@@ -184,7 +185,10 @@
         ];
         wants = [ "network-online.target" ];
         requires = [ "coding-init.service" ];
-        path = tools ++ [ pi ];
+        path = tools ++ [
+          pi
+          claudeCode
+        ];
         environment.HOME = "/home/arthur";
         serviceConfig = {
           User = "arthur";
