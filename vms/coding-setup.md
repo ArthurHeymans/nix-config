@@ -108,6 +108,20 @@ and `xhigh`; choose the level in the effort picker. No Pi extension is needed
 for the proxy route. For direct OAuth on an individual worker, `pi-antigravity`
 adds a separate `/login antigravity` flow.
 
+The worker installer creates one `proxy` provider in Pi for Claude, OpenAI,
+Muse, and Antigravity. Re-run it to refresh the list. Add `--migrate-t3-favorites` to move
+matching Pi favorites in T3 to `proxy` without changing favorites the hub
+can't serve. In threads saved with `fleet-claude` or `fleet-codex`, reselect
+the model under `proxy`. The installer does not copy `auth.json`. To enroll
+an offline worker after it returns, run from the checkout:
+
+```sh
+worker=m900
+scp scripts/t3-router-worker.py "$worker:~/t3-router-worker.py"
+ssh coding "sudo jq -er --arg worker '$worker' '.[\$worker]' /etc/t3-router/worker-keys.json" |
+  ssh "$worker" 'python3 ~/t3-router-worker.py https://coding.tail19d694.ts.net --migrate-t3-favorites && rm ~/t3-router-worker.py'
+```
+
 ## Live deployment handoff
 
 The live router was deployed using unit symlinks under
