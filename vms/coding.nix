@@ -1,4 +1,9 @@
-{ inputs, hosts, ... }:
+{
+  inputs,
+  hosts,
+  username,
+  ...
+}:
 {
   microvm.vms.coding.config =
     { lib, pkgs, ... }:
@@ -34,11 +39,13 @@
       ];
     in
     {
-      _module.args.hosts = hosts;
+      _module.args = { inherit hosts username; };
       imports = [
         ../users/arthur/nixos.nix
+        ../modules/qsh.nix
         ../modules/tailscale.nix
       ];
+      services.qshFleet.enable = true;
 
       microvm = {
         hypervisor = "qemu";

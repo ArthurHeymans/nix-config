@@ -195,8 +195,10 @@
           modules = [
             ./hosts/${hostname}
             ./users/${username}/nixos.nix
+            ./modules/qsh.nix
             home-manager.nixosModules.home-manager
             {
+              services.qshFleet.enable = hostname != "live";
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = {
@@ -228,6 +230,17 @@
     in
     {
       checks.${system}.pre-commit-check = preCommitCheck;
+
+      packages = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (target: {
+        qsh-fleet = import ./packages/qsh-fleet.nix {
+          pkgs = nixpkgs.legacyPackages.${target};
+          inherit username;
+          authorizedKeys = import ./users/${username}/ssh-keys.nix {
+            inherit (nixpkgs) lib;
+            inherit hosts;
+          };
+        };
+      });
 
       devShells.${system}.default = pkgs.mkShell {
         shellHook = preCommitCheck.shellHook;

@@ -44,6 +44,27 @@ nixos-rebuild switch --flake .#$(hostname) --option extra-substituters "http://g
  (format "NIX_SSHOPTS=\"-C\" nixos-rebuild switch --flake .#%s --target-host %s --ask-sudo-password" targethost targethost))
 #+end_src
 
+* qsh over Tailscale
+The NixOS configurations and the =coding= VM run =qshd.service= as Arthur's
+systemd user service. It binds the machine's Tailscale IPv4 address on UDP
+and TCP 4422 and uses Arthur's declarative SSH public keys. OpenSSH and its
+host keys are unchanged. The live ISO installs the client but not the service.
+
+After verifying and pinning the qsh host key, test with:
+#+begin_src sh
+qsh -v --transport quic -oStrictHostKeyChecking=yes mj11
+#+end_src
+
+The service generates its own persistent host key. Read the =.pub= file over
+an already trusted SSH connection before accepting the qsh key:
+#+begin_src sh
+ssh mj11 ssh-keygen -lf .local/state/qsh-fleet/host_ed25519.pub
+#+end_src
+
+Use =systemctl --user status qshd= and =journalctl --user -u qshd= to inspect
+it. =nix build path:.#qsh-fleet= builds the client and the same user unit for
+installing into a user profile without activating a new NixOS generation.
+
 * update flake
 Update flake inputs to their latest versions.
 
