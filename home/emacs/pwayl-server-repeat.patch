@@ -1,0 +1,49 @@
+--- a/src/pwaylterm.c
++++ b/src/pwaylterm.c
+@@ -2533,6 +2533,15 @@
+   if (!f || !dpyinfo->xkb_state)
+     return;
+ 
++  /* With wl_keyboard v10, repeat_info(rate=0) leaves repetition to the
++     compositor.  Repeats are input, but not a new grab or user interaction,
++     and must never re-arm the legacy client-side timer.  */
++  if (key_state == WL_KEYBOARD_KEY_STATE_REPEATED)
++    {
++      pwayl_send_key_event (dpyinfo, f, key, time);
++      return;
++    }
++
+   dpyinfo->last_user_time = time;
+ 
+   if (key_state != WL_KEYBOARD_KEY_STATE_PRESSED)
+@@ -3512,6 +3521,13 @@
+   dpyinfo->scroll_stop = false;
+ }
+ 
++static void
++pwayl_pointer_axis_relative_direction (void *data, struct wl_pointer *pointer,
++                                       uint32_t axis, uint32_t direction)
++{
++  /* Axis values already include the compositor's scrolling direction.  */
++}
++
+ static const struct wl_pointer_listener wl_pointer_listener = {
+   .enter = pwayl_pointer_enter,
+   .leave = pwayl_pointer_leave,
+@@ -3523,6 +3539,7 @@
+   .axis_stop = pwayl_pointer_axis_stop,
+   .axis_discrete = pwayl_pointer_axis_discrete,
+   .axis_value120 = pwayl_pointer_axis_value120,
++  .axis_relative_direction = pwayl_pointer_axis_relative_direction,
+ };
+ 
+ /* Drop the wl_keyboard: clear focus/repeat state first, then release
+@@ -3671,7 +3688,7 @@
+ 	{
+ 	  dpyinfo->seat
+ 	    = wl_registry_bind (registry, name, &wl_seat_interface,
+-				version < 8 ? version : 8);
++				version < 10 ? version : 10);
+ 	  dpyinfo->seat_registry_name = name;
+ 	  wl_seat_add_listener (dpyinfo->seat, &wl_seat_listener, dpyinfo);
+ 	  pwayl_selection_setup (dpyinfo);

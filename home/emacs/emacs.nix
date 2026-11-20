@@ -38,10 +38,9 @@ let
         ])
       ) (old.patches or [ ])
       ++ [
-        (builtins.path {
-          path = "${inputs.ewm}/emacs/pwayl-server-repeat.patch";
-          name = "pwayl-server-repeat.patch";
-        })
+        # Refresh EWM's server-repeat patch for the upstream v8 seat and
+        # axis_value120 handler, preserving compositor-driven key repetition.
+        ./pwayl-server-repeat.patch
       ];
     configureFlags =
       lib.filter (
