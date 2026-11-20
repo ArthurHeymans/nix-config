@@ -41,6 +41,9 @@
   # Match the other hosts: direct HTTP on LAN and Tailscale, without Serve.
   networking.firewall.allowedTCPPorts = [ 13773 ];
 
+  # T3 Code's managed Antigravity runtime uses the standard Linux loader.
+  programs.nix-ld.enable = true;
+
   environment.systemPackages = with pkgs; [
     ast-grep
     autoconf

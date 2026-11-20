@@ -151,8 +151,15 @@
       environment.systemPackages = tools ++ [
         pi
         claudeCode
+        pkgs.antigravity-cli
         t3code
         router.packages.proxy
+      ];
+      # T3 links this directory into its private Antigravity profile.
+      systemd.tmpfiles.rules = [
+        "d /home/arthur/.gemini 0700 arthur users - -"
+        "d /home/arthur/.gemini/config 0700 arthur users - -"
+        "L /home/arthur/.gemini/config/skills - - - - /home/arthur/.agents/skills"
       ];
       environment.extraInit = ''
         if [ -r "$HOME/.config/coding/api-keys.env" ]; then
