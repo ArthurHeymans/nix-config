@@ -26,7 +26,7 @@ let
           ;
         pnpm = pkgs.pnpm_12;
         fetcherVersion = 5;
-        hash = "sha256-mnk//lvHJbON8MRoOAIA5dXX1r7pHJvW5q+/Lqk5MRk=";
+        hash = "sha256-aqJYujlMFpJG3i+kn35Zd3tjymzxZ7Ero9dQQHPXXpE=";
       };
     }
   );
