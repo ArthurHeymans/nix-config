@@ -105,11 +105,11 @@
     "doomemacs": {
       "flake": false,
       "locked": {
-        "lastModified": 1794949266,
-        "narHash": "sha256-r8xczNQnhZAQsQlurO2gSpbddKdyxr1hI0U9eDdUOE0=",
+        "lastModified": 1795129205,
+        "narHash": "sha256-h+oBVuhexYRWlt655ZPzNcAnz39hScrRq5zIfsPFmk0=",
         "owner": "doomemacs",
         "repo": "core",
-        "rev": "759fb66e33132f85e8cb7ac7f0fefeb360d1a8c0",
+        "rev": "38897297fe973dccd3eb7ae5baa0722498323fbe",
         "type": "github"
       },
       "original": {
@@ -144,11 +144,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795021202,
-        "narHash": "sha256-bccldzkyxvm8FuwT3buRc6hmre0qNSWQi6HqfFPHVQg=",
+        "lastModified": 1795192965,
+        "narHash": "sha256-2Jpy40EVP9OAec84cs6cYPFWvQBd/eUjepJ33nZumkQ=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "882675ce755919a401a530b2c09b4e1e360ba962",
+        "rev": "7f3163be242f44459a27273f66b04d886a1ab41b",
         "type": "github"
       },
       "original": {
@@ -411,11 +411,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794963576,
-        "narHash": "sha256-+CPrP74GDJ63f7bgEFC9Av4hbxc7K9WUNv1ZVRifRe8=",
+        "lastModified": 1795268568,
+        "narHash": "sha256-1RJm4DEu7YHJv94sjSY7sjqT+kHx/AUwmtUN4dtFBUo=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "2b13c9cb3aa20653e6f8ee0b7f8331a53ea9b0a9",
+        "rev": "6857c7f7c338ad181729c52071386b0d3afa24bc",
         "type": "github"
       },
       "original": {
@@ -459,11 +459,11 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1795219766,
-        "narHash": "sha256-IgFMPjdCMXf5R6ESu4QXZsoTHQmQiC29ba6dezi7hEI=",
+        "lastModified": 1795304504,
+        "narHash": "sha256-BHpBHnFKQ6Q0nXUUiVxcgFl9E8boHHSuCHxsUQfviUY=",
         "owner": "numtide",
         "repo": "llm-agents.nix",
-        "rev": "d0810b5d0a80c16783c5180ffa848ba4a8aa8a62",
+        "rev": "91fde7b18469fbc0938d6ab04566463bc3ba3395",
         "type": "github"
       },
       "original": {
@@ -480,11 +480,11 @@
         "spectrum": "spectrum"
       },
       "locked": {
-        "lastModified": 1795106485,
-        "narHash": "sha256-cK+o/P3zE/1GW68p0URGGaI0mx8fAj2EAyG9CNmOII0=",
+        "lastModified": 1795298370,
+        "narHash": "sha256-mruPu1cqOVBxPiRwrh6r1tnX1OAzMggy+rDk6YuqhK8=",
         "owner": "microvm-nix",
         "repo": "microvm.nix",
-        "rev": "d70265960646e506757f8364e8585c17a06050e7",
+        "rev": "430a46d03ef15f1b8b715fafa85f21847960b783",
         "type": "github"
       },
       "original": {
@@ -502,11 +502,11 @@
         "nixpkgs": []
       },
       "locked": {
-        "lastModified": 1795022428,
-        "narHash": "sha256-xfQRa+w2JLfF/bDbVDgo/xYextVAd9c6zfes2GA+zNM=",
+        "lastModified": 1795194056,
+        "narHash": "sha256-ffbsE63dH1mATp6Gyqk0J7mUBMFXeHwSFfotgzlhn1o=",
         "owner": "marienz",
         "repo": "nix-doom-emacs-unstraightened",
-        "rev": "261743afecd9b6a3dc4babe0baffbd0c8e649ed8",
+        "rev": "7eecc25eff683099bd81eb4d4cdb1738a1ab88fc",
         "type": "github"
       },
       "original": {
@@ -549,11 +549,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1795085501,
-        "narHash": "sha256-S5keGWzaKpuXo9MNoIC2FfTIuTyTnx8P4NhYJMEsTLI=",
+        "lastModified": 1795234589,
+        "narHash": "sha256-f/VVvxf5RsQgWVhUtefoca5ktVg0DA2bnkMOcmSnozo=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "0bb8272318b4ca41bf0edc6224df3e3e3046b70d",
+        "rev": "2786a2a72088ecf32aea5b3ec52099e6a7cff78f",
         "type": "github"
       },
       "original": {
@@ -647,11 +647,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1795183650,
-        "narHash": "sha256-pAk3gIBDlyWSib8y2sbia1YyBlTV/6R7og3jnm8V7YM=",
+        "lastModified": 1795243391,
+        "narHash": "sha256-TNjN96uLZm3XviYZxr98r0j00KIizyK+4OEewBk6Cq4=",
         "owner": "ArthurHeymans",
         "repo": "rflasher",
-        "rev": "a37c758fd373b4c23d631c20b78a64c1210205c3",
+        "rev": "08e05ecadf0e573dce8aa3fe5c8ada5b219b467c",
         "type": "github"
       },
       "original": {
