@@ -33,6 +33,7 @@ let
 in
 {
   home.packages = with pkgs; [
+    antigravity-cli
     entire
     piNode
     playwriter

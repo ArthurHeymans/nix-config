@@ -75,6 +75,7 @@ if pkgs.stdenv.hostPlatform.isLinux then
       for program in t3 t3code-desktop; do
         rm "$out/bin/$program"
         makeWrapper "${t3code}/bin/$program" "$out/bin/$program" \
+          --prefix PATH : ${lib.escapeShellArg (lib.makeBinPath [ pkgs.antigravity-cli ])} \
           --prefix LD_LIBRARY_PATH : ${lib.escapeShellArg browserLibraryPath}
       done
     '';
