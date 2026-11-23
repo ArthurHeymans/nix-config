@@ -1,4 +1,10 @@
-{ username, ... }: {
+{
+  config,
+  lib,
+  username,
+  ...
+}:
+{
   # ============================= User related =============================
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.${username} = {
@@ -14,8 +20,8 @@
       "plugdev"
       "video"
       "input"
-      "libvirtd"
-    ];
+    ]
+    ++ lib.optional config.virtualisation.libvirtd.enable "libvirtd";
     initialPassword = "password";
   };
 

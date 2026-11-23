@@ -1,4 +1,5 @@
 {
+  config,
   lib,
   pkgs,
   ...
@@ -29,7 +30,7 @@ let
     doCheck = false;
   };
 in
-{
+lib.mkIf config.my.features.dev.enable {
   home.packages = with pkgs; [
     rustup
     cargo-binutils

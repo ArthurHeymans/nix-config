@@ -1,31 +1,44 @@
-{ pkgs, ... }:
 {
-  fonts = {
-    packages = with pkgs; [
-      # icon fonts
-      material-design-icons
-      font-awesome
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
+  options.my.fonts.includeIosevka = lib.mkOption {
+    type = lib.types.bool;
+    default = true;
+    description = "Include the large nerd-fonts.iosevka package (~1.1 GiB).";
+  };
 
-      # normal fonts
-      noto-fonts
-      noto-fonts-cjk-sans
-      noto-fonts-color-emoji
+  config.fonts = {
+    packages =
+      with pkgs;
+      [
+        # icon fonts
+        material-design-icons
+        font-awesome
 
-      dejavu_fonts
-      hack-font
+        # normal fonts
+        noto-fonts
+        noto-fonts-cjk-sans
+        noto-fonts-color-emoji
 
-      fira
-      fira-mono
-      fira-code
-      fira-code-symbols
+        dejavu_fonts
+        hack-font
 
-      nerd-fonts.symbols-only
-      nerd-fonts.fira-code
-      nerd-fonts.jetbrains-mono
-      nerd-fonts.iosevka
-      nerd-fonts.caskaydia-cove
-      nerd-fonts.commit-mono
-    ];
+        fira
+        fira-mono
+        fira-code
+        fira-code-symbols
+
+        nerd-fonts.symbols-only
+        nerd-fonts.fira-code
+        nerd-fonts.jetbrains-mono
+        nerd-fonts.caskaydia-cove
+        nerd-fonts.commit-mono
+      ]
+      ++ lib.optional config.my.fonts.includeIosevka nerd-fonts.iosevka;
 
     # use fonts specified by user rather than default ones
     enableDefaultPackages = false;

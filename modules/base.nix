@@ -19,82 +19,90 @@
     ./zswap.nix
   ];
 
-  # Publish and resolve hostnames using mDNS on every host, including servers.
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    nssmdns6 = true;
-    openFirewall = true;
-    settings.publish = {
-      disable-publishing = false;
-      publish-addresses = true;
-      publish-domain = true;
+  options.my.nix.keepGenerations = lib.mkOption {
+    type = lib.types.ints.positive;
+    default = 5;
+    description = "Number of Nix generations to keep during daily nh clean.";
+  };
+
+  config = {
+    # Publish and resolve hostnames using mDNS on every host, including servers.
+    services.avahi = {
+      enable = true;
+      nssmdns4 = true;
+      nssmdns6 = true;
+      openFirewall = true;
+      settings.publish = {
+        disable-publishing = false;
+        publish-addresses = true;
+        publish-domain = true;
+      };
     };
-  };
 
-  # Use the newest kernel by default.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+    # Use the newest kernel by default.
+    boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  # Set hostname from flake configuration.
-  networking.hostName = hostname;
+    # Set hostname from flake configuration.
+    networking.hostName = hostname;
 
-  # Customise /etc/nix/nix.conf declaratively via `nix.settings`.
-  nix.settings = {
-    builders-use-substitutes = true;
-    experimental-features = [
-      "flakes"
-      "nix-command"
-    ];
-    substituters = [
-      "https://cache.nixos.org"
-    ];
-    trusted-public-keys = [
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-    ];
-    trusted-users = [ username ];
-  };
-
-  # Replace nix.gc with nh clean: keeps the last 5 generations across all
-  # profiles, removes stale gcroots, and runs nix store gc afterwards.
-  nix.gc.automatic = lib.mkDefault false;
-
-  systemd.services.nh-clean = {
-    description = "Clean old Nix generations with nh";
-    startAt = lib.mkDefault "daily";
-    path = [ config.nix.package ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.nh}/bin/nh clean all --keep 5";
-      Nice = 10;
-      IOSchedulingClass = "idle";
+    # Customise /etc/nix/nix.conf declaratively via `nix.settings`.
+    nix.settings = {
+      builders-use-substitutes = true;
+      experimental-features = [
+        "flakes"
+        "nix-command"
+      ];
+      substituters = [
+        "https://cache.nixos.org"
+      ];
+      trusted-public-keys = [
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      ];
+      trusted-users = [ username ];
     };
+
+    # Replace nix.gc with nh clean: keeps the last N generations across all
+    # profiles, removes stale gcroots, and runs nix store gc afterwards.
+    nix.gc.automatic = lib.mkDefault false;
+
+    systemd.services.nh-clean = {
+      description = "Clean old Nix generations with nh";
+      startAt = lib.mkDefault "daily";
+      path = [ config.nix.package ];
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.nh}/bin/nh clean all --keep ${toString config.my.nix.keepGenerations}";
+        Nice = 10;
+        IOSchedulingClass = "idle";
+      };
+    };
+
+    nixpkgs.config.allowUnfree = true;
+
+    environment.systemPackages = with pkgs; [
+      btop
+      curl
+      dmidecode
+      dnsutils
+      ethtool
+      eza
+      git
+      htop
+      jq
+      nh
+      lm_sensors
+      lsof
+      nload
+      pciutils
+      ripgrep
+      rsync
+      smartmontools
+      sysstat
+      tree
+      usbutils
+      vim
+      wget
+      zmx
+    ];
   };
-
-  nixpkgs.config.allowUnfree = true;
-
-  environment.systemPackages = with pkgs; [
-    btop
-    curl
-    dmidecode
-    dnsutils
-    ethtool
-    eza
-    git
-    htop
-    jq
-    nh
-    lm_sensors
-    lsof
-    nload
-    pciutils
-    ripgrep
-    rsync
-    smartmontools
-    sysstat
-    tree
-    usbutils
-    vim
-    wget
-    zmx
-  ];
 }

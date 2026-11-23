@@ -173,6 +173,10 @@
           kind = "desktop";
           sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGLia2BubtMLFw1tDiDdDtIRcG2Pg0Nl8vTS8q0Z1tng arthur@x61-arthur";
         };
+        google-peppy = {
+          kind = "desktop";
+          sshKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJPXsw4kRnqff7KPPWqivMu5EJxpJTci/l1PibifLzWb arthur@google-peppy";
+        };
       };
       specialArgs = {
         inherit

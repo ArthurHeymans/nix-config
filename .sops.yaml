@@ -6,6 +6,7 @@ keys:
   - &t480-arthur age1aqaey4gyy9meglslfytm3z2uxadq2nvdkthzvytrl8m8uax6lfxqs4lnr4
   - &x201-arthur age1guhcnvfmwqnng9dvfyzlzrlxrd99jrdycp8j0fhrkxvp6nzecy4qc6gldl
   - &x61-arthur age1hfvqs49qa82w5d4hamqxpze5hpau02jqhzxrfvk4sfkd5p5dzfvqyfv73s
+  - &google-peppy age1vsgn8uzytxf3sh72cllef4e2fz8ae2re044vdxd4tzfl2m60ddfscclg9n
 creation_rules:
   - path_regex: secrets/caddy-credentials\.yaml$
     key_groups:
@@ -32,3 +33,4 @@ creation_rules:
           - *t480-arthur
           - *x201-arthur
           - *x61-arthur
+          - *google-peppy
