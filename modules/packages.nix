@@ -13,7 +13,7 @@
     gnupg
     haveged
     hdparm
-    linux-wifi-hotspot # TODO re-enable when fixed
+    linux-wifi-hotspot
     nil
     nix-output-monitor
     nixfmt

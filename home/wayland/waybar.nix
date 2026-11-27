@@ -6,19 +6,13 @@
       mainBar = {
         position = "top";
         modules-left = [
-          # "sway/workspaces"
-          #          "hyprland/workspaces"
-          #          "niri/workspaces"
           "ext/workspaces"
           "sway/mode"
-          #          "hyprland/mode"
           "ext/mode"
-          #          "wlr/taskbar"
+          "wlr/taskbar"
         ];
         modules-center = [
           "sway/window"
-          #          "hyprland/window"
-          #          "niri/window"
           "ext/window"
         ];
         modules-right = [
@@ -27,18 +21,12 @@
           "bluetooth"
           "network"
           "mpd"
-          #          "temperature"
           "backlight"
           "battery"
           "clock"
           "tray"
           "custom/power"
         ];
-        # temperature = {
-        #   critical-threshold = 85;
-        #   format = "{temperatureC}°C {icon}";
-        #   format-icons = ["" "" ""];
-        # };
         backlight = {
           format = "{percent}% {icon}";
           format-icons = [
@@ -104,7 +92,7 @@
           format-linked = "{ifname} (No IP) ";
           format-disconnected = "Disconnected ⚠";
           format-alt = "{ifname}: {ipaddr}/{cidr}";
-          on-click-right = "alacritty -e nmtui";
+          on-click-right = "kitty -e nmtui";
         };
         idle_inhibitor = {
           start-activated = false;

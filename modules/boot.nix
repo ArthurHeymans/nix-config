@@ -1,9 +1,18 @@
-{ lib, config, pkgs, ... }:
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
 let
   cfg = config.boot.loader.custom;
   registerGrubFallback = pkgs.writeShellApplication {
     name = "register-grub-fallback";
-    runtimeInputs = with pkgs; [ efibootmgr gnugrep util-linux ];
+    runtimeInputs = with pkgs; [
+      efibootmgr
+      gnugrep
+      util-linux
+    ];
     text = ''
       export LC_ALL=C
       esp=$1
@@ -91,10 +100,12 @@ in
     (lib.mkIf (config.boot.loader.custom.bootloader == "grub") {
       boot.loader.systemd-boot.enable = false;
       boot.loader.efi.canTouchEfiVariables = !config.boot.loader.custom.grubEfiInstallAsRemovable;
-      assertions = [{
-        assertion = !cfg.grubRegisterFallback || cfg.grubEfiInstallAsRemovable;
-        message = "grubRegisterFallback requires grubEfiInstallAsRemovable.";
-      }];
+      assertions = [
+        {
+          assertion = !cfg.grubRegisterFallback || cfg.grubEfiInstallAsRemovable;
+          message = "grubRegisterFallback requires grubEfiInstallAsRemovable.";
+        }
+      ];
       boot.loader.grub = {
         enable = true;
         extraInstallCommands = lib.mkIf cfg.grubRegisterFallback ''

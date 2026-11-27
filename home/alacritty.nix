@@ -9,7 +9,6 @@
       window = {
         padding.x = 1;
         padding.y = 1;
-        #decorations = "buttonless";
         dimensions = {
           columns = 80;
           lines = 24;
@@ -19,22 +18,11 @@
 
       font = {
         size = 11.0;
-        #        use_thin_strokes = true;
 
         normal.family = "FiraCode Nerd Font Mono";
         bold.family = "FiraCode Nerd Font Mono";
         italic.family = "FiraCode Nerd Font Mono";
       };
-
-      # cursor.style = "Beam";
-
-      # shell = {
-      #   program = "fish";
-      #   args = [
-      #     "-C"
-      #     "neofetch"
-      #   ];
-      # };
 
       colors = {
         draw_bold_text_with_bright_colors = true;
