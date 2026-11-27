@@ -11,13 +11,13 @@
     ./disk-config.nix
   ];
 
-  # Install both BIOS GRUB and the UEFI removable-media fallback so fstart/CrabEFI
-  # can boot the internal SATA drive reliably without requiring NVRAM BootOrder writes.
+  # Keep both BIOS GRUB and the UEFI fallback; neither depends on a saved BootOrder.
   boot.loader.custom = {
     bootloader = "grub";
     grubDevice = "/dev/disk/by-id/ata-KINGSTON_SNS4151S332G_50026B724409A6A6";
     grubUseOSProber = false;
     grubEfiInstallAsRemovable = true;
+    grubRegisterFallback = true;
   };
   boot.loader.grub.configurationLimit = 3;
 

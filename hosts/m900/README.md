@@ -15,7 +15,8 @@ is not an installation target.
 - Service: `systemctl --user status t3code` and
   `journalctl --user -u t3code`.
 - Disk: 1 GiB EFI partition and Btrfs root/home/nix subvolumes; zram swap.
-- Boot: GRUB removable-media EFI fallback, suitable for its coreboot firmware.
+- Boot: GRUB installs the EFI fallback and tries to register it in `BootOrder`.
+  If firmware refuses the write, the fallback remains bootable.
 
 Build from this checkout with
 `nix build path:.#nixosConfigurations.m900.config.system.build.toplevel`.

@@ -14,12 +14,13 @@
     ./hardware-configuration.nix
   ];
 
-  # CrabEFI has volatile EFI variables; always install the fallback EFI path.
+  # Keep a bootable EFI fallback even when CrabEFI cannot save BootOrder.
   boot.loader.custom = {
     bootloader = "grub";
     grubDevice = "nodev";
     grubUseOSProber = false;
     grubEfiInstallAsRemovable = true;
+    grubRegisterFallback = true;
   };
   boot.loader.grub.configurationLimit = 5;
   boot.loader.grub.extraConfig = ''

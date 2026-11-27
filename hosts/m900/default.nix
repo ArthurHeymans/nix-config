@@ -14,12 +14,13 @@
     ./hardware-configuration.nix
   ];
 
-  # Install the fallback EFI loader without changing firmware boot entries.
+  # Keep a bootable EFI fallback even when CrabEFI cannot save BootOrder.
   boot.loader.custom = {
     bootloader = "grub";
     grubDevice = "nodev";
     grubUseOSProber = false;
     grubEfiInstallAsRemovable = true;
+    grubRegisterFallback = true;
   };
   boot.loader.grub.configurationLimit = 5;
 
