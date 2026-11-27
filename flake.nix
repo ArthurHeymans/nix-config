@@ -1,34 +1,20 @@
 {
   description = "Arthur Heymans's nix configuration for NixOS";
 
-  # Add outputs in here for now
-  # outputs = inputs: import ./outputs inputs;
-
-  # This is the standard format for flake.nix. `inputs` are the dependencies of the flake,
-  # Each item in `inputs` will be passed as a parameter to the `outputs` function after being pulled and built.
   inputs = {
-    # There are many ways to reference flake inputs. The most widely used is github:owner/name/reference,
-    # which represents the GitHub repository URL + branch/commit-id/tag.
-
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    # nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11"; #stable
-    #nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable"; #unstable
-    # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    # home-manager, used for managing user configuration
     home-manager = {
       url = "github:nix-community/home-manager";
-      # url = "github:nix-community/home-manager/release-24.11";
-
-      # The `follows` keyword in inputs is used for inheritance.
-      # Here, `inputs.nixpkgs` of home-manager is kept consistent with the `inputs.nixpkgs` of the current flake,
-      # to avoid problems caused by different versions of nixpkgs dependencies.
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     t3code-src = {
       url = "github:ArthurHeymans/t3code/EverythingArthur";
@@ -69,10 +55,6 @@
       url = "git+https://codeberg.org/ezemtsov/emacs?ref=wayland-31";
       flake = false;
     };
-
-    ########################  Some non-flake repositories  #########################################
-
-    ########################  My own repositories  #########################################
 
     rflasher = {
       url = "github:ArthurHeymans/rflasher";
@@ -117,7 +99,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    zmx.url = "github:neurosnap/zmx";
+    zmx = {
+      url = "github:neurosnap/zmx";
+      inputs.zig2nix.inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

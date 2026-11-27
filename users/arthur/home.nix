@@ -39,10 +39,5 @@
     ../../home/sops.nix
     ../../home/sway
     ../../home/wayland
-    #   ../../home/fcitx5
-    #    ../../home/i3
-    #    ../../home/programs
-    #    ../../home/rofi
-    #    ../../home/shell
   ];
 }
