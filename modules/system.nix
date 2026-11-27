@@ -23,7 +23,6 @@
     ./packages.nix
     ./printing.nix
     ./security.nix
-    #./netbird.nix
     ./sound.nix
     ./udev.nix
     ./virtualisation.nix
